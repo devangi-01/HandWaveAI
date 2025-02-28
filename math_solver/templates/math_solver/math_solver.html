@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Solver with Hand Gestures</title>
+    <link rel="stylesheet" href="{% static 'css/math.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'math_solver/css/styles.css' %}"> {% endcomment %}
+    {% comment %} <link rel="stylesheet" href="{% static 'math_solver/css/math.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">
+            <i class="fas fa-square-root-variable"></i>
+            <span>MathSolver</span>
+        </a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">How It Works</a>
+            <a href="#">Contact</a>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">How It Works</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Math Solver with Hand Gestures</h1>
+            <p>Solve mathematical problems using AI and hand gestures. Simply draw your equation and use hand gestures to get instant solutions.</p>
+            <a href="#" class="button glow-effect">Get Started</a>
+        </div>
+
+        <!-- Main Container -->
+        <div class="container">
+            <div class="video-container glow-effect">
+                <img src="{% url 'video_feed' %}" alt="Video Feed">
+            </div>
+            <div class="output-container">
+                <h2>AI Output</h2>
+                <div id="output-text">Draw a math problem and show a thumbs-up gesture to get the solution.</div>
+            </div>
+        </div>
+
+        <!-- Instructions Section -->
+        <div class="instructions">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Draw Your Equation</h3>
+                    <p>Use your hand to draw a mathematical equation or problem in the air.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Show Thumbs Up</h3>
+                    <p>When you're done drawing, show a thumbs-up gesture to submit your equation.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Get Solution</h3>
+                    <p>Our AI will process your equation and display the solution in the output panel.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} MathSolver. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+
+        // AI Output functionality
+        const outputText = document.getElementById('output-text');
+
+        async function fetchAIOutput() {
+            try {
+                // Show loading animation
+                showLoading();
+                
+                const response = await fetch('/get-ai-output/');
+                const data = await response.json();
+                console.log('AI Output:', data.output); // Log AI output
+                
+                if (data.output) {
+                    // Add a small delay to show the loading animation
+                    setTimeout(() => {
+                        outputText.innerText = data.output; // Update AI response on the webpage
+                    }, 500);
+                } else {
+                    // If no output, restore default message
+                    setTimeout(() => {
+                        outputText.innerText = "Draw a math problem and show a thumbs-up gesture to get the solution.";
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Error fetching AI output:', error);
+                // Restore default message on error
+                setTimeout(() => {
+                    outputText.innerText = "Draw a math problem and show a thumbs-up gesture to get the solution.";
+                }, 500);
+            }
+        }
+
+        // Fetch AI output every 5 seconds
+        setInterval(fetchAIOutput, 5000);
+
+        // Add loading animation when waiting for AI response
+        function showLoading() {
+            outputText.innerHTML = `
+                <div class="loading">
+                    <div></div><div></div><div></div>
+                </div>
+                <p style="text-align: center; margin-top: 15px; color: #e0e0e0;">Processing your equation...</p>
+            `;
+        }
+
+        // Add interactive hover effects to elements
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.03)';
+            });
+            
+            step.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add pulse animation to the main heading on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.querySelector('h1');
+            heading.style.animation = 'fadeIn 1s ease-in-out, textShine 5s linear infinite, pulse 2s ease-in-out';
+            
+            // Example of how to use the loading animation - uncomment to test
+            /*
+            showLoading();
+            // Simulate AI response after 2 seconds
+            setTimeout(() => {
+                outputText.innerText = "2 + 2 = 4";
+            }, 2000);
+            */
+        });
+    </script>
+</body>
+</html>
+
