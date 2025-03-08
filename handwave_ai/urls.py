@@ -36,4 +36,5 @@ urlpatterns = [
     path('math-solver/', include('math_solver.urls')),
     path('sign-language/', include('sign_language.urls')),
     path('gesture-quiz/', include('gesture_quiz.urls')),
+
 ]

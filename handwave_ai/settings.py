@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'math_solver',
     'sign_language',
     'gesture_quiz',
+    
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,8 @@ STATICFILES_FINDERS = [
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+INSTALLED_APPS += ['corsheaders']
+MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
+CORS_ALLOW_ALL_ORIGINS = True  # For testing, later restrict it
+

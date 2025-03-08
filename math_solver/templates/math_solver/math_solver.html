@@ -6,12 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Solver with Hand Gestures</title>
     <link rel="stylesheet" href="{% static 'css/math.css' %}">
-    {% comment %} <link rel="stylesheet" href="{% static 'math_solver/css/styles.css' %}"> {% endcomment %}
-    {% comment %} <link rel="stylesheet" href="{% static 'math_solver/css/math.css' %}"> {% endcomment %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 </head>
 <body>
+
     <!-- Navigation -->
     <nav>
         <a href="#" class="logo">
@@ -53,7 +51,7 @@
         <!-- Main Container -->
         <div class="container">
             <div class="video-container glow-effect">
-                <img src="{% url 'video_feed' %}" alt="Video Feed">
+                <img src="{% url 'math_solver:video_feed' %}" alt="Video Feed">
             </div>
             <div class="output-container">
                 <h2>AI Output</h2>
@@ -105,39 +103,7 @@
         // AI Output functionality
         const outputText = document.getElementById('output-text');
 
-        async function fetchAIOutput() {
-            try {
-                // Show loading animation
-                showLoading();
-                
-                const response = await fetch('/get-ai-output/');
-                const data = await response.json();
-                console.log('AI Output:', data.output); // Log AI output
-                
-                if (data.output) {
-                    // Add a small delay to show the loading animation
-                    setTimeout(() => {
-                        outputText.innerText = data.output; // Update AI response on the webpage
-                    }, 500);
-                } else {
-                    // If no output, restore default message
-                    setTimeout(() => {
-                        outputText.innerText = "Draw a math problem and show a thumbs-up gesture to get the solution.";
-                    }, 500);
-                }
-            } catch (error) {
-                console.error('Error fetching AI output:', error);
-                // Restore default message on error
-                setTimeout(() => {
-                    outputText.innerText = "Draw a math problem and show a thumbs-up gesture to get the solution.";
-                }, 500);
-            }
-        }
-
-        // Fetch AI output every 5 seconds
-        setInterval(fetchAIOutput, 5000);
-
-        // Add loading animation when waiting for AI response
+        // Function to show loading animation
         function showLoading() {
             outputText.innerHTML = `
                 <div class="loading">
@@ -147,12 +113,35 @@
             `;
         }
 
+        // Function to fetch AI output from Django backend
+        async function fetchAIOutput() {
+            try {
+                console.log("Fetching AI output..."); // Debugging line
+        
+                const response = await fetch("{% url 'math_solver:get_ai_output' %}");
+                const data = await response.json();
+        
+                console.log("Received:", data); // Debugging line
+        
+                if (data.output) {
+                    outputText.innerText = data.output; 
+                } else {
+                    outputText.innerText = "No response from AI yet.";
+                }
+            } catch (error) {
+                console.error("Failed to fetch AI output:", error);
+                outputText.innerText = "Error fetching AI response.";
+            }
+        }
+        
+        setInterval(fetchAIOutput, 5000); // Poll every 5 seconds
+        
         // Add interactive hover effects to elements
         document.querySelectorAll('.step').forEach(step => {
             step.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-8px) scale(1.03)';
             });
-            
+
             step.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
             });
@@ -162,16 +151,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const heading = document.querySelector('h1');
             heading.style.animation = 'fadeIn 1s ease-in-out, textShine 5s linear infinite, pulse 2s ease-in-out';
-            
-            // Example of how to use the loading animation - uncomment to test
-            /*
-            showLoading();
-            // Simulate AI response after 2 seconds
-            setTimeout(() => {
-                outputText.innerText = "2 + 2 = 4";
-            }, 2000);
-            */
         });
+
     </script>
 </body>
 </html>

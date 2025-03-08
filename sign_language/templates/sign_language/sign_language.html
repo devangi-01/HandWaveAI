@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Recognition</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        video {
+            border: 2px solid black;
+            width: 50%;
+            margin-top: 20px;
+        }
+        #output {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Language Recognition</h1>
+    <p>Show a sign in front of the webcam to detect it.</p>
+
+    <video id="video" autoplay></video>
+    <button onclick="startDetection()">Start Detection</button>
+
+    <p id="output">Detected Sign: <span id="detectedSign">None</span></p>
+
+    <script>
+        async function startDetection() {
+            try {
+                const response = await fetch('/sign-language/detect/');
+                const data = await response.json();
+                document.getElementById('detectedSign').innerText = data.asl_sign;
+            } catch (error) {
+                console.error("Error detecting sign:", error);
+            }
+        }
+
+        function setupCamera() {
+            const video = document.getElementById('video');
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ video: true })
+                    .then(stream => {
+                        video.srcObject = stream;
+                    })
+                    .catch(err => console.error("Error accessing webcam:", err));
+            }
+        }
+
+        setupCamera();
+    </script>
+</body>
+</html>

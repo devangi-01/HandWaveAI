@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASL Detector</title>
+    <script>
+        function detectASL() {
+            fetch('/sign_language/detect/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("asl_output").innerText = "Detected Sign: " + data.asl_sign;
+            });
+        }
+        setInterval(detectASL, 2000);
+    </script>
+</head>
+<body>
+    <h1>Real-Time ASL Detector</h1>
+    <p id="asl_output">Detected Sign: </p>
+</body>
+</html>
