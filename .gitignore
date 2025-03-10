@@ -1,6 +1,6 @@
-db.sqlite3
-__pycache__/
-*.pyc
-*.h5
-*.sqlite3
-migrations/
+# db.sqlite3
+# __pycache__/
+# *.pyc
+# *.h5
+# *.sqlite3
+# migrations/
