@@ -5,7 +5,7 @@ from .views import video_feed, index
 urlpatterns = [
     # path('', sign_language_recognition, name='sign_language_recognition'),
     path('', index, name='index'),
-     path('sign-language/', sign_language_recognition, name='sign_language_recognition'),
+    path('sign-language/', sign_language_recognition, name='sign_language_recognition'),
     path('detect/', video_feed, name='detect_asl'),
 ]
 

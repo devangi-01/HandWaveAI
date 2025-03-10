@@ -29,6 +29,8 @@ from django.shortcuts import render
 # Define a simple homepage view
 def homepage(request):
     return render(request, 'index.html')
+    
+app_name = "handwave_ai"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,5 +38,5 @@ urlpatterns = [
     path('math-solver/', include('math_solver.urls')),
     path('sign-language/', include('sign_language.urls')),
     path('gesture-quiz/', include('gesture_quiz.urls')),
-
+    
 ]
