@@ -1,46 +1,35 @@
-import os
 import cv2
 import numpy as np
-import mediapipe as mp
-# from tensorflow.keras.models import load_model
-from tensorflow.python.keras.models import load_model
+from tensorflow.keras.models import load_model
 
+# Load class labels from asl_labels.txt
+label_path = 'sign_language/asl_labels.txt'
+with open(label_path, 'r') as f:
+    class_labels = [line.strip() for line in f.readlines()]
 
-from django.conf import settings
-
-# Load ASL Model
-model_path = os.path.join(settings.BASE_DIR, "sign_language/model.h5")
+# Load the trained ASL model
+model_path = 'sign_language/asl_model.h5'
 model = load_model(model_path)
 
-# Initialize MediaPipe Hands
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands()
-
 def detect_asl(frame):
-    """Processes a frame and returns the detected ASL letter"""
-    rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    results = hands.process(rgb_frame)
+    """Detect ASL sign from a given frame"""
+    # Preprocess the frame to match the input shape of the model
+    frame_resized = cv2.resize(frame, (64, 64))  # Resize to 64x64
+    frame_gray = cv2.cvtColor(frame_resized, cv2.COLOR_BGR2GRAY)  # Convert to grayscale
+    frame_normalized = frame_gray / 255.0  # Normalize pixel values to [0, 1]
 
-    if results.multi_hand_landmarks:
-        for hand_landmarks in results.multi_hand_landmarks:
-            # Extract hand bounding box
-            x_min, y_min, x_max, y_max = 9999, 9999, 0, 0
-            for lm in hand_landmarks.landmark:
-                x, y = int(lm.x * frame.shape[1]), int(lm.y * frame.shape[0])
-                x_min, y_min = min(x, x_min), min(y, y_min)
-                x_max, y_max = max(x, x_max), max(y, y_max)
+    # Expand dimensions to match model input shape
+    frame_input = np.expand_dims(frame_normalized, axis=0).reshape(-1, 64, 64, 1)
 
-            # Crop and preprocess hand region
-            hand_crop = frame[y_min:y_max, x_min:x_max]
-            hand_crop = cv2.resize(hand_crop, (64, 64))
-            hand_crop = cv2.cvtColor(hand_crop, cv2.COLOR_BGR2GRAY)
-            hand_crop = hand_crop / 255.0
-            hand_crop = np.expand_dims(hand_crop, axis=[0, -1])
+    # Get model predictions
+    predictions = model.predict(frame_input)
 
-            # Predict ASL sign
-            prediction = model.predict(hand_crop)
-            label = np.argmax(prediction)  # Convert to class label
+    # Get the index of the highest probability
+    predicted_class_index = np.argmax(predictions[0])
+    confidence = predictions[0][predicted_class_index]
 
-            return str(label)  # Return detected sign
-
-    return None
+    # Return detected class if confidence is high enough
+    if confidence > 0.8:  # Adjust the threshold if necessary
+        return class_labels[predicted_class_index]
+    else:
+        return None

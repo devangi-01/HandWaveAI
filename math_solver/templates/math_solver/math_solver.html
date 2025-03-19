@@ -81,7 +81,12 @@
             </div>
         </div>
     </main>
+    <h2>Upload Math Problem</h2>
+    <input type="file" id="mathImageInput">
+    <button onclick="uploadMathProblem()">Solve</button>
 
+    <h3>AI Solution:</h3>
+    <p id="aiSolution">Waiting for response...</p>
     <footer>
         <p>&copy; {% now "Y" %} MathSolver. All rights reserved.</p>
     </footer>
@@ -151,6 +156,32 @@
         document.addEventListener('DOMContentLoaded', () => {
             const heading = document.querySelector('h1');
             heading.style.animation = 'fadeIn 1s ease-in-out, textShine 5s linear infinite, pulse 2s ease-in-out';
+        
+            function uploadMathProblem() {
+                let fileInput = document.getElementById("mathImageInput");
+                let file = fileInput.files[0];
+    
+                if (!file) {
+                    alert("Please select an image first!");
+                    return;
+                }
+    
+                let formData = new FormData();
+                formData.append("math_image", file);
+    
+                fetch("/upload-math-problem/", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("aiSolution").innerText = data.solution || "Error processing image.";
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    document.getElementById("aiSolution").innerText = "Failed to get solution.";
+                });
+            }
         });
 
     </script>
