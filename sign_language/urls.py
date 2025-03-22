@@ -1,21 +1,15 @@
 from django.urls import path
-from .views import sign_language_recognition
 from .views import video_feed, index
+from . import views
 
 urlpatterns = [
     # path('', sign_language_recognition, name='sign_language_recognition'),
-    path('', index, name='index'),
-    path('sign-language/', sign_language_recognition, name='sign_language_recognition'),
-    path('detect/', video_feed, name='detect_asl'),
+    
+    path('sign-language/', views.sign_language_recognition, name='sign_language_recognition'),
+    path('detect/', views.video_feed, name='detect_asl'),
+    path('', views.index, name='index'),
+    path('video_feed/', views.video_feed, name='video_feed'),
+    path('predict/', views.predict, name='predict'),
 ]
 
 
-
-
-# from django.urls import path
-# from .views import stream_video, index
-
-# urlpatterns = [
-#     path('', index, name="index"),  # Renders HTML page
-#     path('video_feed/', stream_video, name="video_feed"),  # Streams ASL recognition
-# ]

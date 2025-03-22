@@ -163,7 +163,7 @@ thumbs_up_active = False  # Track thumbs-up activation
 def video_stream():
     """Handles the webcam video streaming with hand gesture recognition and AI integration."""
     global ai_output, ai_request_sent, thumbs_up_active
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")

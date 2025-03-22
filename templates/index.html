@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    {% comment %} <link rel="stylesheet" href="<% static 'css/styles.css' %>"> {% endcomment %}
+     <link rel="stylesheet" href="<% static 'css/styles.css' %>"> 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
@@ -27,11 +27,26 @@
                    
                         <span>HandWave AI</span>
                 </div>
-                <div class="nav-links">
+                {% comment %} <div class="nav-links">
                     <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
                     <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
                     <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
-                </div>
+                </div> {% endcomment %}
+                <nav>
+                    {% comment %} <a href="#" class="logo">
+                        <i class="fas fa-square-root-variable"></i>
+                        <span>MathSolver</span>
+                    </a> {% endcomment %}
+                    <div class="nav-links">
+                        <a href="#">Home</a>
+                        <a href="#">About</a>
+                        <a href="#">How It Works</a>
+                        <a href="#">Contact</a>
+                    </div>
+                    <button class="mobile-menu-btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
                 <button class="mobile-menu-btn" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -118,34 +133,52 @@
             </section>
         </main>
 
-        <footer>
+        <footer class="footer">
             <div class="container">
-                {% comment %} <div class="footer-content">
-                    <div class="footer-logo">
-                        <img src="{% static 'images/logo.svg' %}" alt="HandWave AI Logo"
-                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
-                        <span>HandWave AI</span>
-                    </div> {% endcomment %}
+                <div class="footer-top">
                     <div class="footer-logo">
                         <img src="{% static 'images/h2_logo.png' %}" alt="HandWave AI Logo"
                             onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
                         <span>HandWave AI</span>
                     </div>
-                    
                     <div class="footer-links">
                         <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
                         <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
                         <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/" target="_blank">
+                            <img src="{% static 'images/facebook.svg' %}" alt="Facebook">
+                        </a>
+                        <a href="https://www.twitter.com/" target="_blank">
+                            <img src="{% static 'images/twitter.svg' %}" alt="Twitter">
+                        </a>
+                        <a href="https://www.linkedin.com/" target="_blank">
+                            <img src="{% static 'images/linkedin.svg' %}" alt="LinkedIn">
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank">
+                            <img src="{% static 'images/instagram.svg' %}" alt="Instagram">
+                        </a>
                     </div>
                 </div>
-                <div class="copyright">
+                
+                <div class="footer-bottom">
                     <p>&copy; {% now "Y" %} HandWave AI. All rights reserved.</p>
+                    <div class="footer-policy">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Contact Us</a>
+                    </div>
                 </div>
             </div>
         </footer>
+        
     </div>
 
     {% comment %} <script src="{% static 'js/main.js' %}"></script> {% endcomment %}
 </body>
 
-</html>
+</html> 

@@ -25,6 +25,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
+from django.views.generic import TemplateView
+from sign_language import views
 
 # Define a simple homepage view
 def homepage(request):
@@ -38,5 +40,7 @@ urlpatterns = [
     path('math-solver/', include('math_solver.urls')),
     path('sign-language/', include('sign_language.urls')),
     path('gesture-quiz/', include('gesture_quiz.urls')),
-    
+    path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('video_feed/', views.video_feed, name='video_feed'),
+    # path('', TemplateView.as_view(template_name='login.html'), name='login'),  # Default login page
 ]
