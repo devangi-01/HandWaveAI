@@ -1,0 +1,159 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture Quiz</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#" class="logo">
+            <i class="fas fa-hand-spock"></i>
+            <span>GestureQuiz</span>
+        </a>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">How It Works</a>
+            <a href="#">Contact</a>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <button class="close-menu">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="mobile-nav-links">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">How It Works</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Gesture Quiz Challenge</h1>
+            <p>Test your knowledge using hand gestures! Point to the correct answer and see your score in real-time.</p>
+            <a href="#" class="button glow-effect">Start Quiz</a>
+        </div>
+
+        <!-- Main Container -->
+        <div class="container">
+            <div class="video-container glow-effect">
+                <img src="{% url 'video_feed' %}" alt="Video Feed" id="video-feed">
+            </div>
+            <div class="output-container">
+                <h2>Quiz Progress</h2>
+                <div id="output-text">
+                    Question: <span id="current-question">{{ question_index|add:1 }}</span> / {{ total_questions }}<br>
+                    Correct Answers: <span id="correct-answers">{{ correct_answers }}</span><br>
+                    Score: <span id="score">{{ final_score|floatformat:2 }}%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Instructions Section -->
+        <div class="instructions">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>View the Question</h3>
+                    <p>A question with four options will appear on the video feed.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Use Hand Gestures</h3>
+                    <p>Point your index finger at the correct answer box to select it.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>See Results</h3>
+                    <p>After each selection, move to the next question. Final score appears at the end.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© {% now "Y" %} GestureQuiz. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const closeMenuBtn = document.querySelector('.close-menu');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+        });
+
+        closeMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+        });
+
+        // Fetch quiz progress dynamically
+        function updateQuizProgress() {
+            fetch("{% url 'get_final_score' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const currentQuestion = document.getElementById('current-question');
+                    const correctAnswers = document.getElementById('correct-answers');
+                    const score = document.getElementById('score');
+                    const outputText = document.getElementById('output-text');
+
+                    // Assuming question_index is tracked server-side and returned
+                    fetch('/get_quiz_state/')  // Add this endpoint if needed
+                        .then(res => res.json())
+                        .then(state => {
+                            currentQuestion.innerText = state.question_index + 1;
+                            correctAnswers.innerText = state.correct_answers;
+                            score.innerText = data.score.toFixed(2) + '%';
+
+                            if (state.question_index >= {{ total_questions }}) {
+                                outputText.innerHTML = `
+                                    <h3>Quiz Over!</h3>
+                                    <p>Final Score: <span id="score">${data.score.toFixed(2)}%</span></p>
+                                    <button onclick="location.reload()" class="button">Restart Quiz</button>
+                                `;
+                            }
+                        });
+                })
+                .catch(error => {
+                    console.error('Error fetching quiz progress:', error);
+                });
+        }
+
+        setInterval(updateQuizProgress, 2000); // Update every 2 seconds
+
+        // Interactive hover effects for steps
+        document.querySelectorAll('.step').forEach(step => {
+            step.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.03)';
+            });
+            step.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Pulse animation on heading
+        document.addEventListener('DOMContentLoaded', () => {
+            const heading = document.querySelector('h1');
+            heading.style.animation = 'fadeIn 1s ease-in-out, textShine 5s linear infinite, pulse 2s ease-in-out';
+        });
+    </script>
+</body>
+</html>
