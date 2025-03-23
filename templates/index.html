@@ -12,7 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link rel="stylesheet" href="<% static 'css/styles.css' %>"> 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    {% load livereload_tags %}
+    {% livereload_script %}
 </head>
 
 <body>
@@ -62,7 +63,7 @@
                     <p>HandWave AI uses advanced machine learning to recognize and interpret hand gestures and sign
                         language in real-time.</p>
                     <div class="cta-buttons">
-                        <a href="{% url 'sign_language_recognition' %}" class="btn btn-primary">Documentation</a>
+                        <a href="{% url 'sign_language:sign' %}" class="btn btn-primary">Documentation</a>
                         <a href="#features" class="btn btn-secondary">Explore Features</a>
                     </div>
                 </div>
@@ -94,7 +95,7 @@
                         </div>
                         <h3>Sign Language Recognition</h3>
                         <p>Translate sign language gestures into text in real-time with our advanced AI technology.</p>
-                        <a href="{% url 'sign_language_recognition' %}" class="feature-link">Try Sign Language</a>
+                        <a href="{% url 'sign_language:sign' %}" class="feature-link">Try Sign Language</a>
                     </div>
 
                     <div class="feature-card">
@@ -143,7 +144,7 @@
                     </div>
                     <div class="footer-links">
                         <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
-                        <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
+                        <a href="{% url 'sign_language:sign' %}">Sign Language</a>
                         <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
                         <a href="{% url 'login' %}">Login</a>
                         <a href="#features">Features</a>

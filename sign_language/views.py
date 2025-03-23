@@ -25,7 +25,7 @@ def predict_sign(frame):
     """
     Preprocess the frame and predict the sign using the trained model.
     """
-    resized_frame = cv2.resize(frame, (64, 64))  # Resize frame to model input size
+    resized_frame = cv2.resize(frame, (100, 100))  # Resize frame to model input size
     img_array = np.expand_dims(resized_frame, axis=0) / 255.0  # Normalize to [0, 1]
     predictions = model.predict(img_array)  # Get predictions
     predicted_class = np.argmax(predictions[0])  # Get predicted class
@@ -58,13 +58,24 @@ def generate_frames():
 
 def index(request):
     """
-    Render the main page with the video feed.
+    Render the HandWave AI main page.
     """
-    return render(request, 'sign_language/index.html')
+    return render(request, 'index.html')
+
 
 def sign_language_recognition(request):
-    # Your logic here
+    """
+    Render the advanced sign language recognition page.
+    """
     return render(request, 'sign_language/sign_language_recognition.html')
+
+
+def sign(request):
+    """
+    Render the simple sign language recognition page.
+    """
+    return render(request, 'sign_language/sign_language.html')
+
 
 def video_feed(request):
     """

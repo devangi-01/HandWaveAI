@@ -42,5 +42,7 @@ urlpatterns = [
     path('gesture-quiz/', include('gesture_quiz.urls')),
     path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
     path('video_feed/', views.video_feed, name='video_feed'),
+    # path('__reload__/', include('livereload.urls')),
+
     # path('', TemplateView.as_view(template_name='login.html'), name='login'),  # Default login page
 ]

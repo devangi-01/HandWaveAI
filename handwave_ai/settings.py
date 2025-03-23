@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'livereload',
     'django.contrib.staticfiles',
     'math_solver',
     'sign_language',
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'livereload.middleware.LiveReloadScript',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,8 +136,8 @@ STATIC_URL = '/static/'
 # Collects static files for serving
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # Project-level static files
-    # os.path.join(BASE_DIR, "math_solver", "static"),  # App-level static files
-    # os.path.join(BASE_DIR, "sign_language", "static"),
+    os.path.join(BASE_DIR, "math_solver", "static"),  # App-level static files
+    os.path.join(BASE_DIR, "sign_language", "static"),
     # os.path.join(BASE_DIR, "gesture_quiz", "static"),
 ]
 

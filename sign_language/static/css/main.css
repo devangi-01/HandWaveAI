@@ -1,0 +1,210 @@
+/* Custom styles beyond Tailwind */
+
+/* Smooth transitions */
+.transition {
+    transition: all 0.3s ease;
+}
+
+/* Pulse animation for the current prediction when it changes */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#current-sign.pulse {
+    animation: pulse 0.5s ease-in-out;
+}
+
+/* Video feed container */
+.aspect-video {
+    aspect-ratio: 16 / 9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Improve accessibility */
+a:focus, button:focus {
+    outline: 2px solid #4299e1;
+    outline-offset: 2px;
+}
+
+/* Custom scrollbar for prediction history */
+#prediction-history {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+#prediction-history::-webkit-scrollbar {
+    width: 6px;
+}
+
+#prediction-history::-webkit-scrollbar-track {
+    background: #f7fafc;
+}
+
+#prediction-history::-webkit-scrollbar-thumb {
+    background-color: #cbd5e0;
+    border-radius: 3px;
+}
+
+body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        background-color: #f8f9fa;
+    }
+    
+    .navbar {
+        background-color: #2563eb;
+        color: white;
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+    }
+    
+    .navbar-nav {
+        display: flex;
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        color: white;
+        text-decoration: none;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+    
+    h1 {
+        text-align: center;
+        color: #1e293b;
+        margin-bottom: 2rem;
+    }
+    
+    .content-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    @media (min-width: 992px) {
+        .content-grid {
+            grid-template-columns: 3fr 2fr;
+        }
+    }
+    
+    .card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .video-container {
+        width: 100%;
+        background-color: #000;
+        border-radius: 0.5rem;
+        overflow: hidden;
+        margin-bottom: 1rem;
+        aspect-ratio: 4/3;
+    }
+    
+    #video-feed {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.25rem;
+        font-weight: 500;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.2s;
+    }
+    
+    .btn-primary {
+        background-color: #10b981;
+        color: white;
+    }
+    
+    .btn-primary:hover {
+        background-color: #059669;
+    }
+    
+    .instruction-text {
+        color: #6b7280;
+        font-size: 0.875rem;
+    }
+    
+    .prediction-display {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+    
+    .prediction-sign {
+        font-size: 3rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .prediction-confidence {
+        color: #6b7280;
+    }
+    
+    .history-title {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    
+    .no-predictions {
+        text-align: center;
+        color: #9ca3af;
+        padding: 1rem 0;
+    }
+    
+    footer {
+        background-color: #1e293b;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+    }

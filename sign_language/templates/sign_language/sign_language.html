@@ -1,0 +1,50 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>ASL Recognition - Homec></title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    {% comment %} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> {% endcomment %}
+</head>
+<body>
+
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-center mb-8">Welcome to ASL Recognition</h1>
+    
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4">About This Project</h2>
+        <p class="mb-4">
+            This application uses computer vision and machine learning to recognize American Sign Language (ASL) 
+            gestures in real-time through your webcam.
+        </p>
+        <p class="mb-4">
+            The system can identify various ASL signs and display the corresponding meaning along with 
+            a confidence score.
+        </p>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4">How to Use</h2>
+        <ol class="list-decimal pl-6 space-y-2">
+            <li>Go to the <a href="{% url 'sign_language:sign' %}" class="text-blue-600 hover:underline">Recognition</a> page</li>
+            <li>Allow camera access when prompted</li>
+            <li>Position your hand in the frame</li>
+            <li>Make ASL signs and see the recognition results in real-time</li>
+        </ol>
+    </div>
+    
+    <div class="text-center">
+        <a href="{% url 'sign_language:sign' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+            Start Recognition
+        </a>
+    </div>
+</div>
+
+
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
