@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload',
     'django.contrib.staticfiles',
     'math_solver',
     'sign_language',
@@ -50,7 +49,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'livereload.middleware.LiveReloadScript',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -159,3 +157,6 @@ INSTALLED_APPS += ['corsheaders']
 MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 CORS_ALLOW_ALL_ORIGINS = True  # For testing, later restrict it
 
+#changed mannually 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

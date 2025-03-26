@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gesture Quiz</title>
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -157,3 +156,259 @@
     </script>
 </body>
 </html>
+ 
+{% comment %} 
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture Quiz</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #4a6fa5;
+            margin-bottom: 30px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        #video-feed {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .quiz-info {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-container {
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #4a6fa5;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .quiz-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        
+        .stat-item {
+            font-size: 16px;
+        }
+        
+        .instructions {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        
+        .instructions h2 {
+            color: #4a6fa5;
+            margin-top: 0;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+        }
+        
+        .result-container {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-title {
+            font-size: 28px;
+            color: #4a6fa5;
+            margin-bottom: 20px;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4a6fa5;
+            margin-bottom: 20px;
+        }
+        
+        .restart-btn {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .restart-btn:hover {
+            background-color: #3a5a8f;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .video-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hand Gesture Quiz</h1>
+        
+        <div class="video-container">
+            <img id="video-feed" src="{% url 'video_feed' %}" alt="Video Feed">
+        </div>
+        
+        <div class="quiz-info">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+            <div class="quiz-stats">
+                <div class="stat-item">Question: <span id="current-question">1</span>/<span id="total-questions">0</span></div>
+                <div class="stat-item">Correct Answers: <span id="correct-answers">0</span></div>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2>How to Play</h2>
+            <ol>
+                <li>Make sure your hand is visible in the camera.</li>
+                <li>Point your index finger at the answer option you want to select.</li>
+                <li>Hold your finger on the option for 2 seconds to confirm your selection.</li>
+                <li>The option will turn green if correct or red if incorrect.</li>
+                <li>After 2 seconds, the next question will appear automatically.</li>
+            </ol>
+        </div>
+        
+        <div class="result-container" id="result-container">
+            <div class="result-title">Quiz Complete!</div>
+            <div class="score" id="final-score">0%</div>
+            <button class="restart-btn" id="restart-btn">Restart Quiz</button>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressFill = document.getElementById('progress-fill');
+            const currentQuestionEl = document.getElementById('current-question');
+            const totalQuestionsEl = document.getElementById('total-questions');
+            const correctAnswersEl = document.getElementById('correct-answers');
+            const resultContainer = document.getElementById('result-container');
+            const finalScoreEl = document.getElementById('final-score');
+            const restartBtn = document.getElementById('restart-btn');
+            const videoContainer = document.querySelector('.video-container');
+            const quizInfo = document.querySelector('.quiz-info');
+            const instructions = document.querySelector('.instructions');
+            
+            let quizInterval;
+            
+            // Function to update quiz state
+            function updateQuizState() {
+                fetch('{% url "get_quiz_state" %}')
+                    .then(response => response.json())
+                    .then(data => {
+                        const { question_index, correct_answers, total_questions } = data;
+                        
+                        // Update UI elements
+                        currentQuestionEl.textContent = question_index + 1;
+                        totalQuestionsEl.textContent = total_questions;
+                        correctAnswersEl.textContent = correct_answers;
+                        
+                        // Update progress bar
+                        const progress = (question_index / total_questions) * 100;
+                        progressFill.style.width = `${progress}%`;
+                        
+                        // Check if quiz is complete
+                        if (question_index >= total_questions) {
+                            clearInterval(quizInterval);
+                            showFinalScore();
+                        }
+                    })
+                    .catch(error => console.error('Error fetching quiz state:', error));
+            }
+            
+            // Function to show final score
+            function showFinalScore() {
+                fetch('{% url "get_final_score" %}')
+                    .then(response => response.json())
+                    .then(data => {
+                        finalScoreEl.textContent = `${data.score.toFixed(2)}%`;
+                        videoContainer.style.display = 'none';
+                        quizInfo.style.display = 'none';
+                        instructions.style.display = 'none';
+                        resultContainer.style.display = 'block';
+                    })
+                    .catch(error => console.error('Error fetching final score:', error));
+            }
+            
+            // Restart quiz
+            restartBtn.addEventListener('click', function() {
+                window.location.reload();
+            });
+            
+            // Start polling for quiz state
+            updateQuizState(); // Initial update
+            quizInterval = setInterval(updateQuizState, 1000); // Update every second
+        });
+    </script>
+</body>
+</html>
+ {% endcomment %}
