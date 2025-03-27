@@ -1,326 +1,351 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Language Recognition</title>
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #10b981;
-            --dark: #1f2937;
-            --light: #f9fafb;
-            --gray: #6b7280;
-            --border: #e5e7eb;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            min-height: 100vh;
-            padding: 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-        }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        @media (min-width: 768px) {
-            .main-content {
-                flex-direction: row;
-            }
-        }
-
-        .video-container {
-            flex: 2;
-            background-color: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .video-feed {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .controls-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            padding: 1.5rem;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .result-container {
-            background-color: #f3f4f6;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .sign-display {
-            font-size: 5rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            min-height: 6rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .confidence {
-            font-size: 1.2rem;
-            color: var(--gray);
-            margin-bottom: 1rem;
-        }
-
-        .btn {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            font-weight: 600;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-dark);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .instructions {
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: #f3f4f6;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-
-        .instructions h3 {
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-
-        .instructions ul {
-            padding-left: 1.5rem;
-        }
-
-        .instructions li {
-            margin-bottom: 0.5rem;
-        }
-
-        .status {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-top: 1rem;
-        }
-
-        .status.active {
-            color: var(--secondary);
-        }
-
-        .loading-indicator {
-            display: none;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .loading-indicator.active {
-            display: block;
-        }
-
-        .spinner {
-            width: 2rem;
-            height: 2rem;
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        footer {
-            margin-top: 3rem;
-            text-align: center;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HandWave AI - Sign Language Recognition</title>
+  <link rel="stylesheet" href="{% static 'css/sign_language.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 </head>
 <body>
+  <header class="header">
     <div class="container">
-        <header>
-            <h1>Sign Language Recognition</h1>
-            <p class="subtitle">Real-time sign language detection using MediaPipe and AI</p>
-        </header>
-
-        <div class="main-content">
-            <div class="video-container">
-                {% comment %} <img src="/video_feed/" class="video-feed" alt="Live video feed"> {% endcomment %}
-                <img src="{% url 'sign_language:video_feed' %}" alt="Video Feed">
-            </div>
-
-            <div class="controls-container">
-                <div class="result-container">
-                    <h2>Detected Sign</h2>
-                    <div class="sign-display" id="signDisplay">-</div>
-                    <p class="confidence" id="confidenceDisplay">Confidence: 0%</p>
-                </div>
-
-                <button id="detectBtn" class="btn">Detect Sign</button>
-
-                <div class="loading-indicator" id="loadingIndicator">
-                    <div class="spinner"></div>
-                    <p>Processing...</p>
-                </div>
-
-                <div class="status" id="status">Ready</div>
-
-                <div class="instructions">
-                    <h3>How to use:</h3>
-                    <ul>
-                        <li>Position your hand clearly in the camera view</li>
-                        <li>Make a sign gesture (A-F)</li>
-                        <li>Click "Detect Sign" to identify the current sign</li>
-                        <li>The system will display the detected sign and confidence level</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <footer>
-            <p>&copy; 2024 Sign Language Recognition System</p>
-        </footer>
+      <div class="logo">
+        <h1>HandWave AI</h1>
+      </div>
+      <nav class="nav">
+        <ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const detectBtn = document.getElementById('detectBtn');
-            const signDisplay = document.getElementById('signDisplay');
-            const confidenceDisplay = document.getElementById('confidenceDisplay');
-            const status = document.getElementById('status');
-            const loadingIndicator = document.getElementById('loadingIndicator');
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h2>Real-time Sign Language Recognition</h2>
+        <p>Use our AI-powered system to detect and interpret sign language in real-time.</p>
+      </div>
+    </section>
 
-            // Function to detect sign
-            async function detectSign() {
-                try {
-                    // Show loading state
-                    loadingIndicator.classList.add('active');
-                    status.textContent = 'Detecting sign...';
-                    detectBtn.disabled = true;
+    <section class="recognition-section">
+      <div class="container">
+        <div class="recognition-container">
+          <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+            <div class="video-overlay">
+              <div class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Starting camera...</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="detection-panel">
+            <div class="detection-result">
+              <h3>Detected Sign</h3>
+              <div class="sign-display">
+                <p id="detected-sign">No sign detected</p>
+                <div class="confidence-bar-container">
+                  <div class="confidence-label">Confidence: <span id="confidence-score">0%</span></div>
+                  <div class="confidence-bar">
+                    <div id="confidence-fill" class="confidence-fill" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button id="detect-btn" class="primary-btn">Detect Sign</button>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                    // Make request to the detect_sign endpoint
-                   // const response = await fetch('/detect_sign/');
-                   //const response = await fetch('/sign_language/detect_sign/');
-                    const response = await fetch("{% url 'sign_language:detect_sign' %}");
+    <section class="history-section">
+      <div class="container">
+        <div class="history-header">
+          <h2>Detection History</h2>
+          <div class="history-actions">
+            <button id="delete-btn" class="secondary-btn" disabled>Delete Selected</button>
+            <button id="clear-btn" class="secondary-btn">Clear All</button>
+          </div>
+        </div>
+        
+        <div class="history-container">
+          <table id="history-table">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Sign</th>
+                <th>Confidence</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody id="history-body">
+              <!-- History items will be added here by JavaScript -->
+            </tbody>
+          </table>
+          <div id="empty-history" class="empty-history">
+            <p>No detection history yet</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-                    const data = await response.json();
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="copyright">
+          <p>&copy; 2025 HandWave AI. All rights reserved.</p>
+        </div>
+        <div class="contact">
+          <p>Contact: <a href="mailto:info@handwaveai.com">info@handwaveai.com</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-                    // Update UI with results
-                    if (data.result) {
-                        signDisplay.textContent = data.result.sign;
-                        confidenceDisplay.textContent = `Confidence: ${data.result.confidence}%`;
-                        
-                        // Highlight the result with animation
-                        signDisplay.style.transform = 'scale(1.1)';
-                        setTimeout(() => {
-                            signDisplay.style.transform = 'scale(1)';
-                        }, 200);
-                    }
+  {% comment %} <script src="script.js"></script> {% endcomment %}
+  {% comment %} <script src="{% static 'js/main.js' %}"></script>  {% endcomment %}
+  <script>
 
-                    status.textContent = 'Detection complete';
-                    status.classList.add('active');
-                    
-                    // Reset status after 3 seconds
-                    setTimeout(() => {
-                        status.textContent = 'Ready';
-                        status.classList.remove('active');
-                    }, 3000);
-                } catch (error) {
-                    console.error('Error detecting sign:', error);
-                    status.textContent = 'Error detecting sign';
-                } finally {
-                    // Hide loading state
-                    loadingIndicator.classList.remove('active');
-                    detectBtn.disabled = false;
-                }
+    document.addEventListener("DOMContentLoaded", () => {
+        // DOM Elements
+        const video = document.getElementById("video")
+        const videoOverlay = document.querySelector(".video-overlay")
+        const detectedSignElement = document.getElementById("detected-sign")
+        const confidenceScoreElement = document.getElementById("confidence-score")
+        const confidenceFill = document.getElementById("confidence-fill")
+        const detectBtn = document.getElementById("detect-btn")
+        const deleteBtn = document.getElementById("delete-btn")
+        const clearBtn = document.getElementById("clear-btn")
+        const historyBody = document.getElementById("history-body")
+        const emptyHistory = document.getElementById("empty-history")
+      
+        // State
+        let detectionHistory = []
+        const selectedRows = new Set()
+        let isVideoPlaying = false
+        const videoStream = null
+      
+        // Initialize
+        initVideoFeed()
+        updateHistoryUI()
+      
+        // Event Listeners
+        detectBtn.addEventListener("click", detectSign)
+        deleteBtn.addEventListener("click", deleteSelected)
+        clearBtn.addEventListener("click", clearHistory)
+      
+        // Functions
+        function initVideoFeed() {
+          // Show loading state
+          videoOverlay.style.display = "flex"
+          videoOverlay.querySelector("p").textContent = "Starting camera..."
+      
+          // Create an image element to display the video feed from Django
+          const videoFeed = document.createElement("img")
+          videoFeed.style.width = "100%"
+          videoFeed.style.height = "100%"
+          videoFeed.style.objectFit = "cover"
+      
+          // Set the source to the Django video feed endpoint
+          // videoFeed.src = "/sign_language/video_feed/"
+          videoFeed.src = "{% url 'sign_language:video_feed' %}"
+          videoFeed.alt = "Video Feed"
+      
+          // Replace the video element with the image
+          video.parentNode.replaceChild(videoFeed, video)
+      
+          // Handle loading and errors
+          videoFeed.onload = () => {
+            isVideoPlaying = true
+            videoOverlay.style.display = "none"
+          }
+      
+          videoFeed.onerror = () => {
+            console.error("Error loading video feed")
+            videoOverlay.querySelector("p").textContent = "Error loading video feed"
+            videoOverlay.querySelector(".spinner").style.display = "none"
+          }
+        }
+      
+        async function detectSign() {
+          if (!isVideoPlaying) return
+      
+          // Show processing state
+          detectBtn.disabled = true
+          detectBtn.textContent = "Processing..."
+      
+          try {
+            // Make request to the detect_sign endpoint (same as in the old template)
+            const response = await fetch("{% url 'sign_language:detect_sign' %}")
+            // const response = await fetch("/sign_language/detect_sign/")
+            const data = await response.json()
+      
+            // Update UI with results
+            if (data.result) {
+              const sign = data.result.sign
+              const confidence = data.result.confidence
+      
+              // Update detection result
+              updateDetectionResult(sign, confidence)
+      
+              // Add to history
+              addToHistory(sign, confidence)
             }
-
-            // Add event listener to detect button
-            detectBtn.addEventListener('click', detectSign);
-
-            // Optional: Set up automatic detection at intervals
-            // Uncomment the following code to enable automatic detection every 3 seconds
-            
-            // setInterval(() => {
-            //     detectSign();
-            // }, 3000);
-            
-
-            // Handle video feed errors
-            const videoFeed = document.querySelector('.video-feed');
-            videoFeed.onerror = function() {
-                status.textContent = 'Error loading video feed';
-                videoFeed.src = '/static/placeholder.svg';
-                videoFeed.alt = 'Video feed unavailable';
-            };
-
-            // Initialize
-            status.textContent = 'Ready';
-        });
-    </script>
+          } catch (error) {
+            console.error("Error detecting sign:", error)
+            detectedSignElement.textContent = "Error detecting sign"
+          } finally {
+            // Re-enable button
+            detectBtn.disabled = false
+            detectBtn.textContent = "Detect Sign"
+          }
+        }
+      
+        function updateDetectionResult(sign, confidence) {
+          // Update the sign display
+          detectedSignElement.textContent = sign
+      
+          // Update confidence display
+          confidenceScoreElement.textContent = `${confidence}%`
+          confidenceFill.style.width = `${confidence}%`
+      
+          // Change color based on confidence
+          if (confidence >= 90) {
+            confidenceFill.style.backgroundColor = "#10b981" // Green
+          } else if (confidence >= 75) {
+            confidenceFill.style.backgroundColor = "#4f46e5" // Primary color
+          } else {
+            confidenceFill.style.backgroundColor = "#f59e0b" // Orange
+          }
+      
+          // Add highlight animation
+          detectedSignElement.classList.add("highlight")
+          setTimeout(() => {
+            detectedSignElement.classList.remove("highlight")
+          }, 300)
+        }
+      
+        function addToHistory(sign, confidence) {
+          const timestamp = new Date()
+          const id = Date.now().toString()
+      
+          detectionHistory.unshift({
+            id,
+            sign,
+            confidence,
+            timestamp,
+          })
+      
+          updateHistoryUI()
+        }
+      
+        function updateHistoryUI() {
+          if (detectionHistory.length === 0) {
+            emptyHistory.style.display = "block"
+            historyBody.innerHTML = ""
+            deleteBtn.disabled = true
+            return
+          }
+      
+          emptyHistory.style.display = "none"
+          historyBody.innerHTML = ""
+      
+          detectionHistory.forEach((item) => {
+            const row = document.createElement("tr")
+            row.dataset.id = item.id
+      
+            const timeFormatted = item.timestamp.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })
+      
+            row.innerHTML = `
+              <td>
+                <input type="checkbox" class="history-checkbox" data-id="${item.id}">
+              </td>
+              <td>${item.sign}</td>
+              <td>
+                <div class="confidence-bar" style="width: 100px; display: inline-block; margin-right: 10px;">
+                  <div class="confidence-fill" style="width: ${item.confidence}%; background-color: ${
+                    item.confidence >= 90 ? "#10b981" : item.confidence >= 75 ? "#4f46e5" : "#f59e0b"
+                  };"></div>
+                </div>
+                ${item.confidence}%
+              </td>
+              <td>${timeFormatted}</td>
+            `
+      
+            historyBody.appendChild(row)
+          })
+      
+          // Add event listeners to checkboxes
+          document.querySelectorAll(".history-checkbox").forEach((checkbox) => {
+            checkbox.addEventListener("change", handleCheckboxChange)
+          })
+      
+          updateDeleteButtonState()
+        }
+      
+        function handleCheckboxChange(e) {
+          const id = e.target.dataset.id
+      
+          if (e.target.checked) {
+            selectedRows.add(id)
+          } else {
+            selectedRows.delete(id)
+          }
+      
+          updateDeleteButtonState()
+        }
+      
+        function updateDeleteButtonState() {
+          deleteBtn.disabled = selectedRows.size === 0
+        }
+      
+        function deleteSelected() {
+          if (selectedRows.size === 0) return
+      
+          detectionHistory = detectionHistory.filter((item) => !selectedRows.has(item.id))
+          selectedRows.clear()
+      
+          updateHistoryUI()
+        }
+      
+        function clearHistory() {
+          if (detectionHistory.length === 0) return
+      
+          // Add confirmation for better UX
+          if (confirm("Are you sure you want to clear all detection history?")) {
+            detectionHistory = []
+            selectedRows.clear()
+            updateHistoryUI()
+          }
+        }
+      
+        // Add CSS for highlight animation
+        const style = document.createElement("style")
+        style.textContent = `
+          @keyframes highlight {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+          }
+          .highlight {
+            animation: highlight 0.3s ease-in-out;
+          }
+        `
+        document.head.appendChild(style)
+      })
+      
+        
+  </script> 
 </body>
 </html>
 

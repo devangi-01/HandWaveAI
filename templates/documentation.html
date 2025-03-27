@@ -1,0 +1,679 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HandWave AI - Gesture Recognition Reimagined</title>
+  {% comment %} <link rel="stylesheet" href="Documentation.css"> {% endcomment %}
+  <link rel="stylesheet" href="{% static 'css/documentation.css' %}"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">HandWave AI</a>
+        
+        <nav class="nav-desktop">
+          <ul class="nav-links">
+            <li><a href="#" class="nav-link active">Home</a></li>
+            <li><a href="#about" class="nav-link">About</a></li>
+            <li><a href="#features" class="nav-link">Features</a></li>
+            <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+            <li><a href="#model-training" class="nav-link">Model Training</a></li>
+            <li><a href="#team" class="nav-link">Team</a></li>
+            <li><a href="#contact" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        
+        <div class="header-actions">
+          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+          
+          <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-menu">
+      <nav>
+        <ul class="mobile-nav-links">
+          <li><a href="#" class="mobile-nav-link active">Home</a></li>
+          <li><a href="#about" class="mobile-nav-link">About</a></li>
+          <li><a href="#features" class="mobile-nav-link">Features</a></li>
+          <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+          <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li>
+          <li><a href="#team" class="mobile-nav-link">Team</a></li>
+          <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1 class="hero-title">
+              <span class="text-primary">HandWave AI</span>
+              <br>
+              Gesture Recognition Reimagined
+            </h1>
+            <p class="hero-description">
+              Transform the way you interact with technology through intuitive hand gestures. 
+              Solve mathematical problems, communicate in sign language, and play interactive games.
+            </p>
+            <div class="hero-buttons">
+              <a href="#about" class="btn btn-primary">
+                Learn More
+                <i class="fas fa-arrow-right"></i>
+              </a>
+              <a href="#" class="btn btn-outline">View Demo</a>
+            </div>
+          </div>
+          
+          <div class="hero-image">
+            <div class="image-container">
+              <img src="{% static 'images/twoHands.jpg' %}" alt="HandWave AI Demonstration">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">About HandWave AI</h2>
+          <p class="section-description">
+            HandWave AI is an innovative project that uses computer vision and machine learning 
+            to recognize hand gestures for mathematical problem-solving and sign language recognition.
+          </p>
+        </div>
+        
+        <div class="about-content">
+          <div class="about-info">
+            <h3 class="subsection-title">Project Overview</h3>
+            <p class="text-light">
+              HandWave AI combines advanced computer vision techniques with machine learning to create 
+              an intuitive interface for solving mathematical problems and recognizing sign language 
+              through hand gestures. Our technology enables more accessible and interactive ways to 
+              engage with digital content.
+            </p>
+            
+            <h3 class="subsection-title">Technologies Used</h3>
+            <div class="tech-grid">
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>Python</span>
+              </div>
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>Django</span>
+              </div>
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>MediaPipe</span>
+              </div>
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>TensorFlow</span>
+              </div>
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>OpenCV</span>
+              </div>
+              <div class="tech-item">
+                <i class="fas fa-code"></i>
+                <span>JavaScript</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="about-timeline">
+            <h3 class="subsection-title">Project Milestones</h3>
+            <div class="timeline">
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Project Inception</h4>
+                  <span class="timeline-date">January 2025</span>
+                  <p class="timeline-description">Initial research and concept development</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Data Collection</h4>
+                  <span class="timeline-date">January 2025</span>
+                  <p class="timeline-description">Gathered and annotated hand gesture dataset</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Model Development</h4>
+                  <span class="timeline-date">February 2025</span>
+                  <p class="timeline-description">Developed and trained initial AI models</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Beta Testing</h4>
+                  <span class="timeline-date">March 2025</span>
+                  <p class="timeline-description">Limited release for testing and feedback</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item completed">
+                <div class="timeline-icon">
+                  <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Public Release</h4>
+                  <span class="timeline-date">April 2025</span>
+                  <p class="timeline-description">Official launch of HandWave AI v1.0</p>
+                </div>
+              </div>
+              
+              <div class="timeline-item">
+                <div class="timeline-icon">
+                  <i class="far fa-circle"></i>
+                </div>
+                <div class="timeline-content">
+                  <h4 class="timeline-title">Advanced Features</h4>
+                  <span class="timeline-date">Q2 2025</span>
+                  <p class="timeline-description">Implementation of sign language translation</p>
+                </div>
+              </div>
+              
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Features</h2>
+          <p class="section-description">
+            Discover the powerful capabilities of HandWave AI and how it can transform 
+            the way you interact with technology.
+          </p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="feature-title">Mathematical Problem-Solving</h3>
+            <p class="feature-description">
+              Solve mathematical equations and problems using intuitive hand gestures. Our AI recognizes and interprets your hand movements to perform calculations in real-time.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-hand-paper"></i>
+            </div>
+            <h3 class="feature-title">Sign Language Recognition</h3>
+            <p class="feature-description">
+              Translate sign language into text with high accuracy. HandWave AI bridges communication gaps by recognizing and interpreting sign language gestures.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-magic"></i>
+            </div>
+            <h3 class="feature-title">Interactive Gesture Games</h3>
+            <p class="feature-description">
+              Learn and practice hand gestures through engaging quiz-based games. Perfect for educational settings or for improving your gesture recognition skills.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3 class="feature-title">Real-time Feedback</h3>
+            <p class="feature-description">
+              Get immediate feedback on your hand gestures with our responsive recognition system that provides visual cues and suggestions.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-chart-pie"></i>
+            </div>
+            <h3 class="feature-title">Performance Analytics</h3>
+            <p class="feature-description">
+              Track your progress and improvement over time with detailed analytics on gesture accuracy and recognition speed.
+            </p>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3 class="feature-title">Multi-user Support</h3>
+            <p class="feature-description">
+              Support for multiple user profiles, making it perfect for classroom settings, family use, or research environments.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-description">
+            Understanding the technology behind HandWave AI and how it processes hand gestures.
+          </p>
+        </div>
+        
+        <div class="how-it-works-content">
+          <div class="steps-container">
+            <div class="step-card">
+              <h3 class="step-title">
+                <span class="step-number">1</span>
+                Gesture Capture
+              </h3>
+              <p class="step-description">
+                The system captures hand movements through a camera, processing the video feed in real-time to identify hand positions.
+              </p>
+            </div>
+            
+            <div class="step-card">
+              <h3 class="step-title">
+                <span class="step-number">2</span>
+                Hand Landmark Detection
+              </h3>
+              <p class="step-description">
+                Using MediaPipe, the system identifies 21 key landmarks on each hand, tracking the position and movement of fingers and joints.
+              </p>
+            </div>
+            
+            <div class="step-card">
+              <h3 class="step-title">
+                <span class="step-number">3</span>
+                Gesture Classification
+              </h3>
+              <p class="step-description">
+                The AI model analyzes the landmark patterns to classify specific gestures, comparing them against its trained dataset.
+              </p>
+            </div>
+            
+            <div class="step-card">
+              <h3 class="step-title">
+                <span class="step-number">4</span>
+                Action Execution
+              </h3>
+              <p class="step-description">
+                Once a gesture is recognized, the system performs the corresponding action, whether solving a math problem or translating sign language.
+              </p>
+            </div>
+          </div>
+          
+          <div class="video-container">
+            <div class="video-placeholder">
+              <div class="play-button">
+                <i class="fas fa-play"></i>
+              </div>
+              <img src="https://placehold.co/640x360" alt="HandWave AI Demo Video Thumbnail">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Model Training Section -->
+    <section id="model-training" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Model Training & Accuracy</h2>
+          <p class="section-description">
+            Learn about our model training process and performance metrics.
+          </p>
+        </div>
+        
+        <div class="model-training-content">
+          <div class="training-process">
+            <h3 class="subsection-title">Training Process</h3>
+            <p class="text-light">
+              Our model was trained on a diverse dataset of over 100,000 hand gesture images across different 
+              lighting conditions, hand sizes, and angles. We used transfer learning with a pre-trained 
+              convolutional neural network, fine-tuned for our specific gesture recognition tasks.
+            </p>
+            
+            <div class="training-steps">
+              <h4 class="steps-title">Training Steps</h4>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Data Collection</span>
+                  <span>100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Data Preprocessing</span>
+                  <span>100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Model Architecture Design</span>
+                  <span>100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Initial Training</span>
+                  <span>100%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 100%"></div>
+                </div>
+              </div>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Fine-tuning</span>
+                  <span>85%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                </div>
+              </div>
+              
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span>Optimization</span>
+                  <span>75%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 75%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="performance-metrics">
+            <h3 class="subsection-title">Performance Metrics</h3>
+            
+            <div class="chart-container">
+              <canvas id="accuracyChart"></canvas>
+            </div>
+            
+            <div class="metrics-cards">
+              <div class="metric-card">
+                <h4 class="metric-title">Precision</h4>
+                <p class="metric-value">94.2%</p>
+              </div>
+              
+              <div class="metric-card">
+                <h4 class="metric-title">Recall</h4>
+                <p class="metric-value">92.8%</p>
+              </div>
+              
+              <div class="metric-card">
+                <h4 class="metric-title">F1 Score</h4>
+                <p class="metric-value">93.5%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our Team</h2>
+          <p class="section-description">
+            Meet the talented individuals behind HandWave AI.
+          </p>
+        </div>
+        
+        <div class="team-grid">
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://placehold.co/300x300" alt="Alex Johnson">
+            </div>
+            <h3 class="team-name">Alex Johnson</h3>
+            <p class="team-role">Project Lead</p>
+            <p class="team-bio">AI researcher with 8+ years of experience in computer vision and gesture recognition systems.</p>
+            <div class="team-social">
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://placehold.co/300x300" alt="Sarah Chen">
+            </div>
+            <h3 class="team-name">Sarah Chen</h3>
+            <p class="team-role">ML Engineer</p>
+            <p class="team-bio">Specializes in deep learning models and has contributed to several open-source computer vision projects.</p>
+            <div class="team-social">
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://placehold.co/300x300" alt="Michael Rodriguez">
+            </div>
+            <h3 class="team-name">Michael Rodriguez</h3>
+            <p class="team-role">Full-Stack Developer</p>
+            <p class="team-bio">Experienced in building scalable web applications with expertise in Python, Django, and React.</p>
+            <div class="team-social">
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+          
+          <div class="team-card">
+            <div class="team-image">
+              <img src="https://placehold.co/300x300" alt="Priya Patel">
+            </div>
+            <h3 class="team-name">Priya Patel</h3>
+            <p class="team-role">UX/UI Designer</p>
+            <p class="team-bio">Creates intuitive and accessible user interfaces with a focus on human-computer interaction.</p>
+            <div class="team-social">
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Contact Us</h2>
+          <p class="section-description">
+            Have questions or interested in collaborating? Get in touch with our team.
+          </p>
+        </div>
+        
+        <div class="contact-content">
+          <div class="contact-form-container">
+            <form id="contactForm" class="contact-form">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Your email address" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Your message" rows="5" required></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary btn-full">
+                Send Message
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+          
+          <div class="contact-info">
+            <div class="connect-section">
+              <h3 class="subsection-title">Connect With Us</h3>
+              <p class="text-light">
+                Follow us on social media or check out our GitHub repository to stay updated with the latest developments.
+              </p>
+              
+              <div class="social-buttons">
+                <a href="#" class="social-button">
+                  <i class="fab fa-github"></i>
+                  <span>GitHub</span>
+                </a>
+                <a href="#" class="social-button">
+                  <i class="fab fa-twitter"></i>
+                  <span>Twitter</span>
+                </a>
+                <a href="#" class="social-button">
+                  <i class="fas fa-envelope"></i>
+                  <span>Email</span>
+                </a>
+              </div>
+            </div>
+            
+            <div class="location-section">
+              <h3 class="subsection-title">Office Location</h3>
+              <p class="text-light">
+                123 Innovation Drive<br>
+                Tech Hub, Building 4<br>
+                San Francisco, CA 94107
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3 class="footer-title">HandWave AI</h3>
+          <p class="footer-description">
+            Revolutionizing human-computer interaction through advanced hand gesture recognition technology.
+          </p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="footer-links-column">
+            <h4 class="footer-links-title">Quick Links</h4>
+            <ul class="footer-links-list">
+              <li><a href="#about">About</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#how-it-works">How It Works</a></li>
+              <li><a href="#model-training">Model Training</a></li>
+              <li><a href="#team">Team</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="footer-links-column">
+            <h4 class="footer-links-title">Resources</h4>
+            <ul class="footer-links-list">
+              <li><a href="#">Documentation</a></li>
+              <li><a href="#">API Reference</a></li>
+              <li><a href="#">GitHub Repository</a></li>
+              <li><a href="#">Research Papers</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p class="copyright">
+          &copy; <span id="current-year"></span> HandWave AI. All rights reserved.
+        </p>
+        <div class="footer-social">
+          <a href="#" class="footer-social-link"><i class="fab fa-github"></i></a>
+          <a href="#" class="footer-social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="footer-social-link"><i class="fas fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="<% static 'js/documentation.js' %>">"></script>
+  
+    <script>
+    window.addEventListener('scroll', function () {
+      const header = document.querySelector('.header');
+      if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+      } else {
+          header.classList.remove('scrolled');
+      }
+  });
+  </script>
+  {% comment %} <script src="script.js"></script> {% endcomment %}
+</body>
+</html>
+

@@ -27,6 +27,7 @@ def video_stream():
     """Handles the webcam video streaming with hand gesture recognition and AI integration."""
     global ai_output, ai_request_sent, thumbs_up_active
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FPS, 45)
 
     if not cap.isOpened():
         print("Error: Could not open webcam.")
