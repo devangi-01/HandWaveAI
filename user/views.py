@@ -1,26 +1,37 @@
-from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from .forms import RegisterForm, LoginForm
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 
 def combined_login_register_view(request):
-    register_form = RegisterForm()
-    login_form = LoginForm()
-
     if request.method == 'POST':
-        if 'username' in request.POST:
-            register_form = RegisterForm(request.POST)
-            if register_form.is_valid():
-                user = register_form.save()
+        if 'login' in request.POST:
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
                 login(request, user)
-                return redirect('home')  # or any other route
-        else:
-            login_form = LoginForm(request, data=request.POST)
-            if login_form.is_valid():
-                user = login_form.get_user()
-                login(request, user)
-                return redirect('home')
+                messages.success(request, "Login successful!")
+                return redirect('homepage')
+            else:
+                messages.error(request, "Invalid username or password.")
 
-    return render(request, 'user/login_register.html', {
-        'register_form': register_form,
-        'login_form': login_form
-    })
+        elif 'register' in request.POST:
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password']
+            confirm_password = request.POST['confirm_password']
+
+            if password != confirm_password:
+                messages.error(request, "Passwords do not match.")
+            elif User.objects.filter(username=username).exists():
+                messages.error(request, "Username already exists.")
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, "Email is already in use.")
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                login(request, user)
+                messages.success(request, "Registration successful! You're now logged in.")
+                return redirect('homepage')
+
+    return render(request, 'user/login_register.html')

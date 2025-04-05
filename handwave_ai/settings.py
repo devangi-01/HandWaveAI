@@ -68,6 +68,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, "math_solver", "templates"),  # App-level templates
             os.path.join(BASE_DIR, "sign_language", "templates"),
             os.path.join(BASE_DIR, "gesture_quiz", "templates"),
+            os.path.join(BASE_DIR, "user", "templates"), 
         ],
         'APP_DIRS': True,  # Ensures Django looks inside app-level 'templates/' folders
         'OPTIONS': {

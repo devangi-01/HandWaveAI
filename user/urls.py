@@ -5,6 +5,6 @@ app_name = 'user'
 urlpatterns = [
 
     path('login-register/', combined_login_register_view, name='login'),
-    path('register/', combined_login_register_view, name='register'),
+    # path('login-register/', combined_login_register_view, name='register'),
 
 ]
