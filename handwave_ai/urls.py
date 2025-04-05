@@ -21,7 +21,6 @@ Including another URLconf
 #     path('admin/', admin.site.urls),
 # ]
 
-
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import render
@@ -29,25 +28,20 @@ from django.views.generic import TemplateView
 from sign_language import views
 from django.conf import settings
 from django.conf.urls.static import static
-# Define a simple homepage view
+
 def homepage(request):
     return render(request, 'index.html')
-    
+
 app_name = "handwave_ai"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', homepage, name='homepage'),  # Add this line for the homepage
+    path('', homepage, name='homepage'),
     path('math-solver/', include('math_solver.urls')),
     path('sign-language/', include('sign_language.urls')),
     path('gesture-quiz/', include('gesture_quiz.urls')),
-    path('login/', TemplateView.as_view(template_name='login.html'), name='login'),
+    path('user/', include('user.urls')),  
     path('documentation/', TemplateView.as_view(template_name='documentation.html'), name='documentation'),
-
-    # path('video_feed/', views.video_feed, name='video_feed'),
-    # path('__reload__/', include('livereload.urls')),
-
-    # path('', TemplateView.as_view(template_name='login.html'), name='login'),  # Default login page
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

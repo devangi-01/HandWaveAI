@@ -109,25 +109,32 @@ def process_frame(request):
 
             if hands:
                 lmList = hands[0].get("lmList", [])
-                if lmList:
-                    index_finger_x, index_finger_y = lmList[8][:2]
-                    for i, (top_left, bottom_right) in enumerate(answer_boxes):
-                        if top_left[0] < index_finger_x < bottom_right[0] and top_left[1] < index_finger_y < bottom_right[1]:
-                            if not selection_made:
-                                answer_selected = i
-                                selection_made = True
-                                last_selection_time = time.time()
-                                if i == QUIZ_QUESTIONS[question_index]["answer_index"]:
-                                    correct_answers += 1
+                fingers_up = detector.fingersUp(hands[0])  # Detect raised fingers
 
+                # Count the number of fingers up (excluding thumb)
+                num_fingers_up = sum(fingers_up[1:])  # Ignore thumb -> fingers_up[1:]
+
+                # Check if 1 to 4 fingers are raised to select the answer
+                if 1 <= num_fingers_up <= 4 and not selection_made:
+                    answer_selected = num_fingers_up - 1  # Map 1 finger to option 0, 2 fingers to 1, etc.
+                    selection_made = True
+                    last_selection_time = time.time()
+
+                    # Check if the selected answer is correct
+                    if answer_selected == QUIZ_QUESTIONS[question_index]["answer_index"]:
+                        correct_answers += 1
+
+            # Move to the next question after 2 seconds if an answer is selected
             if selection_made and time.time() - last_selection_time > 2:
                 question_index += 1
                 selection_made = False
                 answer_selected = None
 
+                # Update session state
                 request.session["question_index"] = question_index
                 request.session["correct_answers"] = correct_answers
 
+        # If quiz is over, show the final score
         if question_index >= total_questions:
             score_percentage = (correct_answers / total_questions) * 100 if total_questions > 0 else 0
             final_img = np.full((800, 1280, 3), 255, dtype=np.uint8)
@@ -138,8 +145,9 @@ def process_frame(request):
         _, jpeg = cv2.imencode(".jpg", img)
         yield (b"--frame\r\n"
                b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n\r\n")
-    
+
     cap.release()
+
 
 def video_feed(request):
     return StreamingHttpResponse(process_frame(request), content_type="multipart/x-mixed-replace; boundary=frame")

@@ -23,7 +23,7 @@ last_detected_sign = {"sign": "None", "confidence": 0.0}
 def generate_frames():
     """Generates frames with real-time sign detection."""
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FPS, 120)
+    cap.set(cv2.CAP_PROP_FPS, 60)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
@@ -61,7 +61,7 @@ def generate_frames():
                 confidence = round(np.max(prediction) * 100, 2)
 
                 # Define label based on predicted label index
-                sign_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"]  # Update as per your labels
+                sign_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "none"]  
                 predicted_sign = sign_labels[predicted_label]
 
                 # Update last detected sign

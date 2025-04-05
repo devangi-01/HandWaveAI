@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'math_solver',
     'sign_language',
     'gesture_quiz',
-    
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -164,3 +164,5 @@ CORS_ALLOW_ALL_ORIGINS = True  # For testing, later restrict it
 #changed mannually 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+

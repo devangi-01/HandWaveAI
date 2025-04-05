@@ -11,6 +11,10 @@
 <body>
 
     <!-- Navigation -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    
     <nav>
         <a href="#" class="logo">
             <i class="fas fa-square-root-variable"></i>
@@ -45,9 +49,13 @@
         <div class="hero">
             <h1>Math Solver with Hand Gestures</h1>
             <p>Solve mathematical problems using AI and hand gestures. Simply draw your equation and use hand gestures to get instant solutions.</p>
-            <a href="#" class="button glow-effect">Get Started</a>
-        </div>
+            {% comment %} <a href="#" class="button glow-effect">Get Started</a> {% endcomment %}
 
+        </div>
+       
+        
+          
+          
         <!-- Main Container -->
         <div class="container">
             <div class="video-container glow-effect">
@@ -59,6 +67,9 @@
             </div>
         </div>
 
+        
+        
+        
         <!-- Instructions Section -->
         <div class="instructions">
             <h2>How It Works</h2>
@@ -81,17 +92,20 @@
             </div>
         </div>
     </main>
-    <h2>Upload Math Problem</h2>
-    <input type="file" id="mathImageInput">
-    <button onclick="uploadMathProblem()">Solve</button>
 
-    <h3>AI Solution:</h3>
-    <p id="aiSolution">Waiting for response...</p>
     <footer>
         <p>&copy; {% now "Y" %} MathSolver. All rights reserved.</p>
     </footer>
 
     <script>
+        
+            // Show loader before page reload
+            window.addEventListener("beforeunload", function () {
+                document.getElementById("loader").style.visibility = "visible";
+                document.getElementById("loader").style.opacity = "1";
+            });
+        
+        
         // Mobile menu functionality
         const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
         const closeMenuBtn = document.querySelector('.close-menu');
