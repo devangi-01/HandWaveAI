@@ -9,48 +9,61 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-   
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 </head>
 
 <body>
     <div class="bg-gradient">
-        <header class="container">
-            <nav>
-                <div class="logo">
-                    {% comment %} <img src="{% static 'images/logo.svg' %}" alt="HandWave AI Logo"
-                        onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;"> {% endcomment %}
-                        <img src="{% static 'images/h2_logo.png' %}" alt="HandWave AI Logo"
-                        onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
-                   
-                        <span>HandWave AI</span>
-                </div>
-                {% comment %} <div class="nav-links">
-                    <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
-                    <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
-                    <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
-                </div> {% endcomment %}
-                <nav>
-                    {% comment %} <a href="#" class="logo">
-                        <i class="fas fa-square-root-variable"></i>
-                        <span>MathSolver</span>
-                    </a> {% endcomment %}
-                    <div class="nav-links">
-                        <a href="#">Home</a>
-                        <a href="#">About</a>
-                        <a href="#">How It Works</a>
-                        <a href="#">Contact</a>
+        <header class="header">
+            <!-- <p style="color:red; font-size: 20px;">Test visible text</p> -->
+            <div class="container">
+                <div class="header-content">
+                    {% comment %} <a href="#" class="logo">HandWave AI</a> {% endcomment %}
+                    <a href="#" class="logo">
+                        <span class="logo-icon"><img src="{% static 'images/h2_logo.png' %}" alt="logo"></span>
+                        HandWave AI
+                    </a>
+                    <nav class="nav-desktop">
+                        <ul class="nav-links">
+                            <li><a href="#" class="nav-link active">Home</a></li>
+                            <li><a href="#about" class="nav-link">About</a></li>
+                            <li><a href="#features" class="nav-link">Features</a></li>
+                            <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+                            <li><a href="#model-training" class="nav-link">Model Training</a></li>
+                            <li><a href="#team" class="nav-link">Team</a></li>
+                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                            <i class="fas fa-sun"></i>
+                            <i class="fas fa-moon"></i>
+                        </button>
+
+                        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
                     </div>
-                    <button class="mobile-menu-btn">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-menu">
+                <nav>
+                    <ul class="mobile-nav-links">
+                        <li><a href="#" class="mobile-nav-link active">Home</a></li>
+                        <li><a href="#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
+                        <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li>
+                        <li><a href="#team" class="mobile-nav-link">Team</a></li>
+                        <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                    </ul>
                 </nav>
-                <button class="mobile-menu-btn" aria-label="Toggle menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-            </nav>
+            </div>
         </header>
 
         <main>
@@ -162,7 +175,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="footer-bottom">
                     <p>&copy; {% now "Y" %} HandWave AI. All rights reserved.</p>
                     <div class="footer-policy">
@@ -173,10 +186,49 @@
                 </div>
             </div>
         </footer>
-        
+
     </div>
 
-    {% comment %} <script src="{% static 'js/main.js' %}"></script> {% endcomment %}
-</body>
 
-</html> 
+ 
+    <script src="{% static 'js/script.js' %}"></script> 
+</body>
+</html>
+
+<!-- <header class="container">
+                <nav>
+                    <div class="logo">
+                        {% comment %} <img src="{% static 'images/logo.svg' %}" alt="HandWave AI Logo"
+                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;"> {% endcomment %}
+                            <img src="{% static 'images/h2_logo.png' %}" alt="HandWave AI Logo"
+                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
+                       
+                            <span>HandWave AI</span>
+                    </div>
+                    {% comment %} <div class="nav-links">
+                        <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
+                        <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
+                        <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
+                    </div> {% endcomment %}
+                    <nav>
+                        {% comment %} <a href="#" class="logo">
+                            <i class="fas fa-square-root-variable"></i>
+                            <span>MathSolver</span>
+                        </a> {% endcomment %}
+                        <div class="nav-links">
+                            <a href="#">Home</a>
+                            <a href="#">About</a>
+                            <a href="#">How It Works</a>
+                            <a href="#">Contact</a>
+                        </div>
+                        <button class="mobile-menu-btn">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </nav>
+                    <button class="mobile-menu-btn" aria-label="Toggle menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </nav>
+            </header> -->
