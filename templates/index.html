@@ -6,23 +6,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HandWave AI | Gesture Recognition Technology</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/newstyle.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 
 <body>
     <div class="bg-gradient">
         <header class="header">
-            <!-- <p style="color:red; font-size: 20px;">Test visible text</p> -->
             <div class="container">
                 <div class="header-content">
-                    {% comment %} <a href="#" class="logo">HandWave AI</a> {% endcomment %}
                     <a href="#" class="logo">
-                        <span class="logo-icon"><img src="{% static 'images/h2_logo.png' %}" alt="logo"></span>
+                        <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
                         HandWave AI
                     </a>
                     <nav class="nav-desktop">
@@ -34,6 +31,8 @@
                             <li><a href="#model-training" class="nav-link">Model Training</a></li>
                             <li><a href="#team" class="nav-link">Team</a></li>
                             <li><a href="#contact" class="nav-link">Contact</a></li>
+                            <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>
+
                         </ul>
                     </nav>
 
@@ -61,6 +60,7 @@
                         <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li>
                         <li><a href="#team" class="mobile-nav-link">Team</a></li>
                         <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                        <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>
                     </ul>
                 </nav>
             </div>
@@ -69,76 +69,149 @@
         <main>
             <section class="hero container">
                 <div class="hero-content">
+                    <div class="hero-badge">
+                        <span>AI-Powered Technology</span>
+                    </div>
                     <h1>Communicate Through <span class="gradient-text">Gestures</span></h1>
                     <p>HandWave AI uses advanced machine learning to recognize and interpret hand gestures and sign
-                        language in real-time.</p>
+                        language in real-time, making communication more accessible for everyone.</p>
                     <div class="cta-buttons">
-                        <a href="{% url 'documentation' %}" class="btn btn-primary">Documentation</a>
-                        <a href="#features" class="btn btn-secondary">Explore Features</a>
+                        <a href="{% url 'documentation' %}" class="btn btn-primary">
+                            <i class="fas fa-book-open"></i> Documentation
+                        </a>
+                        <a href="#features" class="btn btn-secondary">
+                            <i class="fas fa-rocket"></i> Explore Features
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">95%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Gestures</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">10ms</span>
+                            <span class="stat-label">Response Time</span>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="{% static 'images/hand_gesture.png' %}" alt="Hand gesture recognition illustration"
-                        onerror="this.src='{% static 'images/hero-placeholder.svg' %}'; this.onerror=null;">
+                    <div class="hero-image-wrapper">
+                        <img src="{% static 'images/hand_gesture.png' %}" alt="Hand gesture recognition illustration"
+                            onerror="this.src='{% static 'images/hero-placeholder.svg' %}'; this.onerror=null;">
+                        <div class="hero-image-dots"></div>
+                    </div>
                 </div>
             </section>
 
             <section id="features" class="features container">
-                <h2>Our <span class="gradient-text">Features</span></h2>
-                <p class="section-description">Discover the power of gesture recognition technology</p>
+                <div class="section-header">
+                    <div class="section-badge">Revolutionary Technology</div>
+                    <h2>Our <span class="gradient-text">Features</span></h2>
+                    <p class="section-description">Discover the power of gesture recognition technology that transforms how we interact with computers</p>
+                </div>
 
                 <div class="feature-cards">
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <img src="{% static 'images/math.jpg' %}" alt="Math Solver"
-                                onerror="this.src='{% static 'images/math-placeholder.svg' %}'; this.onerror=null;">
+                            <i class="fas fa-calculator"></i>
                         </div>
                         <h3>Math Solver</h3>
-                        <p>Solve complex mathematical problems by simply drawing equations with your hand gestures.</p>
+                        <p>Solve complex mathematical problems by simply drawing equations with your hand gestures. Our AI recognizes and processes mathematical symbols in real-time.</p>
                         <a href="{% url 'math_solver:math_solver' %}" class="feature-link">Try Math Solver</a>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <img src="{% static 'images/sign.png' %}" alt="Sign Language Recognition"
-                                onerror="this.src='{% static 'images/sign-placeholder.svg' %}'; this.onerror=null;">
+                            <i class="fas fa-sign-language"></i>
                         </div>
                         <h3>Sign Language Recognition</h3>
-                        <p>Translate sign language gestures into text in real-time with our advanced AI technology.</p>
+                        <p>Translate sign language gestures into text in real-time with our advanced AI technology. Bridge communication gaps instantly.</p>
                         <a href="{% url 'sign_language:sign_language' %}" class="feature-link">Try Sign Language</a>
                     </div>
 
                     <div class="feature-card">
                         <div class="feature-icon">
-                            <img src="{% static 'images/quiz.jpg' %}" alt="Gesture Quiz"
-                                onerror="this.src='{% static 'images/quiz-placeholder.svg' %}'; this.onerror=null;">
+                            <i class="fas fa-gamepad"></i>
                         </div>
                         <h3>Gesture Quiz</h3>
-                        <p>Test and improve your sign language skills with interactive quizzes and challenges.</p>
+                        <p>Test and improve your sign language skills with interactive quizzes and challenges. Learn while having fun with our gamified approach.</p>
                         <a href="{% url 'gesture_quiz' %}" class="feature-link">Try Gesture Quiz</a>
                     </div>
                 </div>
             </section>
 
-            <section class="how-it-works container">
-                <h2>How It <span class="gradient-text">Works</span></h2>
-                <p class="section-description">Our technology makes gesture recognition simple and accessible</p>
+            <section id="how-it-works" class="how-it-works container">
+                <div class="section-header">
+                    <div class="section-badge">Simple Process</div>
+                    <h2>How It <span class="gradient-text">Works</span></h2>
+                    <p class="section-description">Our technology makes gesture recognition simple and accessible for everyone</p>
+                </div>
 
                 <div class="steps">
                     <div class="step">
                         <div class="step-number">1</div>
                         <h3>Enable Camera</h3>
-                        <p>Allow camera access to capture your hand gestures in real-time.</p>
+                        <p>Allow camera access to capture your hand gestures in real-time with our secure and privacy-focused technology.</p>
+                        <div class="step-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
                     </div>
                     <div class="step">
                         <div class="step-number">2</div>
                         <h3>Make Gestures</h3>
-                        <p>Perform hand gestures or sign language in front of your camera.</p>
+                        <p>Perform hand gestures or sign language in front of your camera. Our system works with any lighting condition.</p>
+                        <div class="step-icon">
+                            <i class="fas fa-hand-point-up"></i>
+                        </div>
                     </div>
                     <div class="step">
                         <div class="step-number">3</div>
                         <h3>Get Results</h3>
-                        <p>Our AI instantly recognizes and interprets your gestures.</p>
+                        <p>Our AI instantly recognizes and interprets your gestures, providing accurate results in milliseconds.</p>
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="about container">
+                <div class="section-header">
+                    <div class="section-badge">Our Mission</div>
+                    <h2>About <span class="gradient-text">HandWave AI</span></h2>
+                    <p class="section-description">Making technology accessible through natural human gestures</p>
+                </div>
+
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="{% static 'images/about.jpg' %}" alt="Team working on gesture recognition"
+                            onerror="this.src='{% static 'images/about-placeholder.svg' %}'; this.onerror=null;">
+                    </div>
+                    <div class="about-text">
+                        <h3>Breaking Communication Barriers</h3>
+                        <p>At HandWave AI, we believe technology should adapt to humans, not the other way around. Our mission is to create intuitive interfaces that understand natural human gestures, making technology more accessible to everyone, including those with disabilities.</p>
+                        
+                        <h3>Advanced AI Technology</h3>
+                        <p>Our proprietary machine learning algorithms have been trained on millions of gesture samples to achieve industry-leading accuracy. We continuously improve our models to recognize more gestures across different cultures and contexts.</p>
+                        
+                        <div class="about-stats">
+                            <div class="about-stat">
+                                <span class="about-stat-number">95%</span>
+                                <span class="about-stat-label">Accuracy</span>
+                            </div>
+                            <div class="about-stat">
+                                <span class="about-stat-number">10ms</span>
+                                <span class="about-stat-label">Response Time</span>
+                            </div>
+                            <div class="about-stat">
+                                <span class="about-stat-number">50+</span>
+                                <span class="about-stat-label">Supported Gestures</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -148,8 +221,7 @@
             <div class="container">
                 <div class="footer-top">
                     <div class="footer-logo">
-                        <img src="{% static 'images/h2_logo.png' %}" alt="HandWave AI Logo"
-                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
+                        <i class="fas fa-hand-paper"></i>
                         <span>HandWave AI</span>
                     </div>
                     <div class="footer-links">
@@ -161,17 +233,17 @@
                         <a href="#how-it-works">How It Works</a>
                     </div>
                     <div class="footer-social">
-                        <a href="https://www.facebook.com/" target="_blank">
-                            <img src="{% static 'images/facebook.svg' %}" alt="Facebook">
+                        <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook">
+                            <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="https://www.twitter.com/" target="_blank">
-                            <img src="{% static 'images/twitter.svg' %}" alt="Twitter">
+                        <a href="https://www.twitter.com/" target="_blank" aria-label="Twitter">
+                            <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://www.linkedin.com/" target="_blank">
-                            <img src="{% static 'images/linkedin.svg' %}" alt="LinkedIn">
+                        <a href="https://www.linkedin.com/" target="_blank" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="https://www.instagram.com/" target="_blank">
-                            <img src="{% static 'images/instagram.svg' %}" alt="Instagram">
+                        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+                            <i class="fab fa-instagram"></i>
                         </a>
                     </div>
                 </div>
@@ -186,49 +258,8 @@
                 </div>
             </div>
         </footer>
-
     </div>
 
-
- 
-    <script src="{% static 'js/script.js' %}"></script> 
+    <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
-
-<!-- <header class="container">
-                <nav>
-                    <div class="logo">
-                        {% comment %} <img src="{% static 'images/logo.svg' %}" alt="HandWave AI Logo"
-                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;"> {% endcomment %}
-                            <img src="{% static 'images/h2_logo.png' %}" alt="HandWave AI Logo"
-                            onerror="this.src='{% static 'images/logo-placeholder.png' %}'; this.onerror=null;">
-                       
-                            <span>HandWave AI</span>
-                    </div>
-                    {% comment %} <div class="nav-links">
-                        <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
-                        <a href="{% url 'sign_language_recognition' %}">Sign Language</a>
-                        <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
-                    </div> {% endcomment %}
-                    <nav>
-                        {% comment %} <a href="#" class="logo">
-                            <i class="fas fa-square-root-variable"></i>
-                            <span>MathSolver</span>
-                        </a> {% endcomment %}
-                        <div class="nav-links">
-                            <a href="#">Home</a>
-                            <a href="#">About</a>
-                            <a href="#">How It Works</a>
-                            <a href="#">Contact</a>
-                        </div>
-                        <button class="mobile-menu-btn">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </nav>
-                    <button class="mobile-menu-btn" aria-label="Toggle menu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </nav>
-            </header> -->
