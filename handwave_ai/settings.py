@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'handwave_ai',
-        'USER': 'root',  # Change this
-        'PASSWORD': 'root',  # Change this
+        'USER': 'root',  
+        'PASSWORD': 'root',  
         'HOST': 'localhost',
         'PORT': '3306',
     }
