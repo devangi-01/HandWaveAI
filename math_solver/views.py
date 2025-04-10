@@ -93,6 +93,7 @@ def video_stream():
                 else:
                     prev_pos = None  # Reset when not drawing or erasing
 
+
                 # AI trigger gesture (Thumbs up)
                 if fingers == [1, 0, 0, 0, 0]:  
                     if not ai_request_sent and not thumbs_up_active:

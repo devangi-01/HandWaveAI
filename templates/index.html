@@ -25,26 +25,28 @@
                     <nav class="nav-desktop">
                         <ul class="nav-links">
                             <li><a href="#" class="nav-link active">Home</a></li>
-                            <li><a href="#about" class="nav-link">About</a></li>
+                            {% comment %} <li><a href="#about" class="nav-link">About</a></li> {% endcomment %}
                             <li><a href="#features" class="nav-link">Features</a></li>
                             <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                            <li><a href="#model-training" class="nav-link">Model Training</a></li>
-                            <li><a href="#team" class="nav-link">Team</a></li>
+                            <li><a href="#about" class="nav-link">About</a></li>
+                            {% comment %} <li><a href="#model-training" class="nav-link">Model Training</a></li> {% endcomment %}
+                            {% comment %} <li><a href="#team" class="nav-link">Team</a></li> {% endcomment %}
                             <li><a href="#contact" class="nav-link">Contact</a></li>
-                            <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>
+                            <li></li>
 
                         </ul>
                     </nav>
 
                     <div class="header-actions">
-                        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        {% comment %} <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
                             <i class="fas fa-sun"></i>
                             <i class="fas fa-moon"></i>
-                        </button>
+                        </button> {% endcomment %}
 
                         <button class="mobile-menu-toggle" aria-label="Toggle menu">
                             <i class="fas fa-bars"></i>
                         </button>
+                        <div><a href="{% url 'user:login' %}" class=" login-tab">Login</a></div>
                     </div>
                 </div>
             </div>
@@ -54,10 +56,11 @@
                 <nav>
                     <ul class="mobile-nav-links">
                         <li><a href="#" class="mobile-nav-link active">Home</a></li>
-                        <li><a href="#about" class="mobile-nav-link">About</a></li>
+                       
                         <li><a href="#features" class="mobile-nav-link">Features</a></li>
                         <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
-                        <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li>
+                        <li><a href="#about" class="mobile-nav-link">About</a></li>
+                        {% comment %} <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li> {% endcomment %}
                         <li><a href="#team" class="mobile-nav-link">Team</a></li>
                         <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
                         <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>

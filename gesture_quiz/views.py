@@ -145,6 +145,8 @@ def process_frame(request):
         _, jpeg = cv2.imencode(".jpg", img)
         yield (b"--frame\r\n"
                b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n\r\n")
+    
+
 
     cap.release()
 

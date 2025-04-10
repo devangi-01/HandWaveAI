@@ -219,11 +219,15 @@ p {
 }
 
 .login-tab {
-  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-  color: white;
-  box-shadow: 0 4px 10px rgba(10, 10, 10, 0.3);
-  padding: 5px 10px;
-  border-radius: 10%;
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.1) 0%, rgba(14, 165, 233, 0.1) 100%);
+  color: var(--primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 6px 30px 6px 30px;
+  border-radius: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 18px;
 
 }
 
