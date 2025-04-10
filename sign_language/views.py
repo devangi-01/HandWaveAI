@@ -7,7 +7,11 @@ import mediapipe as mp
 from tensorflow.keras.models import load_model
 
 # Load trained MediaPipe + AI model
-model_path = r"E:\Project\HandWaveAI\sign_language\mediapipe_model.h5"
+# model_path = "\mediapipe_model.h5"
+# model = load_model(model_path)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "mediapipe_model.h5")
 model = load_model(model_path)
 
 # MediaPipe hands setup
