@@ -1,14 +1,34 @@
+
 import os
 import cv2
 import time
 import numpy as np
 import pandas as pd
+from playsound import playsound
+import threading
 from django.shortcuts import render
 from django.http import StreamingHttpResponse, JsonResponse
 from cvzone.HandTrackingModule import HandDetector
 from django.views.decorators.cache import never_cache
 
-# Load CSV File
+# 🔊 Helper functions for playing sounds
+def play_selection_sound():
+    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "select.wav")
+    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
+
+def play_correct_sound():
+    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "right.wav")
+    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
+
+def play_wrong_sound():
+    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "wrong1.mp3")
+    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
+
+def play_gameover_sound():
+    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "gameover.wav")
+    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
+
+# 📄 Load CSV file
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_FILE_PATH = os.path.join(BASE_DIR, "gesture_quiz", "quiz_questions.csv")
 
@@ -34,9 +54,15 @@ def load_quiz():
 
 QUIZ_QUESTIONS = load_quiz()
 
-detector = HandDetector(staticMode=False, maxHands=1, modelComplexity=1, detectionCon=0.8, minTrackCon=0.5)
+# ✋ Hand detector
+detector = HandDetector(
+    staticMode=False,
+    maxHands=1,
+    modelComplexity=1,
+    detectionCon=0.75,
+    minTrackCon=0.7
+)
 
-# Track session data
 def get_quiz_state(request):
     return JsonResponse({
         "question_index": request.session.get("question_index", 0),
@@ -44,22 +70,24 @@ def get_quiz_state(request):
         "total_questions": len(QUIZ_QUESTIONS)
     })
 
+# 🖼️ Utility to draw centered text
 def draw_text_centered(img, text, position, font_scale=1, color=(0, 0, 0), thickness=2):
     text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)[0]
     text_x = position[0] - text_size[0] // 2
     text_y = position[1] + text_size[1] // 2
     cv2.putText(img, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
 
+# 📋 Draw question and options
 def draw_quiz_ui(img, question_data, selected_answer):
     img_h, img_w, _ = img.shape
-    question_center = (img_w // 2, 80)
-    draw_text_centered(img, question_data["question"], question_center, font_scale=1, color=(255, 255, 255), thickness=2)
+    question_center = (img_w // 2, 120)
+    draw_text_centered(img, question_data["question"], question_center, font_scale=1.2, color=(255, 255, 255), thickness=2)
     
     answer_boxes = []
-    box_width, box_height = 300, 80  
-    gap_x, gap_y = 50, 100  
-    start_x = (img_w - (2 * box_width + gap_x)) // 2  
-    start_y = 200  
+    box_width, box_height = 260, 70
+    gap_x, gap_y = 40, 80
+    start_x = (img_w - (2 * box_width + gap_x)) // 2
+    start_y = 200
 
     correct_index = question_data["answer_index"]
 
@@ -69,14 +97,13 @@ def draw_quiz_ui(img, question_data, selected_answer):
         y1 = start_y + row * (box_height + gap_y)
         x2, y2 = x1 + box_width, y1 + box_height
         
-        # Determine box color
         if selected_answer is not None:
             if i == selected_answer:
-                color = (0, 255, 0) if i == correct_index else (0, 0, 255)  # Green for correct, Red for wrong
+                color = (0, 255, 0) if i == correct_index else (0, 0, 255)
             else:
-                color = (255, 255, 255)  # White for unselected options
+                color = (255, 255, 255)
         else:
-            color = (255, 255, 255)  # Default white before selection
+            color = (255, 255, 255)
         
         cv2.rectangle(img, (x1, y1), (x2, y2), color, -1)
         draw_text_centered(img, f"{chr(65 + i)}. {option}", ((x1 + x2) // 2, (y1 + y2) // 2), font_scale=0.8, color=(0, 0, 0))
@@ -84,6 +111,7 @@ def draw_quiz_ui(img, question_data, selected_answer):
     
     return answer_boxes
 
+# 📹 Main quiz webcam logic
 def process_frame(request):
     cap = cv2.VideoCapture(0)
     cap.set(3, 1280)
@@ -91,6 +119,7 @@ def process_frame(request):
 
     question_index = request.session.get("question_index", 0)
     correct_answers = request.session.get("correct_answers", 0)
+    request.session["gameover_played"] = False  # Reset flag
     total_questions = len(QUIZ_QUESTIONS)
     answer_selected = None
     selection_made = False
@@ -108,49 +137,60 @@ def process_frame(request):
             hands, _ = detector.findHands(img, draw=True, flipType=True)
 
             if hands:
-                lmList = hands[0].get("lmList", [])
-                fingers_up = detector.fingersUp(hands[0])  # Detect raised fingers
+                lmList = hands[0]["lmList"]
+                fingers_up = detector.fingersUp(hands[0])
 
-                # Count the number of fingers up (excluding thumb)
-                num_fingers_up = sum(fingers_up[1:])  # Ignore thumb -> fingers_up[1:]
+                # Count fingers (Index to Pinky) and check if Thumb is up
+                num_fingers_up = sum(fingers_up[1:5])  # Index, Middle, Ring, Pinky
+                thumb_up = fingers_up[0] == 1  # Thumb
 
-                # Check if 1 to 4 fingers are raised to select the answer
-                if 1 <= num_fingers_up <= 4 and not selection_made:
-                    answer_selected = num_fingers_up - 1  # Map 1 finger to option 0, 2 fingers to 1, etc.
+                draw_text_centered(img, f"Fingers Up: {num_fingers_up}", (640, 690), font_scale=1, color=(255, 255, 0), thickness=2)
+
+                # Only allow selection if 1-4 fingers up, and thumb is down
+                if num_fingers_up in [1, 2, 3, 4] and not thumb_up and not selection_made:
+                    answer_selected = num_fingers_up - 1
                     selection_made = True
                     last_selection_time = time.time()
 
-                    # Check if the selected answer is correct
+                    play_selection_sound()
+
                     if answer_selected == QUIZ_QUESTIONS[question_index]["answer_index"]:
                         correct_answers += 1
+                        play_correct_sound()
+                    else:
+                        play_wrong_sound()
 
-            # Move to the next question after 2 seconds if an answer is selected
+                elif num_fingers_up == 0:
+                    answer_selected = None
+                    selection_made = False
+
             if selection_made and time.time() - last_selection_time > 2:
                 question_index += 1
                 selection_made = False
                 answer_selected = None
 
-                # Update session state
                 request.session["question_index"] = question_index
                 request.session["correct_answers"] = correct_answers
 
-        # If quiz is over, show the final score
         if question_index >= total_questions:
+            if not request.session.get("gameover_played", False):
+                play_gameover_sound()
+                request.session["gameover_played"] = True
+
             score_percentage = (correct_answers / total_questions) * 100 if total_questions > 0 else 0
             final_img = np.full((800, 1280, 3), 255, dtype=np.uint8)
             draw_text_centered(final_img, "Quiz Over!", (640, 300), font_scale=2, color=(0, 0, 255), thickness=3)
             draw_text_centered(final_img, f"Final Score: {score_percentage:.2f}%", (640, 400), font_scale=1.5, color=(0, 0, 0), thickness=2)
-            img = final_img  
+            img = final_img
 
         _, jpeg = cv2.imencode(".jpg", img)
         yield (b"--frame\r\n"
                b"Content-Type: image/jpeg\r\n\r\n" + jpeg.tobytes() + b"\r\n\r\n")
-    
-
 
     cap.release()
 
 
+# 🔄 Django views
 def video_feed(request):
     return StreamingHttpResponse(process_frame(request), content_type="multipart/x-mixed-replace; boundary=frame")
 
@@ -160,6 +200,4 @@ def get_final_score(request):
 
 def gesture_quiz(request):
     return render(request, "gesture_quiz/index.html")
-
-
 
