@@ -1,203 +1,218 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Solver with Hand Gestures</title>
-    <link rel="stylesheet" href="{% static 'css/math.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Math Solver | HandWave AI</title>
+    <link rel="stylesheet" href="{% static 'css/newstyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/math.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
+    <div class="bg-gradient">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="/" class="logo">
+                        <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
+                        HandWave AI
+                    </a>
+                    <nav class="nav-desktop">
+                        <ul class="nav-links">
+                            <li><a href="/" class="nav-link">Home</a></li>
+                            <li><a href="/#features" class="nav-link">Features</a></li>
+                            <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+                            <li><a href="/#about" class="nav-link">About</a></li>
+                            <li><a href="/#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
 
-    <!-- Navigation -->
-    <div id="loader">
-        <div class="spinner"></div>
+                    <div class="header-actions">
+                        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
+
+                        {% if request.user.is_authenticated %}
+                        <div class="user-info" onclick="toggleLogoutDropdown()">
+                            <span class="username">{{ request.user.username }}</span>
+                            <div id="logoutDropdown" class="logout-tab">
+                                <a href="{% url 'user:logout' %}">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                                </a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div><a href="{% url 'user:login' %}" class="login-tab">Login</a></div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-menu">
+                <nav>
+                    <ul class="mobile-nav-links">
+                        <li><a href="/" class="mobile-nav-link">Home</a></li>
+                        <li><a href="/#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
+                        <li><a href="/#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li><span class="username">{{ request.user.username }}</span></li>
+                        <li><a href="{% url 'user:logout' %}" class="logout-tab">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'user:login' %}" class="login-tab">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Math Solver Section -->
+            <section class="math-solver-section container">
+                <div class="section-header">
+                    <div class="section-badge">AI-Powered Math</div>
+                    <h2>Math <span class="gradient-text">Solver</span></h2>
+                    <p class="section-description">Draw mathematical equations with your hand gestures and let our AI solve them instantly</p>
+                </div>
+
+                <div class="math-solver-content">
+                    <div class="math-solver-video">
+                        <div class="video-container">
+                            <img src="{% url 'math_solver:video_feed' %}" alt="Video feed" id="video-feed">
+                            <div class="video-overlay">
+                                <div class="gesture-indicator">
+                                    <i class="fas fa-hand-point-up"></i>
+                                    <span>Draw with index finger</span>
+                                </div>
+                                <div class="gesture-indicator">
+                                    <i class="fas fa-hand-peace"></i>
+                                    <span>Erase with two fingers</span>
+                                </div>
+                                <div class="gesture-indicator">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>Solve with thumbs up</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="math-solver-result">
+                        <div class="result-card">
+                            <div class="result-header">
+                                <h3><i class="fas fa-robot"></i> AI Solution</h3>
+                                <div class="result-status">
+                                    <span id="status-indicator" class="status-waiting">Waiting for input</span>
+                                </div>
+                            </div>
+                            <div class="result-content">
+                                <div id="ai-output" class="ai-output">
+                                    <p class="placeholder-text">Draw a math equation and give a thumbs up to solve it!</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="upload-section">
+                            <h3>Or upload an image of a math problem</h3>
+                            <form id="upload-form" class="upload-form">
+                                <div class="file-input-wrapper">
+                                    <input type="file" id="math-image" name="math_image" accept="image/*" class="file-input">
+                                    <label for="math-image" class="file-input-label">
+                                        <i class="fas fa-upload"></i>
+                                        <span>Choose an image</span>
+                                    </label>
+                                    <span id="file-name" class="file-name">No file chosen</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-calculator"></i> Solve Problem
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instructions-section">
+                    <h3>How to Use the Math Solver</h3>
+                    <div class="instructions-grid">
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-hand-point-up"></i>
+                            </div>
+                            <h4>Draw</h4>
+                            <p>Use your index finger to draw mathematical equations on the screen.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-hand-peace"></i>
+                            </div>
+                            <h4>Erase</h4>
+                            <p>Raise your index and middle fingers to erase parts of your equation.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-thumbs-up"></i>
+                            </div>
+                            <h4>Solve</h4>
+                            <p>Give a thumbs up gesture to send your equation to our AI for solving.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-hand-sparkles"></i>
+                            </div>
+                            <h4>Reset</h4>
+                            <p>Show all five fingers to clear the canvas and start over.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <a href="#" class="footer-logo">
+                        <i class="fas fa-hand-paper"></i>
+                        HandWave AI
+                    </a>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/#features">Features</a>
+                        <a href="/#how-it-works">How It Works</a>
+                        <a href="/#about">About</a>
+                        <a href="/#contact">Contact</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 HandWave AI. All rights reserved.</p>
+                    <div class="footer-policy">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-    
-    <nav>
-        <a href="#" class="logo">
-            <i class="fas fa-square-root-variable"></i>
-            <span>MathSolver</span>
-        </a>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">How It Works</a>
-            <a href="#">Contact</a>
-        </div>
-        <button class="mobile-menu-btn">
-            <i class="fas fa-bars"></i>
-        </button>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <button class="close-menu">
-            <i class="fas fa-times"></i>
-        </button>
-        <div class="mobile-nav-links">
-            <a href="#">Home</a>
-            <a href="#">About</a>
-            <a href="#">How It Works</a>
-            <a href="#">Contact</a>
-        </div>
-    </div>
-
-    <main>
-        <!-- Hero Section -->
-        <div class="hero">
-            <h1>Math Solver with Hand Gestures</h1>
-            <p>Solve mathematical problems using AI and hand gestures. Simply draw your equation and use hand gestures to get instant solutions.</p>
-            {% comment %} <a href="#" class="button glow-effect">Get Started</a> {% endcomment %}
-
-        </div>
-       
-        
-          
-          
-        <!-- Main Container -->
-        <div class="container">
-            <div class="video-container glow-effect">
-                <img src="{% url 'math_solver:video_feed' %}" alt="Video Feed">
-            </div>
-            <div class="output-container">
-                <h2>AI Output</h2>
-                <div id="output-text">Draw a math problem and show a thumbs-up gesture to get the solution.</div>
-            </div>
-        </div>
-
-        
-        
-        
-        <!-- Instructions Section -->
-        <div class="instructions">
-            <h2>How It Works</h2>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Draw Your Equation</h3>
-                    <p>Use your hand to draw a mathematical equation or problem in the air.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Show Thumbs Up</h3>
-                    <p>When you're done drawing, show a thumbs-up gesture to submit your equation.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Get Solution</h3>
-                    <p>Our AI will process your equation and display the solution in the output panel.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; {% now "Y" %} MathSolver. All rights reserved.</p>
-    </footer>
 
     <script>
-        
-            // Show loader before page reload
-            window.addEventListener("beforeunload", function () {
-                document.getElementById("loader").style.visibility = "visible";
-                document.getElementById("loader").style.opacity = "1";
-            });
-        
-        
-        // Mobile menu functionality
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const closeMenuBtn = document.querySelector('.close-menu');
-        const mobileMenu = document.querySelector('.mobile-menu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-        });
-
-        closeMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-        });
-
-        // AI Output functionality
-        const outputText = document.getElementById('output-text');
-
-        // Function to show loading animation
-        function showLoading() {
-            outputText.innerHTML = `
-                <div class="loading">
-                    <div></div><div></div><div></div>
-                </div>
-                <p style="text-align: center; margin-top: 15px; color: #e0e0e0;">Processing your equation...</p>
-            `;
-        }
-
-        // Function to fetch AI output from Django backend
-        async function fetchAIOutput() {
-            try {
-                console.log("Fetching AI output..."); // Debugging line
-        
-                const response = await fetch("{% url 'math_solver:get_ai_output' %}");
-                const data = await response.json();
-        
-                console.log("Received:", data); // Debugging line
-        
-                if (data.output) {
-                    outputText.innerText = data.output; 
-                } else {
-                    outputText.innerText = "No response from AI yet.";
-                }
-            } catch (error) {
-                console.error("Failed to fetch AI output:", error);
-                outputText.innerText = "Error fetching AI response.";
-            }
-        }
-        
-        setInterval(fetchAIOutput, 5000); // Poll every 5 seconds
-        
-        // Add interactive hover effects to elements
-        document.querySelectorAll('.step').forEach(step => {
-            step.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.03)';
-            });
-
-            step.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-
-        // Add pulse animation to the main heading on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            const heading = document.querySelector('h1');
-            heading.style.animation = 'fadeIn 1s ease-in-out, textShine 5s linear infinite, pulse 2s ease-in-out';
-        
-            function uploadMathProblem() {
-                let fileInput = document.getElementById("mathImageInput");
-                let file = fileInput.files[0];
-    
-                if (!file) {
-                    alert("Please select an image first!");
-                    return;
-                }
-    
-                let formData = new FormData();
-                formData.append("math_image", file);
-    
-                fetch("/upload-math-problem/", {
-                    method: "POST",
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("aiSolution").innerText = data.solution || "Error processing image.";
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    document.getElementById("aiSolution").innerText = "Failed to get solution.";
-                });
-            }
-        });
-
-    </script>
+        const csrftoken = '{{ csrf_token }}';
+        const uploadMathProblemURL = "{% url 'math_solver:upload_math_problem' %}";
+        const getAIOutputURL = "{% url 'math_solver:get_ai_output' %}";
+      </script>
+      <script src="{% static 'js/math_solver.js' %}"></script>
+      
 </body>
+
 </html>

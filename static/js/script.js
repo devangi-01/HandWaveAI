@@ -69,6 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Highlight active nav link while scrolling
   const sections = document.querySelectorAll("section")
 
+function toggleLogoutDropdown() {
+    const dropdown = document.getElementById("logoutDropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Optional: Close when clicking outside
+window.addEventListener("click", function (e) {
+    const userInfo = document.querySelector(".user-info");
+    const logoutDropdown = document.getElementById("logoutDropdown");
+
+    if (!userInfo.contains(e.target)) {
+        logoutDropdown.style.display = "none";
+    }
+});
   function setActiveNavLink() {
     const scrollPosition = window.scrollY
 
@@ -203,3 +217,21 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("scroll", animateOnScroll)
   window.addEventListener("load", animateOnScroll)
 })
+
+window.toggleLogoutDropdown = function () {
+  const dropdown = document.getElementById("logoutDropdown");
+  dropdown.classList.toggle('show');
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+// function toggleLogoutDropdown() {
+//   const dropdown = document.getElementById('logoutDropdown');
+
+// }
+
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById('logoutDropdown');
+  const userInfo = document.querySelector('.user-info');
+  if (!userInfo.contains(event.target)) {
+      dropdown.style.display = 'none';
+  }
+});

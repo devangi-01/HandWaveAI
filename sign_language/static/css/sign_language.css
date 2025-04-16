@@ -1,536 +1,394 @@
-/* Base Styles */
-:root {
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
-    --secondary: #0ea5e9;
-    --text: #1e293b;
-    --text-light: #64748b;
-    --background: #ffffff;
-    --background-alt: #f8fafc;
-    --border: #e2e8f0;
-    --shadow: rgba(0, 0, 0, 0.1);
-    --gradient-start: #f0f9ff;
-    --gradient-end: rgba(240, 249, 255, 0);
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: "Inter", sans-serif;
-    color: var(--text);
-    background-color: var(--background);
-    line-height: 1.6;
-  }
-  
-  .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-  
-  /* Typography */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-  }
-  
-  p {
-    margin-bottom: 1rem;
+/* Sign Language Recognition Specific Styles */
+.sign-language-section {
+  padding: 8rem 0 5rem;
+}
+
+.sign-language-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Video Panel Styles */
+.video-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--shadow);
+  background-color: #000;
+  aspect-ratio: 4 / 3;
+}
+
+#video-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.detection-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.current-sign {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+}
+
+.sign-letter {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.sign-confidence {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.video-controls {
+  display: flex;
+  justify-content: center;
+}
+
+/* Sign Info Panel Styles */
+.sign-info-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detected-sign-card,
+.sign-alphabet-card {
+  background-color: var(--background);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.card-header {
+  background-color: var(--background-alt);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.card-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.card-header h3 i {
+  color: var(--primary);
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+/* Sign Result Styles */
+.sign-result {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sign-display {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.sign-details {
+  flex-grow: 1;
+}
+
+.sign-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.confidence-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.confidence-label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  min-width: 80px;
+}
+
+.confidence-bar-wrapper {
+  flex-grow: 1;
+  height: 8px;
+  background-color: var(--background-alt);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.confidence-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.confidence-percentage {
+  font-size: 0.875rem;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Sign History Styles */
+.sign-history {
+  margin-top: 1.5rem;
+}
+
+.sign-history h4 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.history-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-sign {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.history-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.history-confidence {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.history-time {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.empty-history {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Sign Alphabet Grid Styles */
+.alphabet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 0.5rem;
+}
+
+.alphabet-item {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-alt);
+  border-radius: var(--radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.alphabet-item:hover {
+  background-color: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+}
+
+.alphabet-item.active {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+
+/* Instructions Section Styles */
+.instructions-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  background-color: var(--background-alt);
+  border-radius: var(--radius);
+}
+
+.instructions-section h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.instructions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.instruction-card {
+  background-color: var(--background);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 5px 15px var(--shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.instruction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px var(--shadow-strong);
+}
+
+.instruction-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 1.5rem;
+}
+
+.instruction-card h4 {
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.instruction-card p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .sign-language-content {
+    grid-template-columns: 1fr;
   }
 
-  a {
-    color: var(--primary);
-    text-decoration: none;
-    transition: color var(--transition);
-  }
-  
-  a:hover {
-    color: var(--primary-dark);
-  }
-  
-  ul {
-    list-style: none;
-  }
-  
-  
-  /* Navigation Bar */
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
-    backdrop-filter: blur(10px);
-    transition: all var(--transition);  
-    /* color: rgb(rgb(242, 250, 255)); */
-
-  }
-  
-  .header.scrolled {
-    background-color: var(--background);
-    box-shadow: 0 4px 20px var(--shadow);
-    backdrop-filter: blur(50px);
-  }
-  
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 5rem;
-  }
-  
-  .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-    color: white;
-    border-radius: 50%;
-  }
-  
-  .nav-links {
-    display: flex;
-    gap: 1.5rem;
-  }
-  
-  .nav-link {
-    color: var(--text);
-    font-weight: 500;
-    padding: 0.5rem;
-    transition: color var(--transition);
-    position: relative;
-  }
-  
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-    transition: width var(--transition);
-  }
-  
-  .nav-link:hover::after,
-  .nav-link.active::after {
-    width: 100%;
-  }
-  
-  .nav-link:hover,
-  .nav-link.active {
-    color: var(--primary);
-  }
-  
-  .header-actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .login-tab {
-    background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-    color: white;
-    box-shadow: 0 4px 10px rgba(10, 10, 10, 0.3);
-    padding: 5px 10px;
-    border-radius: 10%;
-  
-  }
-  
-  .theme-toggle {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    transition: background-color var(--transition);
-  }
-  
-  .theme-toggle:hover {
-    background-color: var(--background-alt);
-  }
-  
-  .theme-toggle .fa-sun {
-    display: block;
-  }
-  
-  .theme-toggle .fa-moon {
-    display: none;
-  }
-  
-  .dark-mode .theme-toggle .fa-sun {
-    display: none;
-  }
-  
-  .dark-mode .theme-toggle .fa-moon {
-    display: block;
-  }
-  
-  .mobile-menu-toggle {
-    background: none;
-    border: none;
-    color: var(--text);
-    cursor: pointer;
-    font-size: 1.25rem;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    transition: background-color var(--transition);
-  }
-  
-  .mobile-menu-toggle:hover {
-    background-color: var(--background-alt);
-  }
-  
-  .mobile-menu {
-    display: none;
-    position: absolute;
-    top: 5rem;
-    left: 0;
-    right: 0;
-    background-color: var(--background);
-    border-top: 1px solid var(--border);
-    box-shadow: 0 4px 20px var(--shadow);
-    padding: 1rem 0;
-    border-radius: 0 0 var(--radius) var(--radius);
-  }
-  
-  .mobile-menu.active {
-    display: block;
-  }
-  
-  .mobile-nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .mobile-nav-link {
-    color: var(--text);
-    font-weight: 500;
-    padding: 0.75rem 1.5rem;
-    display: block;
-    transition: background-color var(--transition);
-  }
-  
-  .mobile-nav-link:hover,
-  .mobile-nav-link.active {
-    background-color: var(--background-alt);
-    color: var(--primary);
-  }
-  
-  
-  /* Hero Section */
-  .hero {
-    
-    
-    background: linear-gradient(to bottom, var(--gradient-start), var(--gradient-end));
-    padding: 8rem 0 3rem 0;
-    text-align: center;
-  }
-  
-  .hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    color: var(--text-light);
-    max-width: 700px;
-    margin: 0 auto;
-  }
-  
-  /* Recognition Section */
-  .recognition-section {
-    padding: 3rem 0;
-  }
-  
-  .recognition-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  @media (min-width: 768px) {
-    .recognition-container {
-      flex-direction: row;
-    }
-  }
-  
   .video-container {
-    flex: 1;
-    position: relative;
-    background-color: #000;
-    border-radius: 12px;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-    box-shadow: 0 4px 20px var(--shadow);
+    max-width: 600px;
+    margin: 0 auto;
   }
-  
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+
+  .sign-info-panel {
+    max-width: 600px;
+    margin: 0 auto;
   }
-  
-  .video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .sign-language-section {
+    padding-top: 7rem;
   }
-  
-  .loading-indicator {
-    text-align: center;
+
+  .instructions-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   }
-  
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 1s ease-in-out infinite;
-    margin: 0 auto 1rem;
-  }
-  
-  @keyframes spin {
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
-  .detection-panel {
-    flex: 1;
-    display: flex;
+
+  .sign-result {
     flex-direction: column;
-    justify-content: space-between;
-    background-color: var(--background-alt);
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 20px var(--shadow);
+    text-align: center;
   }
-  
-  .detection-result {
-    margin-bottom: 2rem;
-  }
-  
+
   .sign-display {
-    background-color: var(--background);
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-top: 1rem;
-    box-shadow: 0 2px 10px var(--shadow);
+    margin: 0 auto;
   }
-  
-  #detected-sign {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
+
   .confidence-bar-container {
-    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
-  
+
   .confidence-label {
-    display: flex;
-    justify-content: space-between;
+    min-width: auto;
     margin-bottom: 0.5rem;
-    font-weight: 500;
   }
-  
-  .confidence-bar {
-    height: 10px;
-    background-color: var(--border);
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  
-  .confidence-fill {
-    height: 100%;
-    background-color: var(--primary);
-    border-radius: 5px;
-    transition: width 0.5s ease;
-  }
-  
-  /* Buttons */
-  .primary-btn,
-  .secondary-btn {
-    padding: 0.75rem 1.5rem;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 1rem;
-  }
-  
-  .primary-btn {
-    background-color: var(--primary);
-    color: white;
-  }
-  
-  .primary-btn:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-  }
-  
-  .secondary-btn {
-    background-color: var(--background);
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-  
-  .secondary-btn:hover {
-    background-color: var(--background-alt);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow);
-  }
-  
-  .secondary-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
-  }
-  
-  /* History Section */
-  .history-section {
-    padding: 3rem 0;
-    background-color: var(--background-alt);
-  }
-  
-  .history-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .history-actions {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .history-container {
-    background-color: var(--background);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px var(--shadow);
-  }
-  
-  table {
+
+  .confidence-bar-wrapper {
     width: 100%;
-    border-collapse: collapse;
+    order: 3;
   }
-  
-  th,
-  td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 480px) {
+  .instructions-grid {
+    grid-template-columns: 1fr;
   }
-  
-  th {
-    background-color: var(--background-alt);
-    font-weight: 600;
+
+  .alphabet-grid {
+    grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
   }
-  
-  tbody tr {
-    transition: background-color 0.3s ease;
-  }
-  
-  tbody tr:hover {
-    background-color: var(--background-alt);
-  }
-  
-  .empty-history {
-    padding: 3rem;
-    text-align: center;
-    color: var(--text-light);
-  }
-  
-  /* Footer */
-  .footer {
-    background-color: var(--background);
-    border-top: 1px solid var(--border);
-    padding: 2rem 0;
-  }
-  
-  .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .copyright p,
-  .contact p {
-    margin-bottom: 0;
+
+  .alphabet-item {
+    width: 35px;
+    height: 35px;
     font-size: 0.9rem;
-    color: var(--text-light);
   }
-  
-  /* Responsive Adjustments */
-  @media (max-width: 768px) {
-    .hero h2 {
-      font-size: 2rem;
-    }
-  
-    .footer-content {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .history-header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-  
-  
+}

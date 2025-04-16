@@ -155,7 +155,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 5rem;
+  height: 3.5rem;
 }
 
 .logo {
@@ -230,6 +230,40 @@ p {
   margin-top: 18px;
 
 }
+.username {
+  background-color: transparent;
+  padding: 8px 16px;
+  border-radius: 25px;
+  font-weight: bold;
+  color: #5a62f3;
+}
+
+
+.logout-tab {
+    display:none;
+    position: absolute;
+    top: 40px; /* Adjust based on your design */
+    right: 0;
+    background-color: #fff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.logout-tab.show {
+    display: block;
+}
+
+.user-info {
+    position: relative;
+    cursor: pointer;
+}
+
+.username {
+    font-weight: bold;
+}
+
 
 .theme-toggle {
   background: none;

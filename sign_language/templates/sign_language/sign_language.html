@@ -1,405 +1,445 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HandWave AI - Sign Language Recognition</title>
-  <link rel="stylesheet" href="{% static 'css/sign_language.css' %}">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Language | HandWave AI</title>
+    <link rel="stylesheet" href="{% static 'css/newstyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/sign_language.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
-  {% comment %} <header class="header">
-    <div class="container">
-      <div class="logo">
-        <h1>HandWave AI</h1>
-      </div>
-      <nav class="nav">
-        <ul>
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#">About</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header> {% endcomment %}
+    <div class="bg-gradient">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="/" class="logo">
+                        <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
+                        HandWave AI
+                    </a>
+                    <nav class="nav-desktop">
+                        <ul class="nav-links">
+                            <li><a href="/" class="nav-link">Home</a></li>
+                            <li><a href="/#features" class="nav-link">Features</a></li>
+                            <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+                            <li><a href="/#about" class="nav-link">About</a></li>
+                            <li><a href="/#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
 
-  <header class="header">
-    <div class="container">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
-                HandWave AI
-            </a>
-            <nav class="nav-desktop">
-                <ul class="nav-links">
-                    <li><a href="#" class="nav-link active">Home</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#features" class="nav-link">Features</a></li>
-                    <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                    <li><a href="#model-training" class="nav-link">Model Training</a></li>
-                    <li><a href="#team" class="nav-link">Team</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                    <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>
+                    <div class="header-actions">
+                        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
 
-                </ul>
-            </nav>
-
-            <div class="header-actions">
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </button>
-
-                <button class="mobile-menu-toggle" aria-label="Toggle menu">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Mobile Navigation -->
-    <div class="mobile-menu">
-        <nav>
-            <ul class="mobile-nav-links">
-                <li><a href="#" class="mobile-nav-link active">Home</a></li>
-                <li><a href="#about" class="mobile-nav-link">About</a></li>
-                <li><a href="#features" class="mobile-nav-link">Features</a></li>
-                <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
-                <li><a href="#model-training" class="mobile-nav-link">Model Training</a></li>
-                <li><a href="#team" class="mobile-nav-link">Team</a></li>
-                <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
-                <li><a href="{% url 'user:login' %}" class=" login-tab">Login</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h2>Real-time Sign Language Recognition</h2>
-        <p>Use our AI-powered system to detect and interpret sign language in real-time.</p>
-      </div>
-    </section>
-
-    <section class="recognition-section">
-      <div class="container">
-        <div class="recognition-container">
-          <div class="video-container">
-            <video id="video" autoplay playsinline></video>
-            <div class="video-overlay">
-              <div class="loading-indicator">
-                <div class="spinner"></div>
-                <p>Starting camera...</p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="detection-panel">
-            <div class="detection-result">
-              <h3>Detected Sign</h3>
-              <div class="sign-display">
-                <p id="detected-sign">No sign detected</p>
-                <div class="confidence-bar-container">
-                  <div class="confidence-label">Confidence: <span id="confidence-score">0%</span></div>
-                  <div class="confidence-bar">
-                    <div id="confidence-fill" class="confidence-fill" style="width: 0%"></div>
-                  </div>
+                        {% if request.user.is_authenticated %}
+                        <div class="user-info" onclick="toggleLogoutDropdown()">
+                            <span class="username">{{ request.user.username }}</span>
+                            <div id="logoutDropdown" class="logout-tab">
+                                <a href="{% url 'user:logout' %}">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                                </a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div><a href="{% url 'user:login' %}" class="login-tab">Login</a></div>
+                        {% endif %}
+                    </div>
                 </div>
-              </div>
             </div>
-            <button id="detect-btn" class="primary-btn">Detect Sign</button>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <section class="history-section">
-      <div class="container">
-        <div class="history-header">
-          <h2>Detection History</h2>
-          <div class="history-actions">
-            <button id="delete-btn" class="secondary-btn" disabled>Delete Selected</button>
-            <button id="clear-btn" class="secondary-btn">Clear All</button>
-          </div>
-        </div>
-        
-        <div class="history-container">
-          <table id="history-table">
-            <thead>
-              <tr>
-                <th>Select</th>
-                <th>Sign</th>
-                <th>Confidence</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody id="history-body">
-              <!-- History items will be added here by JavaScript -->
-            </tbody>
-          </table>
-          <div id="empty-history" class="empty-history">
-            <p>No detection history yet</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+            <!-- Mobile Navigation -->
+            <div class="mobile-menu">
+                <nav>
+                    <ul class="mobile-nav-links">
+                        <li><a href="/" class="mobile-nav-link">Home</a></li>
+                        <li><a href="/#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
+                        <li><a href="/#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
+                        {% if request.user.is_authenticated %}
+                        <li><span class="username">{{ request.user.username }}</span></li>
+                        <li><a href="{% url 'user:logout' %}" class="logout-tab">Logout</a></li>
+                        {% else %}
+                        <li><a href="{% url 'user:login' %}" class="login-tab">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-content">
-        <div class="copyright">
-          <p>&copy; 2025 HandWave AI. All rights reserved.</p>
-        </div>
-        <div class="contact">
-          <p>Contact: <a href="mailto:info@handwaveai.com">info@handwaveai.com</a></p>
-        </div>
-      </div>
+        <main>
+            <!-- Sign Language Recognition Section -->
+            <section class="sign-language-section container">
+                <div class="section-header">
+                    <div class="section-badge">AI-Powered Recognition</div>
+                    <h2>Sign Language <span class="gradient-text">Interpreter</span></h2>
+                    <p class="section-description">Our advanced AI recognizes sign language gestures in real-time, breaking communication barriers</p>
+                </div>
+
+                <div class="sign-language-content">
+                    <div class="video-panel">
+                        <div class="video-container">
+                            <img src="{% url 'sign_language:video_feed' %}" alt="Video feed" id="video-feed">
+                            <div class="detection-overlay">
+                                <div class="current-sign" id="current-sign">
+                                    <span class="sign-letter">?</span>
+                                    <span class="sign-confidence">Waiting...</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-controls">
+                            <button id="detect-sign-btn" class="btn btn-primary">
+                                <i class="fas fa-hand-point-up"></i> Detect Sign
+                            </button>
+                            <!-- Added Reset Button -->
+                            <button id="reset-history-btn" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i> Reset History
+                            </button>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="sign-info-panel">
+                        <div class="detected-sign-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-american-sign-language-interpreting"></i> Detected Sign</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="sign-result">
+                                    <div class="sign-display" id="sign-display">?</div>
+                                    <div class="sign-details">
+                                        <div class="sign-name" id="sign-name">No sign detected</div>
+                                        <div class="confidence-bar-container">
+                                            <div class="confidence-label">Confidence:</div>
+                                            <div class="confidence-bar-wrapper">
+                                                <div class="confidence-bar" id="confidence-bar" style="width: 0%"></div>
+                                            </div>
+                                            <div class="confidence-percentage" id="confidence-percentage">0%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sign-history">
+                                    <h4>Recent Signs</h4>
+                                    <div class="history-list" id="history-list">
+                                        <div class="empty-history">No signs detected yet</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sign-alphabet-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-language"></i> Sign Language Alphabet</h3>
+                            </div>
+                            <div class="alphabet-grid">
+                                <div class="alphabet-item" data-letter="A">A</div>
+                                <div class="alphabet-item" data-letter="B">B</div>
+                                <div class="alphabet-item" data-letter="C">C</div>
+                                <div class="alphabet-item" data-letter="D">D</div>
+                                <div class="alphabet-item" data-letter="E">E</div>
+                                <div class="alphabet-item" data-letter="F">F</div>
+                                <div class="alphabet-item" data-letter="G">G</div>
+                                <div class="alphabet-item" data-letter="H">H</div>
+                                <div class="alphabet-item" data-letter="I">I</div>
+                                <div class="alphabet-item" data-letter="J">J</div>
+                                <div class="alphabet-item" data-letter="K">K</div>
+                                <div class="alphabet-item" data-letter="L">L</div>
+                                <div class="alphabet-item" data-letter="M">M</div>
+                                <div class="alphabet-item" data-letter="N">N</div>
+                                <div class="alphabet-item" data-letter="O">O</div>
+                                <div class="alphabet-item" data-letter="P">P</div>
+                                <div class="alphabet-item" data-letter="Q">Q</div>
+                                <div class="alphabet-item" data-letter="R">R</div>
+                                <div class="alphabet-item" data-letter="S">S</div>
+                                <div class="alphabet-item" data-letter="T">T</div>
+                                <div class="alphabet-item" data-letter="U">U</div>
+                                <div class="alphabet-item" data-letter="V">V</div>
+                                <div class="alphabet-item" data-letter="W">W</div>
+                                <div class="alphabet-item" data-letter="X">X</div>
+                                <div class="alphabet-item" data-letter="Y">Y</div>
+                                <div class="alphabet-item" data-letter="Z">Z</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instructions-section">
+                    <h3>How to Use the Sign Language Interpreter</h3>
+                    <div class="instructions-grid">
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h4>Position Your Hand</h4>
+                            <p>Place your hand in the center of the camera view with good lighting for best results.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-hand-paper"></i>
+                            </div>
+                            <h4>Form a Sign</h4>
+                            <p>Form a sign language letter with your hand and hold it steady for the AI to recognize.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                            <h4>Detect Sign</h4>
+                            <p>Click the "Detect Sign" button to capture and analyze the current hand gesture.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h4>View History</h4>
+                            <p>Review your recently detected signs to form words and sentences.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <a href="#" class="footer-logo">
+                        <i class="fas fa-hand-paper"></i>
+                        HandWave AI
+                    </a>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/#features">Features</a>
+                        <a href="/#how-it-works">How It Works</a>
+                        <a href="/#about">About</a>
+                        <a href="/#contact">Contact</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 HandWave AI. All rights reserved.</p>
+                    <div class="footer-policy">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-  </footer>
 
-  {% comment %} <script src="script.js"></script> {% endcomment %}
-  {% comment %} <script src="{% static 'js/main.js' %}"></script>  {% endcomment %}
-  <script>
+    <script>
+        // Toggle mobile menu
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.mobile-menu');
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // DOM Elements
-        const video = document.getElementById("video")
-        const videoOverlay = document.querySelector(".video-overlay")
-        const detectedSignElement = document.getElementById("detected-sign")
-        const confidenceScoreElement = document.getElementById("confidence-score")
-        const confidenceFill = document.getElementById("confidence-fill")
-        const detectBtn = document.getElementById("detect-btn")
-        const deleteBtn = document.getElementById("delete-btn")
-        const clearBtn = document.getElementById("clear-btn")
-        const historyBody = document.getElementById("history-body")
-        const emptyHistory = document.getElementById("empty-history")
-      
-        // State
-        let detectionHistory = []
-        const selectedRows = new Set()
-        let isVideoPlaying = false
-        const videoStream = null
-      
-        // Initialize
-        initVideoFeed()
-        updateHistoryUI()
-      
-        // Event Listeners
-        detectBtn.addEventListener("click", detectSign)
-        deleteBtn.addEventListener("click", deleteSelected)
-        clearBtn.addEventListener("click", clearHistory)
-      
-        // Functions
-        function initVideoFeed() {
-          // Show loading state
-          videoOverlay.style.display = "flex"
-          videoOverlay.querySelector("p").textContent = "Starting camera..."
-      
-          // Create an image element to display the video feed from Django
-          const videoFeed = document.createElement("img")
-          videoFeed.style.width = "100%"
-          videoFeed.style.height = "100%"
-          videoFeed.style.objectFit = "cover"
-      
-          // Set the source to the Django video feed endpoint
-          // videoFeed.src = "/sign_language/video_feed/"
-          videoFeed.src = "{% url 'sign_language:video_feed' %}"
-          videoFeed.alt = "Video Feed"
-      
-          // Replace the video element with the image
-          video.parentNode.replaceChild(videoFeed, video)
-      
-          // Handle loading and errors
-          videoFeed.onload = () => {
-            isVideoPlaying = true
-            videoOverlay.style.display = "none"
-          }
-      
-          videoFeed.onerror = () => {
-            console.error("Error loading video feed")
-            videoOverlay.querySelector("p").textContent = "Error loading video feed"
-            videoOverlay.querySelector(".spinner").style.display = "none"
-          }
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+            });
         }
-      
-        async function detectSign() {
-          if (!isVideoPlaying) return
-      
-          // Show processing state
-          detectBtn.disabled = true
-          detectBtn.textContent = "Processing..."
-      
-          try {
-            // Make request to the detect_sign endpoint (same as in the old template)
-            const response = await fetch("{% url 'sign_language:detect_sign' %}")
-            // const response = await fetch("/sign_language/detect_sign/")
-            const data = await response.json()
-      
-            // Update UI with results
-            if (data.result) {
-              const sign = data.result.sign
-              const confidence = data.result.confidence
-      
-              // Update detection result
-              updateDetectionResult(sign, confidence)
-      
-              // Add to history
-              addToHistory(sign, confidence)
+
+        // Toggle logout dropdown
+        function toggleLogoutDropdown() {
+            const dropdown = document.getElementById("logoutDropdown");
+            dropdown.classList.toggle("show");
+        }
+
+        // Close dropdown when clicking outside
+        window.addEventListener('click', function(event) {
+            if (!event.target.matches('.username') && !event.target.closest('.logout-tab')) {
+                const dropdown = document.getElementById("logoutDropdown");
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
             }
-          } catch (error) {
-            console.error("Error detecting sign:", error)
-            detectedSignElement.textContent = "Error detecting sign"
-          } finally {
-            // Re-enable button
-            detectBtn.disabled = false
-            detectBtn.textContent = "Detect Sign"
-          }
-        }
-      
-        function updateDetectionResult(sign, confidence) {
-          // Update the sign display
-          detectedSignElement.textContent = sign
-      
-          // Update confidence display
-          confidenceScoreElement.textContent = `${confidence}%`
-          confidenceFill.style.width = `${confidence}%`
-      
-          // Change color based on confidence
-          if (confidence >= 90) {
-            confidenceFill.style.backgroundColor = "#10b981" // Green
-          } else if (confidence >= 75) {
-            confidenceFill.style.backgroundColor = "#4f46e5" // Primary color
-          } else {
-            confidenceFill.style.backgroundColor = "#f59e0b" // Orange
-          }
-      
-          // Add highlight animation
-          detectedSignElement.classList.add("highlight")
-          setTimeout(() => {
-            detectedSignElement.classList.remove("highlight")
-          }, 300)
-        }
-      
-        function addToHistory(sign, confidence) {
-          const timestamp = new Date()
-          const id = Date.now().toString()
-      
-          detectionHistory.unshift({
-            id,
-            sign,
-            confidence,
-            timestamp,
-          })
-      
-          updateHistoryUI()
-        }
-      
-        function updateHistoryUI() {
-          if (detectionHistory.length === 0) {
-            emptyHistory.style.display = "block"
-            historyBody.innerHTML = ""
-            deleteBtn.disabled = true
-            return
-          }
-      
-          emptyHistory.style.display = "none"
-          historyBody.innerHTML = ""
-      
-          detectionHistory.forEach((item) => {
-            const row = document.createElement("tr")
-            row.dataset.id = item.id
-      
-            const timeFormatted = item.timestamp.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            })
-      
-            row.innerHTML = `
-              <td>
-                <input type="checkbox" class="history-checkbox" data-id="${item.id}">
-              </td>
-              <td>${item.sign}</td>
-              <td>
-                <div class="confidence-bar" style="width: 100px; display: inline-block; margin-right: 10px;">
-                  <div class="confidence-fill" style="width: ${item.confidence}%; background-color: ${
-                    item.confidence >= 90 ? "#10b981" : item.confidence >= 75 ? "#4f46e5" : "#f59e0b"
-                  };"></div>
-                </div>
-                ${item.confidence}%
-              </td>
-              <td>${timeFormatted}</td>
-            `
-      
-            historyBody.appendChild(row)
-          })
-      
-          // Add event listeners to checkboxes
-          document.querySelectorAll(".history-checkbox").forEach((checkbox) => {
-            checkbox.addEventListener("change", handleCheckboxChange)
-          })
-      
-          updateDeleteButtonState()
-        }
-      
-        function handleCheckboxChange(e) {
-          const id = e.target.dataset.id
-      
-          if (e.target.checked) {
-            selectedRows.add(id)
-          } else {
-            selectedRows.delete(id)
-          }
-      
-          updateDeleteButtonState()
-        }
-      
-        function updateDeleteButtonState() {
-          deleteBtn.disabled = selectedRows.size === 0
-        }
-      
-        function deleteSelected() {
-          if (selectedRows.size === 0) return
-      
-          detectionHistory = detectionHistory.filter((item) => !selectedRows.has(item.id))
-          selectedRows.clear()
-      
-          updateHistoryUI()
-        }
-      
-        function clearHistory() {
-          if (detectionHistory.length === 0) return
-      
-          // Add confirmation for better UX
-          if (confirm("Are you sure you want to clear all detection history?")) {
-            detectionHistory = []
-            selectedRows.clear()
-            updateHistoryUI()
-          }
-        }
-      
-        // Add CSS for highlight animation
-        const style = document.createElement("style")
-        style.textContent = `
-          @keyframes highlight {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-          }
-          .highlight {
-            animation: highlight 0.3s ease-in-out;
-          }
-        `
-        document.head.appendChild(style)
-      })
-      
-        
-  </script> 
-</body>
-</html>
+        });
 
+        // Sign language detection functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const detectSignBtn = document.getElementById('detect-sign-btn');
+            const resetHistoryBtn = document.getElementById('reset-history-btn');
+            const signDisplay = document.getElementById('sign-display');
+            const signName = document.getElementById('sign-name');
+            const confidenceBar = document.getElementById('confidence-bar');
+            const confidencePercentage = document.getElementById('confidence-percentage');
+            const historyList = document.getElementById('history-list');
+            const currentSignElement = document.getElementById('current-sign');
+            const alphabetItems = document.querySelectorAll('.alphabet-item');
+            
+            // Store history of detected signs
+            const signHistory = [];
+            const maxHistoryItems = 10;
+            
+            // Function to detect sign
+            function detectSign() {
+                // Show loading state
+                signDisplay.textContent = "...";
+                signName.textContent = "Detecting...";
+                confidenceBar.style.width = "0%";
+                confidencePercentage.textContent = "0%";
+                
+                // Call the backend API to get the detected sign
+                fetch("{% url 'sign_language:detect_sign' %}")
+                    .then(response => response.json())
+                    .then(data => {
+                        const result = data.result;
+                        const sign = result.sign;
+                        const confidence = result.confidence;
+                        
+                        // Update the UI with the detected sign
+                        // Only show the sign if one is actually detected
+                        if (sign !== "none" && sign !== "None") {
+                            signDisplay.textContent = sign;
+                            signName.textContent = `Sign "${sign}"`;
+                            confidenceBar.style.width = `${confidence}%`;
+                            confidencePercentage.textContent = `${confidence}%`;
+                            
+                            // Update current sign overlay
+                            currentSignElement.querySelector('.sign-letter').textContent = sign;
+                            currentSignElement.querySelector('.sign-confidence').textContent = `${confidence}%`;
+                            
+                            // Highlight the detected letter in the alphabet grid
+                            alphabetItems.forEach(item => {
+                                item.classList.remove('active');
+                                if (item.dataset.letter === sign) {
+                                    item.classList.add('active');
+                                }
+                            });
+                            
+                            // Add to history if confidence is high enough
+                            if (confidence > 50) {
+                                addToHistory(sign, confidence);
+                            }
+                        } else {
+                            // Reset display when no sign is detected
+                            signDisplay.textContent = "?";
+                            signName.textContent = "No sign detected";
+                            confidenceBar.style.width = "0%";
+                            confidencePercentage.textContent = "0%";
+                            
+                            // Reset current sign overlay
+                            currentSignElement.querySelector('.sign-letter').textContent = "?";
+                            currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
+                            
+                            // Remove any active highlights in the alphabet grid
+                            alphabetItems.forEach(item => {
+                                item.classList.remove('active');
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error detecting sign:', error);
+                        signName.textContent = "Error detecting sign";
+                    });
+            }
+            
+            // Function to add a sign to the history
+            function addToHistory(sign, confidence) {
+                // Create timestamp
+                const now = new Date();
+                const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                // Add to history array
+                signHistory.unshift({
+                    sign: sign,
+                    confidence: confidence,
+                    timestamp: timestamp
+                });
+                
+                // Limit history size
+                if (signHistory.length > maxHistoryItems) {
+                    signHistory.pop();
+                }
+                
+                // Update history display
+                updateHistoryDisplay();
+            }
+            
+            // Function to update the history display
+            function updateHistoryDisplay() {
+                if (signHistory.length === 0) {
+                    historyList.innerHTML = '<div class="empty-history">No signs detected yet</div>';
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                
+                signHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.innerHTML = `
+                        <div class="history-sign">${item.sign}</div>
+                        <div class="history-details">
+                            <div class="history-confidence">${item.confidence}%</div>
+                            <div class="history-time">${item.timestamp}</div>
+                        </div>
+                    `;
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            // Function to reset history
+            function resetHistory() {
+                // Clear the history array
+                signHistory.length = 0;
+                
+                // Reset the display
+                signDisplay.textContent = "?";
+                signName.textContent = "No sign detected";
+                confidenceBar.style.width = "0%";
+                confidencePercentage.textContent = "0%";
+                
+                // Reset current sign overlay
+                currentSignElement.querySelector('.sign-letter').textContent = "?";
+                currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
+                
+                // Remove any active highlights in the alphabet grid
+                alphabetItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Update history display
+                updateHistoryDisplay();
+            }
+            
+            // Attach event listeners
+            if (detectSignBtn) {
+                detectSignBtn.addEventListener('click', detectSign);
+            }
+            
+            if (resetHistoryBtn) {
+                resetHistoryBtn.addEventListener('click', resetHistory);
+            }
+            
+            // Auto-detect sign every 5 seconds
+            setInterval(detectSign, 5000);
+            
+            // Initial detection - removed the setTimeout that was showing "no"
+           // setTimeout(detectSign, 1000);
+        });
+
+        // Make header sticky on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 10) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+
+</html>

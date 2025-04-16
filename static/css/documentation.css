@@ -667,7 +667,12 @@
     margin-bottom: 2rem;
     height: 300px;
   }
-  
+  .chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
   .metrics-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

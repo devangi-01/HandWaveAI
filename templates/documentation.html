@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'css/documentation.css' %}"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 <body>
   <!-- Header & Navigation -->
@@ -447,7 +448,8 @@
             <h3 class="subsection-title">Performance Metrics</h3>
             
             <div class="chart-container">
-              <canvas id="accuracyChart"></canvas>
+              <canvas id="accuracyChart">Your browser does not support the canvas element.</canvas>
+
             </div>
             
             <div class="metrics-cards">
@@ -589,14 +591,14 @@
               </div>
             </div>
             
-            <div class="location-section">
+            {% comment %} <div class="location-section">
               <h3 class="subsection-title">Office Location</h3>
               <p class="text-light">
                 123 Innovation Drive<br>
                 Tech Hub, Building 4<br>
                 San Francisco, CA 94107
               </p>
-            </div>
+            </div> {% endcomment %}
           </div>
         </div>
       </div>
@@ -652,7 +654,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="<% static 'js/documentation.js' %>">"></script>
+  <script src="{% static 'js/documentation.js' %}"></script>
   
     <script>
     window.addEventListener('scroll', function () {
@@ -664,7 +666,7 @@
       }
   });
   </script>
-  {% comment %} <script src="script.js"></script> {% endcomment %}
+
 </body>
 </html>
 
