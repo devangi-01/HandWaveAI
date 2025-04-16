@@ -1,82 +1,180 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HandWave AI Quiz</title>
-    <!-- Include the stylesheets -->
-    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Gesture Quiz | HandWave AI</title>
+    <link rel="stylesheet" href="{% static 'css/gesture_quiz.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Landing Page Section -->
-        <section id="landing-page" class="active">
-            <div class="quiz-card">
-                <h1>HandWave AI Quiz</h1>
-                <p>Test your knowledge by answering questions using hand gestures!</p>
-                <div class="instructions">
-                    <h3>How to play:</h3>
-                    <ul>
-                        <li>Show 1 finger for option A</li>
-                        <li>Show 2 fingers for option B</li>
-                        <li>Show 3 fingers for option C</li>
-                        <li>Show 4 fingers for option D</li>
+    <div class="bg-gradient">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="/" class="logo">
+                        <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
+                        HandWave AI
+                    </a>
+                    <nav class="nav-desktop">
+                        <ul class="nav-links">
+                            <li><a href="/" class="nav-link">Home</a></li>
+                            <li><a href="/#features" class="nav-link">Features</a></li>
+                            <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+                            <li><a href="/#about" class="nav-link">About</a></li>
+                            <li><a href="/#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="header-actions">
+                        <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="mobile-menu">
+                <nav>
+                    <ul class="mobile-nav-links">
+                        <li><a href="/" class="mobile-nav-link">Home</a></li>
+                        <li><a href="/#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
+                        <li><a href="/#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
                     </ul>
-                </div>
-                <button id="start-btn" class="btn primary-btn">Start Quiz</button>
+                </nav>
             </div>
-        </section>
+        </header>
 
-        <!-- Quiz Section -->
-        <section id="quiz-section">
-            <div class="quiz-card">
-                <div class="quiz-header">
-                    <h2 id="question-text">Loading question...</h2>
-                    <div class="progress-container">
-                        <div class="progress-bar">
-                            <div id="progress" class="progress"></div>
-                        </div>
-                        <div class="progress-text">
-                            Question <span id="current-question">1</span> of <span id="total-questions">10</span>
-                        </div>
-                    </div>
+        <main>
+            <!-- Quiz Section -->
+            <section class="quiz-section container">
+                <div class="section-header">
+                    <div class="section-badge">Gesture-Based Learning</div>
+                    <h2>Interactive <span class="gradient-text">Quiz</span></h2>
+                    <p class="section-description">Answer questions by showing 1-4 fingers to select options A-D</p>
                 </div>
-                <div class="video-container">
-                    <img id="video-feed" src="{% url 'gesture_quiz:video_feed' %}" alt="Video Feed">
-                </div>
-                <div class="gesture-hint">
-                    <p>Show 1-4 fingers to select your answer</p>
-                    <div class="finger-guide">
-                        <div class="finger">1 = A</div>
-                        <div class="finger">2 = B</div>
-                        <div class="finger">3 = C</div>
-                        <div class="finger">4 = D</div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Result Section -->
-        <section id="result-section">
-            <div class="quiz-card result-card">
-                <h2>Quiz Completed!</h2>
-                <div class="score-container">
-                    <div class="score-circle">
-                        <span id="score-percentage">0%</span>
+                <div class="quiz-content">
+                    <div class="quiz-info">
+                        <div class="quiz-progress">
+                            <div class="progress-label">Question <span id="current-question">1</span> of <span id="total-questions">0</span></div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                        </div>
+                        <div class="quiz-score">
+                            <div class="score-label">Score</div>
+                            <div class="score-value" id="score-value">0</div>
+                        </div>
                     </div>
-                    <p>Your Score: <span id="final-score">0</span>/<span id="total-score">0</span></p>
+
+                    <div class="quiz-container">
+                        <div class="video-container">
+                            <img src="{% url 'gesture_quiz:video_feed' %}" alt="Video feed" id="video-feed">
+                            <div class="quiz-overlay" id="quiz-overlay">
+                                <div class="quiz-instructions">
+                                    <h3>How to Answer:</h3>
+                                    <ul>
+                                        <li><i class="fas fa-hand-point-up"></i> 1 finger for option A</li>
+                                        <li><i class="fas fa-peace"></i> 2 fingers for option B</li>
+                                        <li><i class="fas fa-hand-paper"></i> 3 fingers for option C</li>
+                                        <li><i class="fas fa-hand-peace"></i> 4 fingers for option D</li>
+                                    </ul>
+                                    <p>Keep thumb down while selecting!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quiz-results" id="quiz-results">
+                        <h2>Quiz Complete!</h2>
+                        <div class="final-score">
+                            <div class="score-circle">
+                                <span id="final-score-value">0%</span>
+                            </div>
+                            <div class="score-message" id="score-message">Great job!</div>
+                        </div>
+                        <button id="restart-quiz" class="btn btn-primary">
+                            <i class="fas fa-redo"></i> Restart Quiz
+                        </button>
+                    </div>
                 </div>
-                <div class="result-message" id="result-message">
-                    <!-- Result message will be inserted here dynamically -->
+
+                <div class="instructions-section">
+                    <h3>How to Use the Gesture Quiz</h3>
+                    <div class="instructions-grid">
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <h4>Position Your Hand</h4>
+                            <p>Place your hand clearly in the camera view with good lighting.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-hand-paper"></i>
+                            </div>
+                            <h4>Show Fingers</h4>
+                            <p>Show 1-4 fingers with thumb down to select options A-D.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h4>Confirm Selection</h4>
+                            <p>Hold your gesture for 2 seconds to confirm your answer.</p>
+                        </div>
+                        <div class="instruction-card">
+                            <div class="instruction-icon">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                            <h4>Audio Feedback</h4>
+                            <p>Listen for sound cues that indicate correct or incorrect answers.</p>
+                        </div>
+                    </div>
                 </div>
-                <button id="restart-btn" class="btn primary-btn">Restart Quiz</button>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <a href="#" class="footer-logo">
+                        <i class="fas fa-hand-paper"></i>
+                        HandWave AI
+                    </a>
+                    <div class="footer-links">
+                        <a href="/">Home</a>
+                        <a href="/#features">Features</a>
+                        <a href="/#how-it-works">How It Works</a>
+                        <a href="/#about">About</a>
+                        <a href="/#contact">Contact</a>
+                    </div>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2023 HandWave AI. All rights reserved.</p>
+                    <div class="footer-policy">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                    </div>
+                </div>
             </div>
-        </section>
+        </footer>
     </div>
 
-    <script src="{% static 'js/quiz.js' %}"></script>
+    <script src="{% static 'js/gesture_quiz.js' %}"></script>
 </body>
 </html>
