@@ -21,7 +21,7 @@ def play_correct_sound():
     threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
 
 def play_wrong_sound():
-    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "wrong1.mp3")
+    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "wrong.wav")
     threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
 
 def play_gameover_sound():
