@@ -142,7 +142,7 @@
                         </div>
                         <h3>Gesture Quiz</h3>
                         <p>Test and improve your sign language skills with interactive quizzes and challenges. Learn while having fun with our gamified approach.</p>
-                        <a href="{% url 'gesture_quiz' %}" class="feature-link">Try Gesture Quiz</a>
+                        <a href="{% url 'gesture_quiz:gesture_quiz' %}" class="feature-link">Try Gesture Quiz</a>
                     </div>
                 </div>
             </section>
@@ -192,7 +192,7 @@
                 <div class="about-content">
                     <div class="about-image">
                         <img src="{% static 'images/about.jpg' %}" alt="Team working on gesture recognition"
-                            onerror="this.src='{% static 'images/about-placeholder.svg' %}'; this.onerror=null;">
+                            onerror="this.src='{% static 'images/team-removebg-preview.png' %}'; this.onerror=null;">
                     </div>
                     <div class="about-text">
                         <h3>Breaking Communication Barriers</h3>
@@ -230,7 +230,7 @@
                     <div class="footer-links">
                         <a href="{% url 'math_solver:math_solver' %}">Math Solver</a>
                         <a href="{% url 'sign_language:sign_language' %}">Sign Language</a>
-                        <a href="{% url 'gesture_quiz' %}">Gesture Quiz</a>
+                        <a href="{% url 'gesture_quiz:gesture_quiz' %}">Gesture Quiz</a>
                         <a href="{% url 'user:login' %}">Login</a>
                         <a href="#features">Features</a>
                         <a href="#how-it-works">How It Works</a>

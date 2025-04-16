@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'math_solver',
     'sign_language',
     'gesture_quiz',
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+     'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'handwave_ai.urls'
@@ -141,7 +143,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # Project-level static files
     os.path.join(BASE_DIR, "math_solver", "static"),  # App-level static files
     os.path.join(BASE_DIR, "sign_language", "static"),
-    # os.path.join(BASE_DIR, "gesture_quiz", "static"),
+    os.path.join(BASE_DIR, "gesture_quiz", "static"),
 ]
 
 # This is used when running collectstatic (for production)
@@ -158,8 +160,8 @@ STATICFILES_FINDERS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-INSTALLED_APPS += ['corsheaders']
-MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
+
+
 CORS_ALLOW_ALL_ORIGINS = True  # For testing, later restrict it
 
 #changed mannually 

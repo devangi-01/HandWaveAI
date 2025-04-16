@@ -39,7 +39,7 @@ urlpatterns = [
     path('', homepage, name='homepage'),
     path('math-solver/', include('math_solver.urls')),
     path('sign-language/', include('sign_language.urls')),
-    path('gesture-quiz/', include('gesture_quiz.urls')),
+    path('gesture-quiz/', include('gesture_quiz.urls', namespace='gesture_quiz')),
     path('user/', include('user.urls')),  
     path('documentation/', TemplateView.as_view(template_name='documentation.html'), name='documentation'),
 ]

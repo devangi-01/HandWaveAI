@@ -1,17 +1,16 @@
 {% load static %}
 
-    <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>HandWave AI Quiz</title>
-            {% comment %} <link rel="stylesheet" href="{% static 'gesture_quiz/quiz.css' %}"> {% endcomment %}
-            <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HandWave AI Quiz</title>
+    <!-- Include the stylesheets -->
+    <link rel="stylesheet" href="{% static 'css/quiz.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
     <div class="container">
         <!-- Landing Page Section -->
         <section id="landing-page" class="active">
@@ -46,7 +45,7 @@
                     </div>
                 </div>
                 <div class="video-container">
-                    <img id="video-feed" src="{% url 'video_feed' %}" alt="Video Feed">
+                    <img id="video-feed" src="{% url 'gesture_quiz:video_feed' %}" alt="Video Feed">
                 </div>
                 <div class="gesture-hint">
                     <p>Show 1-4 fingers to select your answer</p>
