@@ -1,180 +1,250 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gesture Quiz | HandWave AI</title>
-    <link rel="stylesheet" href="{% static 'css/gesture_quiz.css' %}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gesture Quiz | HandWave AI</title>
+  <link rel="stylesheet" href="{% static 'css/newstyle.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/gesture_quiz.css' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
-    <div class="bg-gradient">
-        <header class="header">
-            <div class="container">
-                <div class="header-content">
-                    <a href="/" class="logo">
-                        <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
-                        HandWave AI
-                    </a>
-                    <nav class="nav-desktop">
-                        <ul class="nav-links">
-                            <li><a href="/" class="nav-link">Home</a></li>
-                            <li><a href="/#features" class="nav-link">Features</a></li>
-                            <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
-                            <li><a href="/#about" class="nav-link">About</a></li>
-                            <li><a href="/#contact" class="nav-link">Contact</a></li>
-                        </ul>
-                    </nav>
+  <div class="bg-gradient">
+    <header class="header">
+      <div class="container">
+        <div class="header-content">
+          <a href="/" class="logo">
+            <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
+            HandWave AI
+          </a>
+          <nav class="nav-desktop">
+            <ul class="nav-links">
+              <li><a href="/" class="nav-link">Home</a></li>
+              <li><a href="/#features" class="nav-link">Features</a></li>
+              <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+              <li><a href="/#about" class="nav-link">About</a></li>
+              <li><a href="/#contact" class="nav-link">Contact</a></li>
+            </ul>
+          </nav>
 
-                    <div class="header-actions">
-                        <button class="mobile-menu-toggle" aria-label="Toggle menu">
-                            <i class="fas fa-bars"></i>
-                        </button>
-                    </div>
+          <div class="header-actions">
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+              <i class="fas fa-bars"></i>
+            </button>
+
+            {% if request.user.is_authenticated %}
+            <div class="user-info" onclick="toggleLogoutDropdown()">
+              <span class="username">{{ request.user.username }}</span>
+              <div id="logoutDropdown" class="logout-tab">
+                <a href="{% url 'user:logout' %}">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                </a>
+              </div>
+            </div>
+            {% else %}
+            <div><a href="{% url 'user:login' %}" class="login-tab">Login</a></div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="mobile-menu">
+        <nav>
+          <ul class="mobile-nav-links">
+            <li><a href="/" class="mobile-nav-link">Home</a></li>
+            <li><a href="/#features" class="mobile-nav-link">Features</a></li>
+            <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
+            <li><a href="/#about" class="mobile-nav-link">About</a></li>
+            <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
+            {% if request.user.is_authenticated %}
+            <li><span class="username">{{ request.user.username }}</span></li>
+            <li><a href="{% url 'user:logout' %}" class="logout-tab">Logout</a></li>
+            {% else %}
+            <li><a href="{% url 'user:login' %}" class="login-tab">Login</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="gesture-quiz-section container">
+        <div class="section-header">
+          <div class="section-badge">Interactive Learning</div>
+          <h2>Gesture <span class="gradient-text">Quiz</span></h2>
+          <p class="section-description">Test your knowledge with our interactive quiz using hand gestures to select answers</p>
+        </div>
+
+        <div class="quiz-content">
+          <div class="quiz-main">
+            <div class="quiz-video-container">
+              <img src="{% url 'gesture_quiz:video_feed' %}" alt="Quiz video feed" id="quiz-video-feed">
+              <div class="quiz-overlay">
+                {% comment %} <div class="quiz-progress"> {% endcomment %}
+                  {% comment %} <div class="progress-text">
+                    Question <span id="current-question">1</span> of <span id="total-questions">0</span>
+                  </div> {% endcomment %}
+                  {% comment %} <div class="progress-bar-container">
+                    <div class="progress-bar" id="quiz-progress-bar"></div>
+                  </div> {% endcomment %}
                 </div>
+              </div>
+            </div>
+          </div>
+
+          {% comment %} <div class="quiz-sidebar">
+            <div class="quiz-info-card">
+              <div class="card-header">
+                <h3><i class="fas fa-gamepad"></i> Quiz Status</h3>
+              </div> {% endcomment %}
+              {% comment %} <div class="card-content">
+                <div class="quiz-stats">
+                  <div class="stat-item">
+                    <div class="stat-label">Question</div>
+                    <div class="stat-value" id="question-counter">1/10</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">Correct Answers</div>
+                    <div class="stat-value" id="correct-answers">0</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">Score</div>
+                    <div class="stat-value" id="current-score">0%</div>
+                  </div>
+                </div> {% endcomment %}
+
+                <div class="quiz-controls">
+                  <button id="restart-quiz" class="btn btn-primary" onclick="reloadQuiz()">
+                    <i class="fas fa-redo"></i> Restart Quiz
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <!-- Mobile Navigation -->
-            <div class="mobile-menu">
-                <nav>
-                    <ul class="mobile-nav-links">
-                        <li><a href="/" class="mobile-nav-link">Home</a></li>
-                        <li><a href="/#features" class="mobile-nav-link">Features</a></li>
-                        <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
-                        <li><a href="/#about" class="mobile-nav-link">About</a></li>
-                        <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
-                    </ul>
-                </nav>
+            <div class="how-to-play-section">
+              <h3><i class="fas fa-question-circle"></i> How to Play</h3>
+              <div class="instruction-bar">
+                <div class="instruction-item">
+                  <div class="instruction-icon"><i class="fas fa-hand-point-up"></i></div>
+                  <div class="instruction-text"><strong>1 Finger</strong><span>Option A</span></div>
+                </div>
+                <div class="instruction-item">
+                  <div class="instruction-icon"><i class="fas fa-peace"></i></div>
+                  <div class="instruction-text"><strong>2 Fingers</strong><span>Option B</span></div>
+                </div>
+                <div class="instruction-item">
+                  <div class="instruction-icon"><i class="fas fa-hand-paper"></i></div>
+                  <div class="instruction-text"><strong>3 Fingers</strong><span>Option C</span></div>
+                </div>
+                <div class="instruction-item">
+                  <div class="instruction-icon"><i class="fas fa-hand-peace"></i><i class="fas fa-hand-point-up"></i></div>
+                  <div class="instruction-text"><strong>4 Fingers</strong><span>Option D</span></div>
+                </div>
+                {% comment %} <div class="instruction-item">
+                  <div class="instruction-icon"><i class="fas fa-hand-rock"></i></div>
+                  <div class="instruction-text"><strong>Fist</strong><span>Reset</span></div>
+                </div> {% endcomment %}
+              </div>
+              <div class="instruction-note"><i class="fas fa-info-circle"></i> Keep your thumb down when selecting answers</div>
             </div>
-        </header>
+          </div>
 
-        <main>
-            <!-- Quiz Section -->
-            <section class="quiz-section container">
-                <div class="section-header">
-                    <div class="section-badge">Gesture-Based Learning</div>
-                    <h2>Interactive <span class="gradient-text">Quiz</span></h2>
-                    <p class="section-description">Answer questions by showing 1-4 fingers to select options A-D</p>
+          <div class="results-modal" id="results-modal">
+            <div class="results-content">
+              <div class="results-header"><h3>Quiz Complete!</h3></div>
+              <div class="results-body">
+                <div class="results-score">
+                  <div class="score-circle"><span id="final-score">0%</span></div>
+                  <div class="score-label">Your Score</div>
                 </div>
-
-                <div class="quiz-content">
-                    <div class="quiz-info">
-                        <div class="quiz-progress">
-                            <div class="progress-label">Question <span id="current-question">1</span> of <span id="total-questions">0</span></div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="progress-fill"></div>
-                            </div>
-                        </div>
-                        <div class="quiz-score">
-                            <div class="score-label">Score</div>
-                            <div class="score-value" id="score-value">0</div>
-                        </div>
-                    </div>
-
-                    <div class="quiz-container">
-                        <div class="video-container">
-                            <img src="{% url 'gesture_quiz:video_feed' %}" alt="Video feed" id="video-feed">
-                            <div class="quiz-overlay" id="quiz-overlay">
-                                <div class="quiz-instructions">
-                                    <h3>How to Answer:</h3>
-                                    <ul>
-                                        <li><i class="fas fa-hand-point-up"></i> 1 finger for option A</li>
-                                        <li><i class="fas fa-peace"></i> 2 fingers for option B</li>
-                                        <li><i class="fas fa-hand-paper"></i> 3 fingers for option C</li>
-                                        <li><i class="fas fa-hand-peace"></i> 4 fingers for option D</li>
-                                    </ul>
-                                    <p>Keep thumb down while selecting!</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="quiz-results" id="quiz-results">
-                        <h2>Quiz Complete!</h2>
-                        <div class="final-score">
-                            <div class="score-circle">
-                                <span id="final-score-value">0%</span>
-                            </div>
-                            <div class="score-message" id="score-message">Great job!</div>
-                        </div>
-                        <button id="restart-quiz" class="btn btn-primary">
-                            <i class="fas fa-redo"></i> Restart Quiz
-                        </button>
-                    </div>
+                <div class="results-message" id="results-message">
+                  Great job! You've completed the quiz.
                 </div>
-
-                <div class="instructions-section">
-                    <h3>How to Use the Gesture Quiz</h3>
-                    <div class="instructions-grid">
-                        <div class="instruction-card">
-                            <div class="instruction-icon">
-                                <i class="fas fa-video"></i>
-                            </div>
-                            <h4>Position Your Hand</h4>
-                            <p>Place your hand clearly in the camera view with good lighting.</p>
-                        </div>
-                        <div class="instruction-card">
-                            <div class="instruction-icon">
-                                <i class="fas fa-hand-paper"></i>
-                            </div>
-                            <h4>Show Fingers</h4>
-                            <p>Show 1-4 fingers with thumb down to select options A-D.</p>
-                        </div>
-                        <div class="instruction-card">
-                            <div class="instruction-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <h4>Confirm Selection</h4>
-                            <p>Hold your gesture for 2 seconds to confirm your answer.</p>
-                        </div>
-                        <div class="instruction-card">
-                            <div class="instruction-icon">
-                                <i class="fas fa-volume-up"></i>
-                            </div>
-                            <h4>Audio Feedback</h4>
-                            <p>Listen for sound cues that indicate correct or incorrect answers.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-top">
-                    <a href="#" class="footer-logo">
-                        <i class="fas fa-hand-paper"></i>
-                        HandWave AI
-                    </a>
-                    <div class="footer-links">
-                        <a href="/">Home</a>
-                        <a href="/#features">Features</a>
-                        <a href="/#how-it-works">How It Works</a>
-                        <a href="/#about">About</a>
-                        <a href="/#contact">Contact</a>
-                    </div>
-                    <div class="footer-social">
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-bottom">
-                    <p>&copy; 2023 HandWave AI. All rights reserved.</p>
-                    <div class="footer-policy">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Service</a>
-                    </div>
-                </div>
+              </div>
+              <div class="results-footer">
+                <button id="play-again" class="btn btn-primary">
+                  <i class="fas fa-redo"></i> Play Again
+                </button>
+                <a href="/" class="btn btn-secondary">
+                  <i class="fas fa-home"></i> Back to Home
+                </a>
+              </div>
             </div>
-        </footer>
-    </div>
+          </div>
+        </div>
+      </section>
+    </main>
 
-    <script src="{% static 'js/gesture_quiz.js' %}"></script>
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <a href="#" class="footer-logo">
+            <i class="fas fa-hand-paper"></i>
+            HandWave AI
+          </a>
+          <div class="footer-links">
+            <a href="/">Home</a>
+            <a href="/#features">Features</a>
+            <a href="/#how-it-works">How It Works</a>
+            <a href="/#about">About</a>
+            <a href="/#contact">Contact</a>
+          </div>
+          <div class="footer-social">
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2023 HandWave AI. All rights reserved.</p>
+          <div class="footer-policy">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Toggle mobile menu
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+      });
+    }
+
+    // Toggle logout dropdown
+    function toggleLogoutDropdown() {
+      const dropdown = document.getElementById("logoutDropdown");
+      dropdown.classList.toggle("show");
+    }
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function (event) {
+      const dropdown = document.getElementById("logoutDropdown");
+      const userInfo = document.querySelector('.user-info');
+      if (dropdown && !userInfo.contains(event.target)) {
+        dropdown.classList.remove("show");
+      }
+
+      function reloadQuiz() {
+        setTimeout(function() {
+            location.reload();
+        }, 100);
+    }
+    });
+  </script>
 </body>
+
 </html>

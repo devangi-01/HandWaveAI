@@ -129,7 +129,7 @@
         }
 
         // Start polling for AI output
-        setInterval(pollAIOutput, 1000);
+        setInterval(pollAIOutput, 10000);
 
         // Make header sticky on scroll
         window.addEventListener('scroll', function() {
