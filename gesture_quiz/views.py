@@ -3,7 +3,6 @@ import cv2
 import time
 import numpy as np
 import pandas as pd
-from playsound import playsound
 import threading
 from django.shortcuts import render
 from django.http import StreamingHttpResponse, JsonResponse
@@ -13,29 +12,12 @@ from django.http import HttpResponseRedirect
 import random
 
 def restart_quiz(request):
-    # Clear session data for quiz
     request.session.flush()
-    return HttpResponseRedirect('/quiz')  # Redirect to the quiz page again
+    return HttpResponseRedirect('/quiz')
 
-
-# ✅ Replace unsupported Unicode characters
 def sanitize_text(text):
     return text.replace("×", "x").replace("÷", "/")
 
-# 🔊 Sound functions
-def play_correct_sound():
-    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "right.wav")
-    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
-
-def play_wrong_sound():
-    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "wrong.wav")
-    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
-
-def play_gameover_sound():
-    sound_path = os.path.join(os.path.dirname(__file__), "static", "sound", "gameover.wav")
-    threading.Thread(target=playsound, args=(sound_path,), daemon=True).start()
-
-# 📄 Load quiz questions from CSV
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_FILE_PATH = os.path.join(BASE_DIR, "gesture_quiz", "quiz_questions.csv")
 
@@ -63,7 +45,6 @@ def load_quiz():
 
 QUIZ_QUESTIONS = load_quiz()
 
-# ✋ Initialize hand detector
 detector = HandDetector(
     staticMode=False,
     maxHands=1,
@@ -72,7 +53,6 @@ detector = HandDetector(
     minTrackCon=0.7
 )
 
-# 🧠 Get quiz state (for frontend if needed)
 def get_quiz_state(request):
     return JsonResponse({
         "question_index": request.session.get("question_index", 0),
@@ -80,14 +60,12 @@ def get_quiz_state(request):
         "total_questions": len(QUIZ_QUESTIONS)
     })
 
-# 🖼️ Draw centered text
 def draw_text_centered(img, text, position, font_scale=1, color=(0, 0, 0), thickness=2):
     text_size = cv2.getTextSize(text, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)[0]
     text_x = position[0] - text_size[0] // 2
     text_y = position[1] + text_size[1] // 2
     cv2.putText(img, text, (text_x, text_y), cv2.FONT_HERSHEY_SIMPLEX, font_scale, color, thickness)
 
-# 📋 Draw quiz UI with options
 def draw_quiz_ui(img, question_data, selected_answer):
     img_h, img_w, _ = img.shape
     question_center = (img_w // 2, 120)
@@ -121,7 +99,6 @@ def draw_quiz_ui(img, question_data, selected_answer):
 
     return answer_boxes
 
-# 📹 Real-time quiz webcam logic
 def process_frame(request):
     cap = cv2.VideoCapture(0)
     cap.set(3, 1280)
@@ -129,7 +106,7 @@ def process_frame(request):
 
     question_index = request.session.get("question_index", 0)
     correct_answers = request.session.get("correct_answers", 0)
-    request.session["gameover_played"] = False  # Reset gameover flag
+    request.session["gameover_played"] = False
     total_questions = len(QUIZ_QUESTIONS)
     answer_selected = None
     selection_made = False
@@ -150,8 +127,8 @@ def process_frame(request):
                 lmList = hands[0]["lmList"]
                 fingers_up = detector.fingersUp(hands[0])
 
-                num_fingers_up = sum(fingers_up[1:5])  # Index to Pinky
-                thumb_up = fingers_up[0] == 1  # Thumb
+                num_fingers_up = sum(fingers_up[1:5])
+                thumb_up = fingers_up[0] == 1
 
                 draw_text_centered(img, f"Fingers Up: {num_fingers_up}", (640, 690), font_scale=1, color=(255, 255, 0), thickness=2)
 
@@ -162,15 +139,13 @@ def process_frame(request):
 
                     if answer_selected == QUIZ_QUESTIONS[question_index]["answer_index"]:
                         correct_answers += 1
-                        play_correct_sound()
                     else:
-                        play_wrong_sound()
+                        pass
 
                 elif num_fingers_up == 0:
                     answer_selected = None
                     selection_made = False
 
-            # Change question after 0.5 seconds delay to allow gesture change
             if selection_made and time.time() - last_selection_time > 1:
                 question_index += 1
                 selection_made = False
@@ -181,7 +156,6 @@ def process_frame(request):
 
         if question_index >= total_questions:
             if not request.session.get("gameover_played", False):
-                play_gameover_sound()
                 request.session["gameover_played"] = True
 
             score_percentage = (correct_answers / total_questions) * 100 if total_questions > 0 else 0
@@ -196,8 +170,6 @@ def process_frame(request):
 
     cap.release()
 
-
-# 🔄 Django view handlers
 def video_feed(request):
     return StreamingHttpResponse(process_frame(request), content_type="multipart/x-mixed-replace; boundary=frame")
 

@@ -326,6 +326,24 @@
   margin-bottom: 0;
 }
 
+/* logout button */
+
+.logout-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+
 /* Responsive Design */
 @media (max-width: 992px) {
   .sign-language-content {

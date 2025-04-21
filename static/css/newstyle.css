@@ -250,6 +250,20 @@ p {
     padding: 10px;
     border-radius: 4px;
 }
+.logout-button {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition);
+}
 
 .logout-tab.show {
     display: block;

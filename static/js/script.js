@@ -1,237 +1,130 @@
-import { Chart } from "@/components/ui/chart"
-
 document.addEventListener("DOMContentLoaded", () => {
-  // Set current year in footer
-  const currentYearElement = document.getElementById("current-year")
-  if (currentYearElement) {
-    currentYearElement.textContent = new Date().getFullYear()
-  }
-
   // Mobile menu toggle
-  const mobileMenuToggle = document.querySelector(".mobile-menu-toggle")
-  const mobileMenu = document.querySelector(".mobile-menu")
+  const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
+  const mobileMenu = document.querySelector(".mobile-menu");
 
   if (mobileMenuToggle && mobileMenu) {
     mobileMenuToggle.addEventListener("click", () => {
-      mobileMenu.classList.toggle("active")
-    })
-  }
-
-  // Theme toggle with localStorage
-  const themeToggle = document.getElementById("theme-toggle")
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      document.body.classList.toggle("dark-mode")
-      localStorage.setItem("theme", document.body.classList.contains("dark-mode") ? "dark" : "light")
-    })
-  }
-
-  const savedTheme = localStorage.getItem("theme")
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-mode")
+      mobileMenu.classList.toggle("active");
+    });
   }
 
   // Header scroll effect
-  const header = document.querySelector(".header")
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 10 && header) {
-      header.classList.add("scrolled")
-    } else if (header) {
-      header.classList.remove("scrolled")
-    }
-  })
 
-  // Smooth scrolling
-  const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link")
+  // Smooth scrolling for navigation links
+  const navLinks = document.querySelectorAll(".nav-link, .mobile-nav-link");
   navLinks.forEach((link) => {
     link.addEventListener("click", function (e) {
-      e.preventDefault()
-
-      if (mobileMenu) {
-        mobileMenu.classList.remove("active")
+      const href = this.getAttribute("href");
+      
+      // Only apply smooth scroll to hash links
+      if (href.startsWith("#")) {
+        e.preventDefault();
+        
+        // Close mobile menu if open
+        if (mobileMenu) {
+          mobileMenu.classList.remove("active");
+        }
+        
+        // Handle scroll to top
+        if (href === "#") {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+        
+        // Scroll to section
+        const targetElement = document.querySelector(href);
+        if (targetElement && header) {
+          const headerHeight = header.offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+          window.scrollTo({ top: targetPosition, behavior: "smooth" });
+        }
       }
-
-      const targetId = this.getAttribute("href")
-      if (targetId === "#") {
-        window.scrollTo({ top: 0, behavior: "smooth" })
-        return
-      }
-
-      const targetElement = document.querySelector(targetId)
-      if (targetElement && header) {
-        const headerHeight = header.offsetHeight
-        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight
-        window.scrollTo({ top: targetPosition, behavior: "smooth" })
-      }
-    })
-  })
+    });
+  });
 
   // Highlight active nav link while scrolling
-  const sections = document.querySelectorAll("section")
-
-function toggleLogoutDropdown() {
-    const dropdown = document.getElementById("logoutDropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-}
-
-// Optional: Close when clicking outside
-window.addEventListener("click", function (e) {
-    const userInfo = document.querySelector(".user-info");
-    const logoutDropdown = document.getElementById("logoutDropdown");
-
-    if (!userInfo.contains(e.target)) {
-        logoutDropdown.style.display = "none";
-    }
-});
+  const sections = document.querySelectorAll("section[id]");
+  
   function setActiveNavLink() {
-    const scrollPosition = window.scrollY
+    if (!header || sections.length === 0) return;
+    
+    const scrollPosition = window.scrollY;
+    const headerHeight = header.offsetHeight;
 
     sections.forEach((section) => {
-      const sectionTop = section.offsetTop - header.offsetHeight - 100
-      const sectionBottom = sectionTop + section.offsetHeight
-      const sectionId = section.getAttribute("id")
+      const sectionTop = section.offsetTop - headerHeight - 100;
+      const sectionBottom = sectionTop + section.offsetHeight;
+      const sectionId = section.getAttribute("id");
 
       if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-        navLinks.forEach((link) => link.classList.remove("active"))
-        document.querySelectorAll(`a[href="#${sectionId}"]`).forEach((link) => link.classList.add("active"))
+        navLinks.forEach((link) => link.classList.remove("active"));
+        document.querySelectorAll(`a[href="#${sectionId}"]`).forEach((link) => link.classList.add("active"));
       }
-    })
+    });
 
-    if (scrollPosition < sections[0].offsetTop - header.offsetHeight - 100) {
-      navLinks.forEach((link) => link.classList.remove("active"))
-      document.querySelectorAll('a[href="#"]').forEach((link) => link.classList.add("active"))
+    // Handle case when at the top of the page
+    if (scrollPosition < sections[0].offsetTop - headerHeight - 100) {
+      navLinks.forEach((link) => link.classList.remove("active"));
+      document.querySelectorAll('a[href="/"]').forEach((link) => link.classList.add("active"));
     }
   }
 
-  window.addEventListener("scroll", setActiveNavLink)
+  window.addEventListener("scroll", setActiveNavLink);
+  
+  // Initialize active link on page load
+  setActiveNavLink();
 
-  // Contact form submission simulation
-  const contactForm = document.getElementById("contactForm")
-  if (contactForm) {
-    contactForm.addEventListener("submit", function (e) {
-      e.preventDefault()
-
-      const submitButton = this.querySelector('button[type="submit"]')
-      const originalText = submitButton.innerHTML
-
-      submitButton.disabled = true
-      submitButton.innerHTML = "Sending..."
-
-      setTimeout(() => {
-        alert("Thank you for your message! We will get back to you soon.")
-        contactForm.reset()
-        submitButton.disabled = false
-        submitButton.innerHTML = originalText
-      }, 1500)
-    })
-  }
-
-  // Accuracy Chart (Chart.js)
-  const ctx = document.getElementById("accuracyChart")
-  if (ctx) {
-    new Chart(ctx, {
-      type: "bar",
-      data: {
-        labels: ["Numbers", "Letters", "Math Symbols", "Sign Language", "Dynamic Gestures"],
-        datasets: [
-          {
-            label: "Accuracy",
-            data: [96.5, 92.3, 94.8, 91.2, 88.7],
-            backgroundColor: "#4f46e5",
-            borderRadius: 4,
-          },
-          {
-            label: "Precision",
-            data: [95.8, 91.7, 93.9, 90.4, 87.5],
-            backgroundColor: "rgba(79, 70, 229, 0.7)",
-            borderRadius: 4,
-          },
-          {
-            label: "Recall",
-            data: [94.2, 90.5, 92.7, 89.8, 86.9],
-            backgroundColor: "rgba(79, 70, 229, 0.4)",
-            borderRadius: 4,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            min: 80,
-            max: 100,
-            ticks: {
-              callback: (value) => value + "%",
-            },
-            grid: {
-              drawBorder: false,
-            },
-          },
-          x: {
-            grid: {
-              display: false,
-              drawBorder: false,
-            },
-          },
-        },
-        plugins: {
-          legend: {
-            position: "bottom",
-            labels: {
-              usePointStyle: true,
-              padding: 20,
-            },
-          },
-          tooltip: {
-            callbacks: {
-              label: (context) => `${context.dataset.label}: ${context.raw}%`,
-            },
-          },
-        },
-      },
-    })
-  }
-
-  // Animation on scroll
+  // Animation on scroll for feature cards, steps, etc.
   const animateOnScroll = () => {
-    const elements = document.querySelectorAll(".feature-card, .team-card, .step-card")
+    const elements = document.querySelectorAll(".feature-card, .step, .about-content");
     elements.forEach((element) => {
-      const elementPosition = element.getBoundingClientRect().top
-      const windowHeight = window.innerHeight
+      const elementPosition = element.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
       if (elementPosition < windowHeight - 100) {
-        element.style.opacity = "1"
-        element.style.transform = "translateY(0)"
+        element.classList.add("animated");
       }
-    })
-  }
+    });
+  };
 
-  // Initial animation state
-  const elementsToAnimate = document.querySelectorAll(".feature-card, .team-card, .step-card")
+  // Set initial animation state
+  const elementsToAnimate = document.querySelectorAll(".feature-card, .step, .about-content");
   elementsToAnimate.forEach((element) => {
-    element.style.opacity = "0"
-    element.style.transform = "translateY(20px)"
-    element.style.transition = "opacity 0.5s ease, transform 0.5s ease"
-  })
+    element.style.opacity = "0";
+    element.style.transform = "translateY(20px)";
+    element.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+  });
 
-  window.addEventListener("scroll", animateOnScroll)
-  window.addEventListener("load", animateOnScroll)
-})
+  // Add animated class to show elements
+  document.querySelectorAll(".animated").forEach(el => {
+    el.style.opacity = "1";
+    el.style.transform = "translateY(0)";
+  });
 
-window.toggleLogoutDropdown = function () {
+  window.addEventListener("scroll", animateOnScroll);
+  window.addEventListener("load", animateOnScroll);
+  
+  // Call once on initial load
+  animateOnScroll();
+});
+
+// Logout dropdown functionality
+function toggleLogoutDropdown() {
   const dropdown = document.getElementById("logoutDropdown");
-  dropdown.classList.toggle('show');
-  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  if (dropdown) {
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
 }
-// function toggleLogoutDropdown() {
-//   const dropdown = document.getElementById('logoutDropdown');
 
-// }
-
-document.addEventListener('click', function(event) {
-  const dropdown = document.getElementById('logoutDropdown');
-  const userInfo = document.querySelector('.user-info');
-  if (!userInfo.contains(event.target)) {
-      dropdown.style.display = 'none';
+// Close dropdown when clicking outside
+document.addEventListener("click", function(event) {
+  const userInfo = document.querySelector(".user-info");
+  const dropdown = document.getElementById("logoutDropdown");
+  
+  if (userInfo && dropdown && !userInfo.contains(event.target)) {
+    dropdown.style.display = "none";
   }
 });
+
+// Make toggleLogoutDropdown available globally
+window.toggleLogoutDropdown = toggleLogoutDropdown;

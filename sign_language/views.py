@@ -6,10 +6,6 @@ import os
 import mediapipe as mp
 from tensorflow.keras.models import load_model
 
-# Load trained MediaPipe + AI model
-# model_path = "\mediapipe_model.h5"
-# model = load_model(model_path)
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 model_path = os.path.join(BASE_DIR, "mediapipe_model.h5")
 model = load_model(model_path)
@@ -21,7 +17,6 @@ mp_drawing = mp.solutions.drawing_utils
 
 # Store the last detected sign for "Detect Sign" button
 last_detected_sign = {"sign": "None", "confidence": 0.0}
-
 
 # ----- 1. Generate Frames with Real-time Sign Detection -----
 def generate_frames():

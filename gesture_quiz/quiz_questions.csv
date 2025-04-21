@@ -13,7 +13,6 @@ question,optionA,optionB,optionC,optionD,answer_index
 "Solve for x: 2x = 10","3","4","5","6",2
 "What is the square root of 81?","6","7","8","9",3
 "What is 12 × 5?","50","55","60","65",2
-"If a triangle has angles 60° and 60°, what type is it?","Right","Equilateral","Isosceles","Scalene",1
 "What is 45 ÷ 5?","7","8","9","10",2
 "What is the perimeter of a square with side 4 cm?","12 cm","16 cm","18 cm","20 cm",1
 "If 5x = 25, what is x?","3","4","5","6",2

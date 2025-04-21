@@ -42,9 +42,12 @@
                         <div class="user-info" onclick="toggleLogoutDropdown()">
                             <span class="username">{{ request.user.username }}</span>
                             <div id="logoutDropdown" class="logout-tab">
-                                <a href="{% url 'user:logout' %}">
-                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
-                                </a>
+                                <form method="POST" action="{% url 'user:logout' %}" style="margin: 0;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-button">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                                    </button>
+                                </form>
                             </div>
                         </div>
                         {% else %}
@@ -212,7 +215,6 @@
         const getAIOutputURL = "{% url 'math_solver:get_ai_output' %}";
       </script>
       <script src="{% static 'js/math_solver.js' %}"></script>
-      
+   
 </body>
-
 </html>

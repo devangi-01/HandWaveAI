@@ -18,17 +18,17 @@
         <header class="header">
             <div class="container">
                 <div class="header-content">
-                    <a href="#" class="logo">
+                    <a href="/" class="logo">
                         <span class="logo-icon"><i class="fas fa-hand-paper"></i></span>
                         HandWave AI
                     </a>
                     <nav class="nav-desktop">
                         <ul class="nav-links">
-                            <li><a href="#" class="nav-link active">Home</a></li>
-                            <li><a href="#features" class="nav-link">Features</a></li>
-                            <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
-                            <li><a href="#about" class="nav-link">About</a></li>
-                            <li><a href="#contact" class="nav-link">Contact</a></li>
+                            <li><a href="/" class="nav-link">Home</a></li>
+                            <li><a href="/#features" class="nav-link">Features</a></li>
+                            <li><a href="/#how-it-works" class="nav-link">How It Works</a></li>
+                            <li><a href="/#about" class="nav-link">About</a></li>
+                            <li><a href="/#contact" class="nav-link">Contact</a></li>
                         </ul>
                     </nav>
 
@@ -38,21 +38,21 @@
                         </button>
 
                         {% if request.user.is_authenticated %}
-                            <div class="user-info" onclick="toggleLogoutDropdown()">
-                                <span class="username">{{ request.user.username }}</span>
-                                <div id="logoutDropdown" class="logout-tab">
-                                    <form method="post" action="{% url 'user:logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" style="background: none; border: none; color: inherit; cursor: pointer;">
-                                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
-                                        </button>
-                                    </form>
-                                </div>
-                            </div> {% else %}
-                            <div><a href="{% url 'user:login' %}" class="login-tab">Login</a></div>
-                            {% endif %}
-
-                       
+                        <div class="user-info" onclick="toggleLogoutDropdown()">
+                            <span class="username">{{ request.user.username }}</span>
+                            <div id="logoutDropdown" class="logout-tab">
+                                <form method="POST" action="{% url 'user:logout' %}" style="margin: 0;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="logout-button">
+                                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+                                    </button>
+                                </form>
+                            </div>
+                            
+                        </div>
+                        {% else %}
+                        <div><a href="{% url 'user:login' %}" class="login-tab">Login</a></div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -61,12 +61,11 @@
             <div class="mobile-menu">
                 <nav>
                     <ul class="mobile-nav-links">
-                        <li><a href="#" class="mobile-nav-link active">Home</a></li>
-                        <li><a href="#features" class="mobile-nav-link">Features</a></li>
-                        <li><a href="#how-it-works" class="mobile-nav-link">How It Works</a></li>
-                        <li><a href="#about" class="mobile-nav-link">About</a></li>
-                        <li><a href="#team" class="mobile-nav-link">Team</a></li>
-                        <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                        <li><a href="/" class="mobile-nav-link">Home</a></li>
+                        <li><a href="/#features" class="mobile-nav-link">Features</a></li>
+                        <li><a href="/#how-it-works" class="mobile-nav-link">How It Works</a></li>
+                        <li><a href="/#about" class="mobile-nav-link">About</a></li>
+                        <li><a href="/#contact" class="mobile-nav-link">Contact</a></li>
                         {% if request.user.is_authenticated %}
                         <li><span class="username">{{ request.user.username }}</span></li>
                         <li><a href="{% url 'user:logout' %}" class="logout-tab">Logout</a></li>
