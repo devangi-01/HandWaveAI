@@ -37,11 +37,12 @@ def load_quiz():
                 "options": [row["optionA"], row["optionB"], row["optionC"], row["optionD"]],
                 "answer_index": int(row["answer_index"]),
             }
-            for _, row in df.iterrows()
+            for _, row in random_questions
         ]
     except Exception as e:
         print(f"❌ Error loading quiz: {e}")
         return []
+
 
 QUIZ_QUESTIONS = load_quiz()
 
