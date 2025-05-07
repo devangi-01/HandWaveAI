@@ -112,6 +112,41 @@
 .card-content {
   padding: 1.5rem;
 }
+.concatenated-text-card {
+  background-color: var(--background);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.text-display {
+  background-color: var(--background-alt);
+  padding: 1rem;
+  border-radius: var(--radius);
+  min-height: 60px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  word-break: break-word;
+  font-family: monospace;
+}
+
+.text-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+@keyframes highlight {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.highlight {
+  animation: highlight 0.3s ease-in-out;
+}
 
 /* Sign Result Styles */
 .sign-result {

@@ -22,10 +22,13 @@ last_detected_sign = {"sign": "None", "confidence": 0.0}
 def generate_frames():
     """Generates frames with real-time sign detection."""
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FPS, 60)
+    cap.set(cv2.CAP_PROP_FPS, 30)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
+#frame skipping for performance
+    frame_count = 0
+    process_every_n_frames = 2  # Process every 2nd frame
 
     while True:
         success, frame = cap.read()
@@ -90,12 +93,27 @@ def video_feed(request):
 def detect_sign(request):
     """Detect the sign when the button is clicked and return the result."""
     global last_detected_sign
-    sign_data = {
-        "sign": last_detected_sign["sign"],
-        "confidence": last_detected_sign["confidence"]
-    }
+    
+    # Ensure we're not returning "none" as a sign
+    sign = last_detected_sign["sign"]
+    confidence = last_detected_sign["confidence"]
+    
+    # Debug logging
+    print(f"Detected sign: {sign} with confidence {confidence}")
+    
+    # Only return valid signs (not "none" or "None")
+    if sign.lower() == "none":
+        sign_data = {
+            "sign": "None",
+            "confidence": 0.0
+        }
+    else:
+        sign_data = {
+            "sign": sign,
+            "confidence": confidence
+        }
+    
     return JsonResponse({"result": sign_data})
-
 
 # ----- 3. Render Main Page -----
 def index(request):
