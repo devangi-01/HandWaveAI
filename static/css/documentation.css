@@ -1,7 +1,7 @@
 /* Base Styles */
 :root {
-    --primary: #4f46e5;
-    --primary-dark: #4338ca;
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
     --secondary: #0ea5e9;
     --text: #1e293b;
     --text-light: #64748b;
@@ -9,26 +9,30 @@
     --background-alt: #f8fafc;
     --border: #e2e8f0;
     --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-strong: rgba(0, 0, 0, 0.15);
     --gradient-start: #f0f9ff;
     --gradient-end: rgba(240, 249, 255, 0);
     --white: #ffffff;
     --black: #000000;
+    --radius: 12px;
     --radius: 0.5rem;
     --transition: 0.3s ease;
   }
+
+
+
   
   .dark-mode {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
+    --primary: #818cf8;
+    --primary-dark: #6366f1;
     --secondary: #38bdf8;
-    --text: #f1f5f9;
-    --text-light: #94a3b8;
+    --text: #f8fafc;
+    --text-light: #cbd5e1;
     --background: #0f172a;
     --background-alt: #1e293b;
     --border: #334155;
     --shadow: rgba(0, 0, 0, 0.3);
-    --gradient-start: rgba(15, 23, 42, 0.8);
-    --gradient-end: rgba(15, 23, 42, 0);
+    --shadow-strong: rgba(0, 0, 0, 0.5);
   }
   
   * {
