@@ -52,7 +52,7 @@ def generate_frames():
                 # Extract landmarks for prediction
                 landmarks = []
                 for lm in hand_landmarks.landmark:
-                    landmarks.extend([lm.x, lm.y, lm.z])
+                    landmarks.extend([lm.x, lm.y, lm.z])  # Extracts 3D coordinates 
 
                 # Prepare landmarks for model input
                 landmarks = np.array(landmarks).reshape(1, -1)

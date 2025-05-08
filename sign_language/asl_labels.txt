@@ -24,6 +24,4 @@ W
 X
 Y
 Z
-del
-nothing
-space
+none
