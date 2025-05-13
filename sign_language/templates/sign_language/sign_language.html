@@ -102,6 +102,9 @@
                             <button id="detect-sign-btn" class="btn btn-primary">
                                 <i class="fas fa-hand-point-up"></i> Detect Sign
                             </button>
+                            <button id="pause-detection-btn" class="btn btn-secondary">
+                                <i class="fas fa-pause"></i> Pause Auto Detection
+                            </button>
                             <!-- Added Reset Button -->
                             <button id="reset-history-btn" class="btn btn-secondary">
                                 <i class="fas fa-undo"></i> Reset History
@@ -261,212 +264,264 @@
     </div>
 
     <script>
-      // Toggle mobile menu
-const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-const mobileMenu = document.querySelector('.mobile-menu');
+    // Toggle mobile menu
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
 
-if (mobileMenuToggle) {
-    mobileMenuToggle.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-    });
-}
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+    }
 
-// Toggle logout dropdown
-function toggleLogoutDropdown() {
-    const dropdown = document.getElementById("logoutDropdown");
-    dropdown.classList.toggle("show");
-}
-
-// Close dropdown when clicking outside
-window.addEventListener('click', function(event) {
-    if (!event.target.matches('.username') && !event.target.closest('.logout-tab')) {
+    // Toggle logout dropdown
+    function toggleLogoutDropdown() {
         const dropdown = document.getElementById("logoutDropdown");
-        if (dropdown.classList.contains('show')) {
-            dropdown.classList.remove('show');
-        }
+        dropdown.classList.toggle("show");
     }
-});
 
-// Sign language detection functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const detectSignBtn = document.getElementById('detect-sign-btn');
-    const resetHistoryBtn = document.getElementById('reset-history-btn');
-    const signDisplay = document.getElementById('sign-display');
-    const signName = document.getElementById('sign-name');
-    const confidenceBar = document.getElementById('confidence-bar');
-    const confidencePercentage = document.getElementById('confidence-percentage');
-    const historyList = document.getElementById('history-list');
-    const currentSignElement = document.getElementById('current-sign');
-    const alphabetItems = document.querySelectorAll('.alphabet-item');
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(event) {
+        if (!event.target.matches('.username') && !event.target.closest('.logout-tab')) {
+            const dropdown = document.getElementById("logoutDropdown");
+            if (dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        }
+    });
 
-    // Store history of detected signs
-    const signHistory = [];
-    const maxHistoryItems = 10;
+    // Sign language detection functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const detectSignBtn = document.getElementById('detect-sign-btn');
+        const pauseDetectionBtn = document.getElementById('pause-detection-btn');
+        const resetHistoryBtn = document.getElementById('reset-history-btn');
+        const signDisplay = document.getElementById('sign-display');
+        const signName = document.getElementById('sign-name');
+        const confidenceBar = document.getElementById('confidence-bar');
+        const confidencePercentage = document.getElementById('confidence-percentage');
+        const historyList = document.getElementById('history-list');
+        const currentSignElement = document.getElementById('current-sign');
+        const alphabetItems = document.querySelectorAll('.alphabet-item');
 
-    // Concatenated detected signs
-    let concatenatedText = "";
+        // Store history of detected signs
+        const signHistory = [];
+        const maxHistoryItems = 10;
 
-    function detectSign() {
-        signDisplay.textContent = "...";
-        signName.textContent = "Detecting...";
-        confidenceBar.style.width = "0%";
-        confidencePercentage.textContent = "0%";
+        // Concatenated detected signs
+        let concatenatedText = "";
+        
+        // Auto detection state
+        let autoDetectionEnabled = true;
+        let autoDetectionInterval = null;
 
-        fetch("{% url 'sign_language:detect_sign' %}")
-            .then(response => response.json())
-            .then(data => {
-                const result = data.result;
-                const sign = result.sign;
-                const confidence = result.confidence;
+        function detectSign() {
+            signDisplay.textContent = "...";
+            signName.textContent = "Detecting...";
+            confidenceBar.style.width = "0%";
+            confidencePercentage.textContent = "0%";
 
-                if (sign !== "none" && sign !== "None") {
-                    signDisplay.textContent = sign;
-                    signName.textContent = `Sign "${sign}"`;
-                    confidenceBar.style.width = `${confidence}%`;
-                    confidencePercentage.textContent = `${confidence}%`;
+            fetch("{% url 'sign_language:detect_sign' %}")
+                .then(response => response.json())
+                .then(data => {
+                    const result = data.result;
+                    const sign = result.sign;
+                    const confidence = result.confidence;
 
-                    currentSignElement.querySelector('.sign-letter').textContent = sign;
-                    currentSignElement.querySelector('.sign-confidence').textContent = `${confidence}%`;
+                    if (sign !== "none" && sign !== "None") {
+                        signDisplay.textContent = sign;
+                        signName.textContent = `Sign "${sign}"`;
+                        confidenceBar.style.width = `${confidence}%`;
+                        confidencePercentage.textContent = `${confidence}%`;
 
-                    alphabetItems.forEach(item => {
-                        item.classList.remove('active');
-                        if (item.dataset.letter === sign) {
-                            item.classList.add('active');
+                        currentSignElement.querySelector('.sign-letter').textContent = sign;
+                        currentSignElement.querySelector('.sign-confidence').textContent = `${confidence}%`;
+
+                        alphabetItems.forEach(item => {
+                            item.classList.remove('active');
+                            if (item.dataset.letter === sign) {
+                                item.classList.add('active');
+                            }
+                        });
+
+                        if (confidence > 50) {
+                            addToHistory(sign, confidence);
                         }
-                    });
+                    } else {
+                        signDisplay.textContent = "?";
+                        signName.textContent = "No sign detected";
+                        confidenceBar.style.width = "0%";
+                        confidencePercentage.textContent = "0%";
 
-                    if (confidence > 50) {
-                        addToHistory(sign, confidence);
+                        currentSignElement.querySelector('.sign-letter').textContent = "?";
+                        currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
+
+                        alphabetItems.forEach(item => {
+                            item.classList.remove('active');
+                        });
                     }
-                } else {
-                    signDisplay.textContent = "?";
-                    signName.textContent = "No sign detected";
-                    confidenceBar.style.width = "0%";
-                    confidencePercentage.textContent = "0%";
+                })
+                .catch(error => {
+                    console.error('Error detecting sign:', error);
+                    signName.textContent = "Error detecting sign";
+                });
+        }
 
-                    currentSignElement.querySelector('.sign-letter').textContent = "?";
-                    currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
+        function addToHistory(sign, confidence) {
+            const now = new Date();
+            const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-                    alphabetItems.forEach(item => {
-                        item.classList.remove('active');
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error detecting sign:', error);
-                signName.textContent = "Error detecting sign";
+            signHistory.unshift({
+                sign: sign,
+                confidence: confidence,
+                timestamp: timestamp
             });
-    }
 
-    function addToHistory(sign, confidence) {
-        const now = new Date();
-        const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            concatenatedText += sign;
+            document.getElementById('text-display').textContent = concatenatedText || "No text yet";
 
-        signHistory.unshift({
-            sign: sign,
-            confidence: confidence,
-            timestamp: timestamp
-        });
+            if (signHistory.length > maxHistoryItems) {
+                signHistory.pop();
+            }
 
-        concatenatedText += sign;
-        document.getElementById('text-display').textContent = concatenatedText || "No text yet";
-
-        if (signHistory.length > maxHistoryItems) {
-            signHistory.pop();
+            updateHistoryDisplay();
         }
 
-        updateHistoryDisplay();
-    }
+        function updateHistoryDisplay() {
+            if (signHistory.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No signs detected yet</div>';
+                return;
+            }
 
-    function updateHistoryDisplay() {
-        if (signHistory.length === 0) {
-            historyList.innerHTML = '<div class="empty-history">No signs detected yet</div>';
-            return;
+            historyList.innerHTML = '';
+
+            signHistory.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <div class="history-sign">${item.sign}</div>
+                    <div class="history-details">
+                        <div class="history-confidence">${item.confidence}%</div>
+                        <div class="history-time">${item.timestamp}</div>
+                    </div>
+                `;
+                historyList.appendChild(historyItem);
+            });
         }
 
-        historyList.innerHTML = '';
+        function resetHistory() {
+            signHistory.length = 0;
+            concatenatedText = "";
+            document.getElementById('text-display').textContent = "No text yet";
 
-        signHistory.forEach(item => {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            historyItem.innerHTML = `
-                <div class="history-sign">${item.sign}</div>
-                <div class="history-details">
-                    <div class="history-confidence">${item.confidence}%</div>
-                    <div class="history-time">${item.timestamp}</div>
-                </div>
-            `;
-            historyList.appendChild(historyItem);
-        });
-    }
+            signDisplay.textContent = "?";
+            signName.textContent = "No sign detected";
+            confidenceBar.style.width = "0%";
+            confidencePercentage.textContent = "0%";
 
-    function resetHistory() {
-        signHistory.length = 0;
-        concatenatedText = "";
-        document.getElementById('text-display').textContent = "No text yet";
+            currentSignElement.querySelector('.sign-letter').textContent = "?";
+            currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
 
-        signDisplay.textContent = "?";
-        signName.textContent = "No sign detected";
-        confidenceBar.style.width = "0%";
-        confidencePercentage.textContent = "0%";
+            alphabetItems.forEach(item => {
+                item.classList.remove('active');
+            });
 
-        currentSignElement.querySelector('.sign-letter').textContent = "?";
-        currentSignElement.querySelector('.sign-confidence').textContent = "Waiting...";
-
-        alphabetItems.forEach(item => {
-            item.classList.remove('active');
-        });
-
-        updateHistoryDisplay();
-    }
-
-    if (detectSignBtn) {
-        detectSignBtn.addEventListener('click', detectSign);
-    }
-
-    if (resetHistoryBtn) {
-        resetHistoryBtn.addEventListener('click', resetHistory);
-    }
-
-    // Auto-detect sign every 5 seconds
-    setInterval(detectSign, 5000);
-});
-
-// Copy concatenated text to clipboard
-document.getElementById('copy-text-btn').addEventListener('click', function() {
-    if (concatenatedText) {
-        navigator.clipboard.writeText(concatenatedText)
-            .then(() => {
-                const copyBtn = this;
-                const originalText = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+            updateHistoryDisplay();
+        }
+        
+        function toggleAutoDetection() {
+            autoDetectionEnabled = !autoDetectionEnabled;
+            
+            if (autoDetectionEnabled) {
+                // Resume auto detection
+                pauseDetectionBtn.innerHTML = '<i class="fas fa-pause"></i> Pause Auto Detection';
+                pauseDetectionBtn.classList.remove('btn-success');
+                pauseDetectionBtn.classList.add('btn-secondary');
+                
+                // Start the interval again
+                autoDetectionInterval = setInterval(detectSign, 5000);
+                
+                // Show status message
+                const statusMessage = document.createElement('div');
+                statusMessage.className = 'status-message active';
+                statusMessage.textContent = 'Auto detection resumed';
+                document.body.appendChild(statusMessage);
+                
                 setTimeout(() => {
-                    copyBtn.innerHTML = originalText;
+                    statusMessage.classList.remove('active');
+                    setTimeout(() => statusMessage.remove(), 500);
                 }, 2000);
-            })
-            .catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-    }
-});
+            } else {
+                // Pause auto detection
+                pauseDetectionBtn.innerHTML = '<i class="fas fa-play"></i> Resume Auto Detection';
+                pauseDetectionBtn.classList.remove('btn-secondary');
+                pauseDetectionBtn.classList.add('btn-success');
+                
+                // Clear the interval
+                clearInterval(autoDetectionInterval);
+                
+                // Show status message
+                const statusMessage = document.createElement('div');
+                statusMessage.className = 'status-message active';
+                statusMessage.textContent = 'Auto detection paused';
+                document.body.appendChild(statusMessage);
+                
+                setTimeout(() => {
+                    statusMessage.classList.remove('active');
+                    setTimeout(() => statusMessage.remove(), 500);
+                }, 2000);
+            }
+        }
 
-// Reset concatenated text only
-document.getElementById('reset-text-btn').addEventListener('click', function() {
-    concatenatedText = "";
-    document.getElementById('text-display').textContent = "No text yet";
-});
+        if (detectSignBtn) {
+            detectSignBtn.addEventListener('click', detectSign);
+        }
 
-// Make header sticky on scroll
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('.header');
-    if (window.scrollY > 10) {
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-    }
-});
+        if (resetHistoryBtn) {
+            resetHistoryBtn.addEventListener('click', resetHistory);
+        }
+        
+        if (pauseDetectionBtn) {
+            pauseDetectionBtn.addEventListener('click', toggleAutoDetection);
+        }
 
-    </script>
+        // Start auto-detection interval
+        autoDetectionInterval = setInterval(detectSign, 5000);
+        
+        // Make current sign element visible
+        currentSignElement.style.display = 'flex';
+    });
+
+    // Copy concatenated text to clipboard
+    document.getElementById('copy-text-btn').addEventListener('click', function() {
+        const textDisplay = document.getElementById('text-display');
+        const textToClone = textDisplay.textContent;
+        
+        if (textToClone && textToClone !== "No text yet") {
+            navigator.clipboard.writeText(textToClone)
+                .then(() => {
+                    const copyBtn = this;
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        }
+    });
+
+    // Make header sticky on scroll
+    window.addEventListener('scroll', function() {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 10) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
 </body>
 
 </html>

@@ -139,9 +139,15 @@
   justify-content: flex-end;
 }
 @keyframes highlight {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .highlight {
@@ -374,10 +380,44 @@
   align-items: center;
   gap: 5px;
   color: var(--primary);
-    text-decoration: none;
-    transition: color var(--transition);
+  text-decoration: none;
+  transition: color var(--transition);
 }
 
+/* Status Message */
+.status-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.status-message.active {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* Pause/Resume Button Styles */
+#pause-detection-btn.btn-success {
+  background-color: #10b981;
+  color: white;
+}
+
+#pause-detection-btn.btn-success:hover {
+  background-color: #059669;
+}
+
+/* Make sure the current sign is visible */
+.current-sign {
+  display: flex;
+}
 
 /* Responsive Design */
 @media (max-width: 992px) {
