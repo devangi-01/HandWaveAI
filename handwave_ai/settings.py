@@ -28,10 +28,7 @@ SECRET_KEY = 'django-insecure-g*re1touptw7m#5^q)v1c#=5a3=dnbs#&z+12^3mr^4d4+v@!n
 
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    # "*"
-    # "192.168.1.71"
-    ]
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -157,5 +154,6 @@ CORS_ALLOW_ALL_ORIGINS = True  # For testing, later restrict it
 #changed mannually 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 
