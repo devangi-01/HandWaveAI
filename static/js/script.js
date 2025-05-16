@@ -126,5 +126,82 @@ document.addEventListener("click", function(event) {
   }
 });
 
+// Star Rating Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const stars = document.querySelectorAll('.star-rating i');
+  let selectedRating = 0;
+  
+  stars.forEach(star => {
+    // Hover effect
+    star.addEventListener('mouseover', function() {
+      const rating = this.getAttribute('data-rating');
+      highlightStars(rating);
+    });
+    
+    // Mouse leave - reset to selected rating
+    star.addEventListener('mouseleave', function() {
+      resetStars();
+      if (selectedRating > 0) {
+        highlightStars(selectedRating);
+      }
+    });
+    
+    // Click to set rating
+    star.addEventListener('click', function() {
+      selectedRating = this.getAttribute('data-rating');
+      highlightStars(selectedRating);
+    });
+  });
+  
+  // Submit rating button
+  const submitButton = document.querySelector('.rating-submit');
+  if (submitButton) {
+    submitButton.addEventListener('click', function() {
+      const feedback = document.querySelector('.rating-feedback textarea').value;
+      if (selectedRating > 0) {
+        alert(`Thank you for your ${selectedRating}-star rating!`);
+        // Here you would typically send this data to your server
+        // Reset form after submission
+        resetRatingForm();
+      } else {
+        alert('Please select a rating before submitting.');
+      }
+    });
+  }
+  
+  // Helper functions
+  function highlightStars(rating) {
+    stars.forEach(star => {
+      const starRating = star.getAttribute('data-rating');
+      if (starRating <= rating) {
+        star.classList.remove('far');
+        star.classList.add('fas');
+      } else {
+        star.classList.remove('fas');
+        star.classList.add('far');
+      }
+    });
+  }
+  
+  function resetStars() {
+    stars.forEach(star => {
+      star.classList.remove('fas');
+      star.classList.add('far');
+    });
+  }
+  
+  function resetRatingForm() {
+    selectedRating = 0;
+    resetStars();
+    document.querySelector('.rating-feedback textarea').value = '';
+  }
+});
+
+// Existing logout dropdown function
+function toggleLogoutDropdown() {
+  var dropdown = document.getElementById("logoutDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
 // Make toggleLogoutDropdown available globally
 window.toggleLogoutDropdown = toggleLogoutDropdown;

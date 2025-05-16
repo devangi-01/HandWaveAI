@@ -188,55 +188,73 @@
             </section>
 
             <!-- Contact -->
-            <section id="contact" class="contact container">
-                <div class="section-header">
-                    <div class="section-badge">Get In Touch</div>
-                    <h2>Contact <span class="gradient-text">Us</span></h2>
-                    <p class="section-description">Have questions or want to learn more? Reach out to our team</p>
+          <section id="contact" class="contact container">
+    <div class="section-header">
+        <div class="section-badge">Get In Touch</div>
+        <h2>Contact <span class="gradient-text">Us</span></h2>
+        <p class="section-description">Have questions or want to learn more? Reach out to our team</p>
+    </div>
+    
+    <div class="contact-content">
+        <div class="contact-info">
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <h3>Our Location</h3>
+                <p>Borivali, Mumbai<br> Maharashtra - 400066</p>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <h3>Email Us</h3>
+                <p>handwaveai@gmail.com </p>
+            </div>
+            
+            <div class="contact-card">
+                <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                <h3>Call Us</h3>
+                <p>+91 96536 49343</p>
+            </div>
+
+            <div class="contact-card rating-card">
+                <div class="contact-icon"><i class="fas fa-star"></i></div>
+                <h3>Rate Our Service</h3>
+                <div class="star-rating">
+                    <i class="far fa-star" data-rating="1"></i>
+                    <i class="far fa-star" data-rating="2"></i>
+                    <i class="far fa-star" data-rating="3"></i>
+                    <i class="far fa-star" data-rating="4"></i>
+                    <i class="far fa-star" data-rating="5"></i>
                 </div>
-                
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-card">
-                            <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                            <h3>Our Location</h3>
-                            <p>Borivali, Mumbai<br> Maharashtra - 400066</p>
-                        </div>
-                        
-                        <div class="contact-card">
-                            <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                            <h3>Email Us</h3>
-                            <p>handwaveai@gmail.com </p>
-                        </div>
-                        
-                        <div class="contact-card">
-                            <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
-                            <h3>Call Us</h3>
-                            <p>+91 96536 49343</p>
-                        </div>
-                    </div>
-                    
-                    {% comment %} <div class="contact-form-container">
-                        <form class="contact-form">
-                            <div class="form-group">
-                                <input type="text" placeholder="Your Name" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" placeholder="Your Email" required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" placeholder="Subject">
-                            </div>
-                            <div class="form-group">
-                                <textarea placeholder="Your Message" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-paper-plane"></i> Send Message
-                            </button>
-                        </form>
-                    </div> {% endcomment %}
+                {% comment %} <div class="rating-feedback">
+                    <textarea placeholder="Share your feedback (optional)" rows="2"></textarea>
+                </div> {% endcomment %}
+                <button type="button" class="btn btn-primary rating-submit">
+                    <i class="fas fa-paper-plane"></i> Submit Rating
+                </button>
+            </div>
+        </div>
+        
+        <div class="contact-form-container">
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Your Name" required>
                 </div>
-            </section>
+                <div class="form-group">
+                    <input type="email" placeholder="Your Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Subject">
+                </div>
+                <div class="form-group">
+                    <textarea placeholder="Your Message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div> 
+    </div>
+</section>
 
             <footer class="footer">
                 <div class="container">
