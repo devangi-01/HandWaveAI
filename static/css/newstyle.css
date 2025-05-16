@@ -752,6 +752,9 @@ p {
   box-shadow: 0 10px 30px var(--shadow);
   border: 1px solid var(--border);
 }
+.rating-feedback{
+  display: none;
+}
 
 .contact-form {
   display: flex;
