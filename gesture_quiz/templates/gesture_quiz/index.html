@@ -89,15 +89,15 @@
             <div class="quiz-video-container">
               <img src="{% url 'gesture_quiz:video_feed' %}" alt="Quiz video feed" id="quiz-video-feed">
               <div class="quiz-overlay">
-                <div class="quiz-status-badge" id="quiz-status">
+                {% comment %} <div class="quiz-status-badge" id="quiz-status">
                   <i class="fas fa-gamepad"></i> <span id="question-counter">1/10</span>
-                </div>
+                </div> {% endcomment %}
               </div>
             </div>
           </div>
 
           <div class="quiz-controls-panel">
-            <div class="quiz-stats-bar">
+            {% comment %} <div class="quiz-stats-bar">
               <div class="stat-item">
                 <div class="stat-label">Question</div>
                 <div class="stat-value" id="question-counter">1/10</div>
@@ -113,7 +113,7 @@
               <button id="restart-quiz" class="btn btn-primary" onclick="reloadQuiz()">
                 <i class="fas fa-redo"></i> Restart
               </button>
-            </div>
+            </div> {% endcomment %}
 
             <div class="how-to-play-section">
               <h3><i class="fas fa-question-circle"></i> How to Play</h3>
@@ -123,7 +123,7 @@
                   <div class="instruction-text"><strong>1 Finger</strong><span>Option A</span></div>
                 </div>
                 <div class="instruction-item">
-                  <div class="instruction-icon"><i class="fas fa-peace"></i></div>
+                  <div class="instruction-icon"><i class="fas fa-hand-peace"></i></div>
                   <div class="instruction-text"><strong>2 Fingers</strong><span>Option B</span></div>
                 </div>
                 <div class="instruction-item">
