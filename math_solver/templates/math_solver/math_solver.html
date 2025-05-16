@@ -91,7 +91,7 @@
                         <div class="video-container">
                             <img src="{% url 'math_solver:video_feed' %}" alt="Video feed" id="video-feed">
                             <div class="video-overlay">
-                                <div class="gesture-indicator">
+                                {% comment %} <div class="gesture-indicator">
                                     <i class="fas fa-hand-point-up"></i>
                                     <span>Draw with index finger</span>
                                 </div>
@@ -102,7 +102,7 @@
                                 <div class="gesture-indicator">
                                     <i class="fas fa-thumbs-up"></i>
                                     <span>Solve with thumbs up</span>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
                     </div>
@@ -185,11 +185,11 @@
                         HandWave AI
                     </a>
                     <div class="footer-links">
-                        <a href="/">Home</a>
+                        {% comment %} <a href="/">Home</a>
                         <a href="/#features">Features</a>
                         <a href="/#how-it-works">How It Works</a>
                         <a href="/#about">About</a>
-                        <a href="/#contact">Contact</a>
+                        <a href="/#contact">Contact</a> {% endcomment %}
                     </div>
                     <div class="footer-social">
                         <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
