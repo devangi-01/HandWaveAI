@@ -1,7 +1,79 @@
-db.sqlite3
+# Python
 __pycache__/
-*.pyc
-# *.h5
-*.sqlite3
-migrations/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Django
 *.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Environment
+.env
+.env.*
+.venv/
+venv/
+ENV/
+env/
+.idea/
+.vscode/
+
+# MySQL dump files
+*.sql
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Migration files (optional: you can include them if sharing DB state)
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Byte-compiled / optimized / DLL files
+*.pyd
+
+# Jupyter Notebook checkpoints (if any)
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# Pytest
+.pytest_cache/
+
+# Node (if using frontend build tools)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# MediaPipe temporary files (if any)
+*.tflite
+# *.h5
+*.onnx
+
+# HandWave AI-specific
+logs/
+tmp/
+uploads/
