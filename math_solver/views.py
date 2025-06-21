@@ -11,7 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.files.storage import default_storage
 
 # Load API Key securely
-genai.configure(api_key="AIzaSyCW6K9DW9rvuoMJpZAdlBuRMjH6Qg13P7U")
+# genai.configure(api_key="AIzaSyCW6K9DW9rvuoMJpZAdlBuRMjH6Qg13P7U")
+genai.configure(api_key=os.getenv("GENAI_API_KEY"))
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Initialize Hand Detector
