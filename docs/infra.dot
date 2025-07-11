@@ -1,0 +1,14 @@
+digraph INFRA {
+  node [ color = "black", fillcolor = "#E6E6E6", height =1, style = "filled,bold,rounded", fontname = "Arial" ];
+  "handwave_ai_database" [ label = "handwave_ai_database
+(AWS::RDS::DBInstance)", shape =cylinder, fillcolor = "#FFCFB3" ];
+  "handwave_ai_static_files" [ label = "handwave_ai_static_files
+(AWS::S3::Bucket)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "handwave_ai_media_files" [ label = "handwave_ai_media_files
+(AWS::S3::Bucket)", shape =cylinder, fillcolor = "#FFF5CD" ];
+  "handwave_ai_web_server" [ label = "handwave_ai_web_server
+(AWS::EC2::Instance)", shape =rectangle, fillcolor = "#B7E0FF" ];
+  "handwave_ai_web_server" -> "handwave_ai_database";
+  "handwave_ai_web_server" -> "handwave_ai_static_files";
+  "handwave_ai_web_server" -> "handwave_ai_media_files";
+}

@@ -60,7 +60,7 @@ def generate_frames():
                 # Predict the sign
                 prediction = model.predict(landmarks)
                 predicted_label = np.argmax(prediction)
-                confidence = round(np.max(prediction) * 100, 2)
+                confidence = round(float(np.max(prediction)) * 100, 2)
 
                 # Define label based on predicted label index
                 sign_labels = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "none"]  
@@ -110,7 +110,7 @@ def detect_sign(request):
     else:
         sign_data = {
             "sign": sign,
-            "confidence": confidence
+            "confidence": float(confidence)
         }
     
     return JsonResponse({"result": sign_data})
