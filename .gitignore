@@ -1,79 +1,61 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
+*$py.class
 
-# Django
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Django stuff:
 *.log
-*.pot
-*.pyc
-*.pyo
-*.pyd
+local_settings.py
 db.sqlite3
+db.sqlite3-journal
 media/
 staticfiles/
-local_settings.py
+static/
 
-# Environment
+# Environment variables
 .env
 .env.*
-.venv/
+
+# Virtual environment
 venv/
 ENV/
 env/
-.idea/
-.vscode/
-
-# MySQL dump files
-*.sql
-
-# OS generated files
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Migration files (optional: you can include them if sharing DB state)
-**/migrations/*.py
-!**/migrations/__init__.py
-
-# Byte-compiled / optimized / DLL files
-*.pyd
-
-# Jupyter Notebook checkpoints (if any)
-.ipynb_checkpoints
-
-# VS Code settings
-.vscode/
-
-# Coverage reports
-htmlcov/
-.coverage
-.tox/
-.nox/
-.cache/
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
+.venv/
 
 # Pytest
+.cache/
 .pytest_cache/
 
-# Node (if using frontend build tools)
-node_modules/
-npm-debug.log
-yarn-error.log
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
 
-# MediaPipe temporary files (if any)
-*.tflite
-# *.h5
-*.onnx
+# macOS
+.DS_Store
 
-# HandWave AI-specific
-logs/
-tmp/
-uploads/
+# Windows
+Thumbs.db
+ehthumbs.db
